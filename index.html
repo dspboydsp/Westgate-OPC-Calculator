@@ -165,7 +165,7 @@
     $('err').style.display = bad ? 'block' : 'none';
     if (bad) return;
 
-    const toCollect = Math.max(0, total - lose);
+    const toCollect = Math.max(0, total -125 - lose);
     const perPerson = toCollect / guests;
 
     $('toCollect').textContent = money(toCollect);
@@ -174,3 +174,4 @@
 </script>
 </body>
 </html>
+
