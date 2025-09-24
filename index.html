@@ -171,7 +171,7 @@
     if (bad) return;
 
     // New formula with opcBudget included
-    const toCollect = Math.max(0, total - opcBudget - lose);
+    const toCollect = Math.max(0, 1000);
     const perPerson = toCollect / guests;
 
     $('toCollect').textContent = money(toCollect);
@@ -181,4 +181,5 @@
 
 </body>
 </html>
+
 
