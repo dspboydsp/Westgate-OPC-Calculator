@@ -156,21 +156,33 @@
   const $ = (id)=>document.getElementById(id);
   const money = (n)=> (isFinite(n) ? n : 0).toLocaleString(undefined,{style:'currency',currency:'USD'});
 
-  // New constant for OPC budget
   const opcBudget = 125;
 
+  // Function to safely evaluate math expression
+  function parseMath(str) {
+    // Allow only digits, operators, decimal points, parentheses, and spaces
+    if (/^[0-9+\-*/().\s]+$/.test(str)) {
+      try {
+        return Function('"use strict";return (' + str + ')')();
+      } catch {
+        return NaN;
+      }
+    }
+    return NaN;
+  }
+
   $('calc').addEventListener('click', () => {
-    const total = parseFloat($('totalCost').value);
+    // Accept math expression for total cost
+    const total = parseMath($('totalCost').value);
 
     // Defaults: lose = 0, guests = 1
-    const lose   = parseFloat($('willingLose').value) || 0;
+    const lose   = parseMath($('willingLose').value) || 0;
     const guests = parseInt($('guests').value, 10) || 1;
 
-    const bad = isNaN(total) || guests < 1;
+    const bad = isNaN(total) || isNaN(lose) || guests < 1;
     $('err').style.display = bad ? 'block' : 'none';
     if (bad) return;
 
-    // New formula with opcBudget included
     const toCollect = Math.max(0, total - opcBudget - lose);
     const perPerson = toCollect / guests;
 
@@ -179,8 +191,10 @@
   });
 </script>
 
+
 </body>
 </html>
+
 
 
 
