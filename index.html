@@ -84,4 +84,128 @@
     background:linear-gradient(180deg,#14161b,#0f1115);
     color:#EDEDED; font-weight:700; cursor:pointer;
   }
-  .opbar button:active{ transform:
+  .opbar button:active{ transform:translateY(1px) }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo">WR</div>
+      <div class="title">Westgate Resorts</div>
+      <div class="subtitle">OPC Gifting Budget Calculator</div>
+    </div>
+
+    <div class="card">
+      <div class="row">
+        <label class="label" for="totalCost">Total Cost of Gifting</label>
+        <input id="totalCost" class="input" type="text" inputmode="text"
+               placeholder="e.g. 100*2+4-6*1.85" autocomplete="off" />
+      </div>
+
+      <!-- Operator bar for math inputs -->
+      <div class="opbar">
+        <button data-op="+">+</button>
+        <button data-op="-">−</button>
+        <button data-op="*">×</button>
+        <button data-op="/">÷</button>
+        <button data-op="(">(</button>
+        <button data-op=")">)</button>
+        <button data-op=".">.</button>
+        <button data-op="clear">Clear</button>
+      </div>
+
+      <div class="inline">
+        <div class="row">
+          <label class="label" for="willingLose">Amount Willing to Lose</label>
+          <input id="willingLose" class="input" type="text" inputmode="text"
+                 placeholder="e.g. 20 or 50/2" autocomplete="off" />
+        </div>
+        <div class="row">
+          <label class="label" for="guests">Number of Guests</label>
+          <input id="guests" class="input" type="number" inputmode="numeric" placeholder="e.g. 4" />
+        </div>
+      </div>
+
+      <button id="calc" class="btn">CALCULATE</button>
+      <div id="err" class="error">Please enter valid numbers (Guests must be ≥ 1).</div>
+
+      <div class="results">
+        <div class="result">
+          <div class="name">Total Amount to Collect</div>
+          <div id="toCollect" class="value">$0.00</div>
+        </div>
+        <div class="result">
+          <div class="name">Cost per Person</div>
+          <div id="perPerson" class="value">$0.00</div>
+        </div>
+      </div>
+
+      <div class="help">Formula: max(0, Total Cost − opcBudget − Amount Willing to Lose) ÷ Guests</div>
+    </div>
+
+    <div class="footer">© Westgate Resorts</div>
+  </div>
+
+<script>
+  const $ = (id)=>document.getElementById(id);
+  const money = (n)=> (isFinite(n) ? n : 0).toLocaleString(undefined,{style:'currency',currency:'USD'});
+
+  const opcBudget = 125;
+
+  // Safe math parser
+  function parseMath(str) {
+    if (!str) return NaN;
+    if (/^[0-9+\-*/().\s]+$/.test(str)) {
+      try { return Function('"use strict";return (' + str + ')')(); }
+      catch { return NaN; }
+    }
+    return NaN;
+  }
+
+  // Track last focused math input for operator bar
+  let lastExprInput = null;
+  ['totalCost','willingLose'].forEach(id=>{
+    const el = document.getElementById(id);
+    el.addEventListener('focus', ()=> lastExprInput = el);
+    el.addEventListener('blur',  ()=> lastExprInput = el);
+  });
+
+  function insertAtCursor(input, text){
+    if(!input) return;
+    const start = input.selectionStart ?? input.value.length;
+    const end   = input.selectionEnd ?? input.value.length;
+    input.value = input.value.slice(0,start) + text + input.value.slice(end);
+    const pos = start + text.length;
+    input.setSelectionRange(pos, pos);
+    input.focus();
+  }
+
+  document.querySelectorAll('.opbar button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(btn.dataset.op === 'clear'){
+        if(lastExprInput){ lastExprInput.value=''; lastExprInput.focus(); }
+        return;
+      }
+      const symbol = btn.dataset.op.replace('×','*').replace('÷','/');
+      insertAtCursor(lastExprInput, symbol);
+    });
+  });
+
+  $('calc').addEventListener('click', () => {
+    const total = parseMath($('totalCost').value);
+    const lose   = parseMath($('willingLose').value) || 0;
+    const guests = parseInt($('guests').value, 10) || 1;
+
+    const bad = isNaN(total) || isNaN(lose) || guests < 1;
+    $('err').style.display = bad ? 'block' : 'none';
+    if (bad) return;
+
+    const toCollect = Math.max(0, total - opcBudget - lose);
+    const perPerson = toCollect / guests;
+
+    $('toCollect').textContent = money(toCollect);
+    $('perPerson').textContent = money(perPerson);
+  });
+</script>
+</body>
+</html>
