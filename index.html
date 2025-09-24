@@ -157,7 +157,7 @@
   const money = (n)=> (isFinite(n) ? n : 0).toLocaleString(undefined,{style:'currency',currency:'USD'});
 
   // New constant for OPC budget
-  const opcBudget = 125;
+  const opcBudget = 250;
 
   $('calc').addEventListener('click', () => {
     const total = parseFloat($('totalCost').value);
@@ -181,3 +181,4 @@
 
 </body>
 </html>
+
