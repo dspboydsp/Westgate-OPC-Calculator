@@ -156,22 +156,28 @@
   const $ = (id)=>document.getElementById(id);
   const money = (n)=> (isFinite(n) ? n : 0).toLocaleString(undefined,{style:'currency',currency:'USD'});
 
+  // New constant for OPC budget
+  const opcBudget = 125;
+
   $('calc').addEventListener('click', () => {
     const total = parseFloat($('totalCost').value);
-    const lose  = parseFloat($('willingLose').value);
-    const guests= parseInt($('guests').value, 10);
 
-    const bad = isNaN(total) || isNaN(lose) || isNaN(guests) || guests < 1;
+    // Defaults: lose = 0, guests = 1
+    const lose   = parseFloat($('willingLose').value) || 0;
+    const guests = parseInt($('guests').value, 10) || 1;
+
+    const bad = isNaN(total) || guests < 1;
     $('err').style.display = bad ? 'block' : 'none';
     if (bad) return;
 
-    const toCollect = Math.max(0, total -125 - lose);
+    // New formula with opcBudget included
+    const toCollect = Math.max(0, total - opcBudget - lose);
     const perPerson = toCollect / guests;
 
     $('toCollect').textContent = money(toCollect);
     $('perPerson').textContent = money(perPerson);
   });
 </script>
+
 </body>
 </html>
-
