@@ -91,22 +91,22 @@
 
   /* Favorites */
   .favs{ display:flex; flex-direction:column; gap:8px; align-items:flex-end; flex:1 1 360px; }
-  .favs-head{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .favs-head{
+    display:flex; align-items:center; gap:8px;
+  }
   .favs-title{ color:var(--gold-1); font-weight:700; letter-spacing:.04em; font-size:13px; }
   .favs-toggle{
     border:1px solid rgba(244,210,122,.45);
     background:linear-gradient(180deg,#14161b,#0f1115);
     color:#EDEDED; font-weight:700; font-size:12px; padding:6px 10px; border-radius:999px; cursor:pointer;
   }
-  .favs-total{
-    color:var(--gold-1); font-weight:800; font-size:13px; padding:6px 10px;
-    border:1px solid rgba(244,210,122,.35); border-radius:999px; background:linear-gradient(180deg,#14161b,#0f1115);
+  .fav-grid{
+    display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end; max-width:100%;
   }
-  .fav-grid{ display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end; max-width:100%; }
   .favs.collapsed .fav-grid{ display:none; }
 
   .fav{
-    position:relative; min-width:146px;
+    position:relative; min-width:132px;
     padding:8px 10px; border-radius:12px; font-size:13px;
     border:1px solid rgba(244,210,122,.45);
     background:linear-gradient(180deg,#14161b,#0f1115);
@@ -114,14 +114,12 @@
   }
   .fav .name{ font-weight:800; }
   .fav .price{ display:block; font-weight:600; color:var(--gold-1); opacity:.9; margin-top:2px; }
+
   .controls{ display:flex; gap:6px; margin-top:8px; }
   .mini{
     padding:6px 8px; border-radius:10px; border:1px solid rgba(244,210,122,.35);
     background:linear-gradient(180deg,#191b20,#111318); color:#EDEDED; font-weight:800;
     line-height:1; min-width:36px; cursor:pointer; text-align:center;
-  }
-  .mini.remove{
-    background:linear-gradient(180deg,#3c2626,#2a1b1b); border-color:#8f4b4b;
   }
   .badge{
     position:absolute; top:-8px; right:-8px; min-width:20px; height:20px; padding:0 6px;
@@ -171,18 +169,16 @@
         <div class="favs collapsed" id="favs">
           <div class="favs-head">
             <div class="favs-title">Favorites</div>
-            <span class="favs-total" id="favSum">—</span>
             <button class="favs-toggle" id="favToggle">Show</button>
           </div>
           <div class="fav-grid" id="favGrid">
-            <!-- Each favorite: name/price badge + +/−/× controls -->
+            <!-- Each favorite: name/price badge + +/− controls -->
             <div class="fav" data-key="Sphere" data-price="119">
               <span class="badge">0</span>
               <div class="name">Sphere</div><span class="price">$119</span>
               <div class="controls">
                 <button class="mini minus"  data-act="-">−</button>
                 <button class="mini plus"   data-act="+">+</button>
-                <button class="mini remove" data-act="x">×</button>
               </div>
             </div>
             <div class="fav" data-key="EddieG" data-price="40">
@@ -191,7 +187,6 @@
               <div class="controls">
                 <button class="mini minus"  data-act="-">−</button>
                 <button class="mini plus"   data-act="+">+</button>
-                <button class="mini remove" data-act="x">×</button>
               </div>
             </div>
             <div class="fav" data-key="MJLive" data-price="29">
@@ -200,7 +195,6 @@
               <div class="controls">
                 <button class="mini minus"  data-act="-">−</button>
                 <button class="mini plus"   data-act="+">+</button>
-                <button class="mini remove" data-act="x">×</button>
               </div>
             </div>
             <div class="fav" data-key="Cruise" data-price="43">
@@ -209,7 +203,6 @@
               <div class="controls">
                 <button class="mini minus"  data-act="-">−</button>
                 <button class="mini plus"   data-act="+">+</button>
-                <button class="mini remove" data-act="x">×</button>
               </div>
             </div>
             <div class="fav" data-key="VLT" data-price="1.86">
@@ -218,7 +211,6 @@
               <div class="controls">
                 <button class="mini minus"  data-act="-">−</button>
                 <button class="mini plus"   data-act="+">+</button>
-                <button class="mini remove" data-act="x">×</button>
               </div>
             </div>
             <div class="fav" data-key="Tbl150" data-price="150">
@@ -227,7 +219,6 @@
               <div class="controls">
                 <button class="mini minus"  data-act="-">−</button>
                 <button class="mini plus"   data-act="+">+</button>
-                <button class="mini remove" data-act="x">×</button>
               </div>
             </div>
 
@@ -296,12 +287,11 @@
     return NaN;
   }
 
-  // ===== Favorites logic with +/−/× and collapse =====
+  // ===== Favorites logic with +/− and collapse =====
   const favOrder = ["Sphere","EddieG","MJLive","Cruise","VLT","Tbl150"];
   const favCounts = Object.fromEntries(favOrder.map(k => [k, 0]));
   const favsEl = $('favs');
   const favToggle = $('favToggle');
-  const favSum = $('favSum');
 
   // Auto-collapse on small screens initially
   function shouldCollapseInitially(){ return window.matchMedia('(max-width: 600px)').matches; }
@@ -326,7 +316,6 @@
     field.value = terms.join('+');
     field.focus();
     field.setSelectionRange(field.value.length, field.value.length);
-    updateFavSum(); // reflect new total
   }
 
   function updateBadges(){
@@ -339,14 +328,7 @@
     });
   }
 
-  // Live total preview from the expression field
-  function updateFavSum(){
-    const val = parseMath($('totalCost').value);
-    favSum.textContent = isNaN(val) ? '—' : money(val);
-  }
-  $('totalCost').addEventListener('input', updateFavSum);
-
-  // Wire +/−/× controls
+  // Wire +/− controls
   document.querySelectorAll('.fav[data-key]').forEach(card=>{
     const key = card.dataset.key;
     card.querySelector('.plus').addEventListener('click', ()=>{
@@ -355,10 +337,6 @@
     });
     card.querySelector('.minus').addEventListener('click', ()=>{
       favCounts[key] = Math.max(0, (favCounts[key] || 0) - 1);
-      updateBadges(); rebuildExpressionFromFavs();
-    });
-    card.querySelector('.remove').addEventListener('click', ()=>{
-      favCounts[key] = 0; // zero out entirely
       updateBadges(); rebuildExpressionFromFavs();
     });
   });
@@ -385,14 +363,12 @@
     const pos = start + text.length;
     input.setSelectionRange(pos, pos);
     input.focus();
-    if (input.id === 'totalCost') updateFavSum();
   }
 
   document.querySelectorAll('.opbar button').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       if(btn.dataset.op === 'clear'){
         if(lastExprInput){ lastExprInput.value=''; lastExprInput.focus(); }
-        if (lastExprInput?.id === 'totalCost') updateFavSum();
         return;
       }
       const symbol = btn.dataset.op.replace('×','*').replace('÷','/');
@@ -401,9 +377,6 @@
   });
 
   // ===== Calculate =====
-  const moneyFmt = (n)=> (isFinite(n) ? n : 0).toLocaleString(undefined,{style:'currency',currency:'USD'});
-  const show = (id, n)=> $(id).textContent = moneyFmt(n);
-
   $('calc').addEventListener('click', () => {
     const total  = parseMath($('totalCost').value);
     const lose   = parseMath($('willingLose').value) || 0;
@@ -416,12 +389,9 @@
     const toCollect = Math.max(0, total - opcBudget - lose);
     const perPerson = toCollect / guests;
 
-    show('toCollect', toCollect);
-    show('perPerson', perPerson);
+    $('toCollect').textContent = money(toCollect);
+    $('perPerson').textContent = money(perPerson);
   });
-
-  // initialize header total once
-  updateFavSum();
 </script>
 </body>
 </html>
