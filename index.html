@@ -115,4 +115,346 @@
 
   .controls{ display:flex; gap:6px; margin-top:8px; }
   .mini{
-    padding:6px 8px; border-radius:10px; bord
+    padding:6px 8px; border-radius:10px; border:1px solid rgba(244,210,122,.35);
+    background:linear-gradient(180deg,#191b20,#111318); color:#EDEDED; font-weight:800;
+    line-height:1; min-width:36px; cursor:pointer; text-align:center;
+  }
+  .badge{
+    position:absolute; top:-8px; right:-8px; min-width:20px; height:20px; padding:0 6px;
+    display:grid; place-items:center; border-radius:999px;
+    background:linear-gradient(180deg, var(--gold-1), var(--gold-2));
+    color:#131313; font-weight:800; font-size:12px; box-shadow:0 4px 10px rgba(0,0,0,.35);
+    display:none;
+  }
+  .fav.clear{ min-width:auto; background:linear-gradient(180deg,#3c2626,#2a1b1b); border-color:#8f4b4b; }
+  .fav.clear .name{ color:#f3c2c2; }
+
+  /* Operator bar */
+  .opbar{ display:flex; gap:8px; flex-wrap:wrap; margin:6px 0 10px }
+  .opbar button{
+    padding:10px 12px; border-radius:10px;
+    border:1px solid rgba(244,210,122,.35);
+    background:linear-gradient(180deg,#14161b,#0f1115);
+    color:#EDEDED; font-weight:700; cursor:pointer;
+  }
+  .opbar button:active{ transform:translateY(1px) }
+
+  /* Presets */
+  .presets{
+    margin-top:12px; padding:10px; border-radius:12px;
+    border:1px solid rgba(244,210,122,.35);
+    background:linear-gradient(180deg,#14161b,#0f1115);
+  }
+  .presets h3{ color:var(--gold-1); font-size:14px; margin:0 0 8px 0; }
+  .preset-list{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:8px; }
+  .preset-btn{
+    padding:6px 10px; border-radius:10px; border:1px solid rgba(244,210,122,.35);
+    background:linear-gradient(180deg,#191b20,#111318);
+    color:#EDEDED; font-size:13px; cursor:pointer;
+  }
+  .preset-btn:hover{ border-color:var(--gold-1); }
+  .preset-add{ display:flex; gap:8px; flex-wrap:wrap; }
+  .preset-input{
+    flex:1; min-width:200px; padding:6px 8px; border-radius:8px; border:1px solid rgba(244,210,122,.35);
+    background:#0c0f14; color:#EDEDED; font-size:13px;
+  }
+  .preset-save{
+    padding:6px 12px; border-radius:8px; border:0;
+    background:linear-gradient(180deg,var(--gold-1),var(--gold-2));
+    font-weight:700; cursor:pointer;
+  }
+
+  /* Auto-collapse favorites on small screens */
+  @media (max-width:600px){
+    .favs{ flex:1 1 100%; align-items:stretch; }
+    .favs.collapsed .fav-grid{ display:none; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo">WR</div>
+      <div class="title">Westgate Resorts</div>
+      <div class="subtitle">OPC Gifting Budget Calculator</div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <!-- Left: Total Cost input -->
+        <div class="row" style="min-width:280px;">
+          <label class="label" for="totalCost">Total Cost of Gifting</label>
+          <input id="totalCost" class="input" type="text" inputmode="text"
+                 placeholder="Tap favorites or type e.g. 40*3+1.86" autocomplete="off" />
+        </div>
+
+        <!-- Right: Favorites -->
+        <div class="favs collapsed" id="favs">
+          <div class="favs-head">
+            <div class="favs-title">Favorites</div>
+            <button class="favs-toggle" id="favToggle">Show</button>
+          </div>
+          <div class="fav-grid" id="favGrid">
+            <!-- Each favorite: name/price badge + +/− controls -->
+            <div class="fav" data-key="Sphere" data-price="119">
+              <span class="badge">0</span>
+              <div class="name">Sphere</div><span class="price">$119</span>
+              <div class="controls">
+                <button class="mini minus"  data-act="-">−</button>
+                <button class="mini plus"   data-act="+">+</button>
+              </div>
+            </div>
+            <div class="fav" data-key="EddieG" data-price="40">
+              <span class="badge">0</span>
+              <div class="name">EddieG</div><span class="price">$40</span>
+              <div class="controls">
+                <button class="mini minus"  data-act="-">−</button>
+                <button class="mini plus"   data-act="+">+</button>
+              </div>
+            </div>
+            <div class="fav" data-key="MJLive" data-price="29">
+              <span class="badge">0</span>
+              <div class="name">MJLive</div><span class="price">$29</span>
+              <div class="controls">
+                <button class="mini minus"  data-act="-">−</button>
+                <button class="mini plus"   data-act="+">+</button>
+              </div>
+            </div>
+            <div class="fav" data-key="Cruise" data-price="43">
+              <span class="badge">0</span>
+              <div class="name">Cruise</div><span class="price">$43</span>
+              <div class="controls">
+                <button class="mini minus"  data-act="-">−</button>
+                <button class="mini plus"   data-act="+">+</button>
+              </div>
+            </div>
+            <div class="fav" data-key="VLT" data-price="1.86">
+              <span class="badge">0</span>
+              <div class="name">VLT</div><span class="price">$1.86</span>
+              <div class="controls">
+                <button class="mini minus"  data-act="-">−</button>
+                <button class="mini plus"   data-act="+">+</button>
+              </div>
+            </div>
+            <div class="fav" data-key="Tbl150" data-price="150">
+              <span class="badge">0</span>
+              <div class="name">150Tbl</div><span class="price">$150</span>
+              <div class="controls">
+                <button class="mini minus"  data-act="-">−</button>
+                <button class="mini plus"   data-act="+">+</button>
+              </div>
+            </div>
+
+            <div class="fav clear" id="favClear">
+              <div class="name">Clear</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Operator bar for manual expression entry -->
+      <div class="opbar">
+        <button data-op="+">+</button>
+        <button data-op="-">−</button>
+        <button data-op="*">×</button>
+        <button data-op="/">÷</button>
+        <button data-op="(">(</button>
+        <button data-op=")">)</button>
+        <button data-op=".">.</button>
+        <button data-op="clear">Clear</button>
+      </div>
+
+      <!-- Presets -->
+      <div class="presets">
+        <h3>Saved Mixes</h3>
+        <div class="preset-list" id="presetList"></div>
+        <div class="preset-add">
+          <input id="presetName" class="preset-input" type="text" placeholder="Preset name (e.g. 4EddieG+2VLT)" />
+          <button id="savePreset" class="preset-save">Save Mix</button>
+        </div>
+      </div>
+
+      <div class="inline">
+        <div class="row">
+          <label class="label" for="willingLose">Amount Willing to Lose</label>
+          <input id="willingLose" class="input" type="text" inputmode="text"
+                 placeholder="e.g. 20 or 50/2" autocomplete="off" />
+        </div>
+        <div class="row">
+          <label class="label" for="guests">Number of Guests</label>
+          <input id="guests" class="input" type="number" inputmode="numeric" placeholder="e.g. 4" />
+        </div>
+      </div>
+
+      <button id="calc" class="btn">CALCULATE</button>
+      <div id="err" class="error">Please enter valid numbers (Guests must be ≥ 1).</div>
+
+      <div class="results">
+        <div class="result">
+          <div class="name">Total Amount to Collect</div>
+          <div id="toCollect" class="value">$0.00</div>
+        </div>
+        <div class="result">
+          <div class="name">Cost per Person</div>
+          <div id="perPerson" class="value">$0.00</div>
+        </div>
+      </div>
+
+      <div class="help">Formula: max(0, Total Cost − opcBudget − Amount Willing to Lose) ÷ Guests</div>
+    </div>
+
+    <div class="footer">© Westgate Resorts · v.3</div>
+  </div>
+
+<script>
+  const $ = (id)=>document.getElementById(id);
+  const money = (n)=> (isFinite(n) ? n : 0).toLocaleString(undefined,{style:'currency',currency:'USD'});
+  const opcBudget = 125;
+
+  function parseMath(str) {
+    if (str === undefined || str === null || str === "") return NaN;
+    if (/^[0-9+\-*/().\s]+$/.test(str)) {
+      try { return Function('"use strict";return (' + str + ')')(); }
+      catch { return NaN; }
+    }
+    return NaN;
+  }
+
+  // ===== Favorites logic with +/− and collapse (v.3) =====
+  const favOrder = ["Sphere","EddieG","MJLive","Cruise","VLT","Tbl150"];
+  const favCounts = Object.fromEntries(favOrder.map(k => [k, 0]));
+  const favsEl = $('favs');
+  const favToggle = $('favToggle');
+
+  function shouldCollapseInitially(){ return window.matchMedia('(max-width: 600px)').matches; }
+  if (!shouldCollapseInitially()) { favsEl.classList.remove('collapsed'); favToggle.textContent = 'Hide'; }
+
+  favToggle.addEventListener('click', ()=>{
+    favsEl.classList.toggle('collapsed');
+    favToggle.textContent = favsEl.classList.contains('collapsed') ? 'Show' : 'Hide';
+  });
+
+  function rebuildExpressionFromFavs(){
+    const terms = [];
+    for (const key of favOrder){
+      const count = favCounts[key];
+      if (!count) continue;
+      const btn = document.querySelector(`.fav[data-key="${key}"]`);
+      const price = parseFloat(btn.dataset.price);
+      const v = String(price);
+      terms.push(count === 1 ? v : `${v}*${count}`);
+    }
+    const field = $('totalCost');
+    field.value = terms.join('+');
+    field.focus();
+    field.setSelectionRange(field.value.length, field.value.length);
+  }
+
+  function updateBadges(){
+    document.querySelectorAll('.fav[data-key]').forEach(card=>{
+      const key = card.dataset.key;
+      const badge = card.querySelector('.badge');
+      const c = favCounts[key] || 0;
+      badge.textContent = c;
+      badge.style.display = c > 0 ? 'grid' : 'none';
+    });
+  }
+
+  document.querySelectorAll('.fav[data-key]').forEach(card=>{
+    const key = card.dataset.key;
+    card.querySelector('.plus').addEventListener('click', ()=>{
+      favCounts[key] = (favCounts[key] || 0) + 1;
+      updateBadges(); rebuildExpressionFromFavs();
+    });
+    card.querySelector('.minus').addEventListener('click', ()=>{
+      favCounts[key] = Math.max(0, (favCounts[key] || 0) - 1);
+      updateBadges(); rebuildExpressionFromFavs();
+    });
+  });
+
+  $('favClear').addEventListener('click', ()=>{
+    for (const k of favOrder) favCounts[k] = 0;
+    updateBadges(); rebuildExpressionFromFavs();
+  });
+
+  // ===== Operator bar =====
+  let lastExprInput = $('totalCost');
+  ['totalCost','willingLose'].forEach(id=>{
+    const el = document.getElementById(id);
+    el.addEventListener('focus', ()=> lastExprInput = el);
+    el.addEventListener('blur',  ()=> lastExprInput = el);
+  });
+
+  function insertAtCursor(input, text){
+    if(!input) return;
+    const start = input.selectionStart ?? input.value.length;
+    const end   = input.selectionEnd ?? input.value.length;
+    input.value = input.value.slice(0,start) + text + input.value.slice(end);
+    const pos = start + text.length;
+    input.setSelectionRange(pos, pos);
+    input.focus();
+  }
+
+  document.querySelectorAll('.opbar button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(btn.dataset.op === 'clear'){
+        if(lastExprInput){ lastExprInput.value=''; lastExprInput.focus(); }
+        return;
+      }
+      const symbol = btn.dataset.op.replace('×','*').replace('÷','/');
+      insertAtCursor(lastExprInput, symbol);
+    });
+  });
+
+  // ===== Presets: Save/Recall favorite mixes =====
+  const presetList = document.getElementById('presetList');
+  const saveBtn = document.getElementById('savePreset');
+  const presetNameInput = document.getElementById('presetName');
+
+  function renderPresets(){
+    presetList.innerHTML = '';
+    const presets = JSON.parse(localStorage.getItem('presets')||'[]');
+    presets.forEach((p,i)=>{
+      const btn = document.createElement('button');
+      btn.className='preset-btn';
+      btn.textContent = p.name;
+      btn.addEventListener('click', ()=>{
+        for(const k in favCounts) favCounts[k]=0;
+        Object.assign(favCounts, p.counts);
+        updateBadges(); rebuildExpressionFromFavs();
+      });
+      presetList.appendChild(btn);
+    });
+  }
+
+  saveBtn.addEventListener('click', ()=>{
+    const name = presetNameInput.value.trim();
+    if(!name) return;
+    const presets = JSON.parse(localStorage.getItem('presets')||'[]');
+    presets.push({name, counts:{...favCounts}});
+    localStorage.setItem('presets', JSON.stringify(presets));
+    presetNameInput.value='';
+    renderPresets();
+  });
+
+  renderPresets();
+
+  // ===== Calculate =====
+  $('calc').addEventListener('click', () => {
+    const total  = parseMath($('totalCost').value);
+    const lose   = parseMath($('willingLose').value) || 0;
+    const guests = parseInt($('guests').value, 10) || 1;
+
+    const bad = isNaN(total) || isNaN(lose) || guests < 1;
+    $('err').style.display = bad ? 'block' : 'none';
+    if (bad) return;
+
+    const toCollect = Math.max(0, total - opcBudget - lose);
+    const perPerson = toCollect / guests;
+
+    $('toCollect').textContent = money(toCollect);
+    $('perPerson').textContent = money(perPerson);
+  });
+</script>
+</body>
+</html>
