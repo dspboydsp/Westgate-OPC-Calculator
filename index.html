@@ -7,8 +7,7 @@
 <style>
   :root{
     --gold-1:#F4D27A; --gold-2:#C79B3B; --gold-3:#8C6A22;
-    --bg-1:#0e0e10; --bg-2:#1a1a1e;
-    --card:#0f1115cc; --text:#EDEDED; --muted:#B8B8B8; --error:#ff6b6b;
+    --text:#EDEDED; --muted:#B8B8B8; --error:#ff6b6b;
   }
   body{
     margin:0; min-height:100dvh; color:var(--text);
@@ -19,7 +18,7 @@
       linear-gradient(180deg, #0a0a0b 0%, #121214 60%, #0a0a0b 100%);
     display:grid; place-items:center; padding:24px;
   }
-  .wrap{ width:min(720px, 95vw); }
+  .wrap{ width:min(780px, 95vw); }
   .brand{ display:flex; flex-direction:column; align-items:center; gap:8px; margin-bottom:16px; }
   .logo{
     width:64px; height:64px; border-radius:50%;
@@ -32,33 +31,49 @@
     letter-spacing:.08em; text-transform:uppercase;
     background: linear-gradient(180deg, var(--gold-1), var(--gold-2) 60%, var(--gold-3));
     -webkit-background-clip:text; background-clip:text; color:transparent;
+    -webkit-text-fill-color: transparent;
     text-align:center;
   }
   .subtitle{ color:var(--muted); font-size:14px; text-align:center; margin-top:-4px; }
+
   .card{
-    margin-top:18px; padding:20px 18px;
-    background: linear-gradient(180deg, rgba(17,19,25,.85), rgba(12,13,18,.75));
-    border-radius:18px; border:1px solid rgba(196,160,82,.25);
+    margin-top:18px; padding:16px;
+    background:#14161a; /* solid fallback */
+    border:1px solid rgba(196,160,82,.25);
+    border-radius:18px;
     box-shadow: 0 8px 30px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.05);
-    backdrop-filter: blur(8px);
   }
-  .row{ display:grid; gap:10px; margin-bottom:14px; }
+  @supports (backdrop-filter: blur(6px)) {
+    .card{ background: rgba(17,19,25,.82); backdrop-filter: blur(8px); }
+  }
+
+  /* Header row inside card to place Favorites on the right */
+  .card-head{
+    display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap;
+    margin-bottom:10px;
+  }
+
+  .row{ display:grid; gap:10px; margin-bottom:14px; flex:1 1 320px; }
   .label{ font-weight:600; color:var(--gold-1); letter-spacing:.02em; }
+
   .input{
-    background: #0a0c10; color:var(--text);
+    background: #0c0f14; color:#EFEFEF;
     padding:14px 14px; border-radius:14px; width:100%;
-    border:1.2px solid rgba(244,210,122,.32);
+    border:1.2px solid rgba(244,210,122,.35);
     outline:none; font-size:16px;
   }
   .input:focus{ border-color:var(--gold-1); }
+
   .inline{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
   @media (max-width:560px){ .inline{ grid-template-columns:1fr; } }
+
   .btn{
     margin-top:6px; width:100%; border:0; border-radius:14px;
     padding:14px 16px; font-weight:800; letter-spacing:.06em;
     color:#0a0a0a; cursor:pointer; font-size:16px;
     background: linear-gradient(180deg, var(--gold-1), var(--gold-2) 70%, var(--gold-3));
   }
+
   .results{ margin-top:14px; display:grid; gap:12px; }
   .result{
     background: linear-gradient(180deg, #0c0e12, #0a0b0f);
@@ -71,10 +86,42 @@
     font-variant-numeric: tabular-nums; font-weight:800;
     background: linear-gradient(180deg, var(--gold-1), var(--gold-2) 70%, var(--gold-3));
     -webkit-background-clip:text; background-clip:text; color:transparent;
+    -webkit-text-fill-color: transparent;
   }
   .help{ color:var(--muted); font-size:12px; margin-top:6px; }
   .error{ color:var(--error); font-size:13px; margin-top:6px; display:none; }
   .footer{ text-align:center; color:#8e8e8e; font-size:12px; margin-top:14px; }
+
+  /* Favorites panel (upper right) */
+  .favs{
+    display:flex; flex-direction:column; gap:8px; align-items:flex-end; flex:1 1 280px;
+  }
+  .favs-title{
+    color:var(--gold-1); font-weight:700; letter-spacing:.04em; font-size:13px;
+  }
+  .fav-grid{
+    display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end;
+    max-width: 100%;
+  }
+  .fav{
+    position:relative;
+    padding:8px 10px; border-radius:12px; font-size:13px; line-height:1;
+    border:1px solid rgba(244,210,122,.45);
+    background:linear-gradient(180deg,#14161b,#0f1115);
+    color:#EDEDED; font-weight:700; cursor:pointer;
+    box-shadow:0 4px 12px rgba(0,0,0,.25);
+  }
+  .fav small{ display:block; font-weight:600; color:var(--gold-1); opacity:.9; margin-top:4px; }
+  .badge{
+    position:absolute; top:-8px; right:-8px; min-width:20px; height:20px; padding:0 6px;
+    display:grid; place-items:center; border-radius:999px;
+    background:linear-gradient(180deg, var(--gold-1), var(--gold-2));
+    color:#131313; font-weight:800; font-size:12px;
+    box-shadow:0 4px 10px rgba(0,0,0,.35);
+    display:none; /* hidden until count>0 */
+  }
+  .fav.clear{ background:linear-gradient(180deg,#3c2626,#2a1b1b); border-color:#8f4b4b; }
+  .fav.clear small{ color:#f3b3b3; }
 
   /* operator bar */
   .opbar{ display:flex; gap:8px; flex-wrap:wrap; margin:6px 0 10px }
@@ -96,13 +143,30 @@
     </div>
 
     <div class="card">
-      <div class="row">
-        <label class="label" for="totalCost">Total Cost of Gifting</label>
-        <input id="totalCost" class="input" type="text" inputmode="text"
-               placeholder="e.g. 40*3 + 15*3" autocomplete="off" />
+      <div class="card-head">
+        <!-- Left: Total Cost input -->
+        <div class="row" style="min-width:280px;">
+          <label class="label" for="totalCost">Total Cost of Gifting</label>
+          <input id="totalCost" class="input" type="text" inputmode="text"
+                 placeholder="Tap favorites → e.g. 40*3+1.86" autocomplete="off" />
+        </div>
+
+        <!-- Right: Favorites -->
+        <div class="favs">
+          <div class="favs-title">Favorites</div>
+          <div class="fav-grid">
+            <button class="fav" data-key="Sphere" data-price="119">Sphere<small>$119</small><span class="badge">0</span></button>
+            <button class="fav" data-key="EddieG" data-price="40">EddieG<small>$40</small><span class="badge">0</span></button>
+            <button class="fav" data-key="MJLive" data-price="29">MJLive<small>$29</small><span class="badge">0</span></button>
+            <button class="fav" data-key="Cruise" data-price="43">Cruise<small>$43</small><span class="badge">0</span></button>
+            <button class="fav" data-key="VLT" data-price="1.86">VLT<small>$1.86</small><span class="badge">0</span></button>
+            <button class="fav" data-key="Tbl150" data-price="150">150Tbl<small>$150</small><span class="badge">0</span></button>
+            <button class="fav clear" id="favClear">Clear<small>reset</small></button>
+          </div>
+        </div>
       </div>
 
-      <!-- Operator bar for math inputs -->
+      <!-- Operator bar for manual edits if needed -->
       <div class="opbar">
         <button data-op="+">+</button>
         <button data-op="-">−</button>
@@ -121,8 +185,8 @@
                  placeholder="e.g. 20 or 50/2" autocomplete="off" />
         </div>
         <div class="row">
-          <label class="label" for="guests">Split Cost Among How Many Guests?</label>
-          <input id="guests" class="input" type="number" inputmode="numeric" placeholder="Will be set to 1 guest until you enter a value" />
+          <label class="label" for="guests">Number of Guests</label>
+          <input id="guests" class="input" type="number" inputmode="numeric" placeholder="e.g. 4" />
         </div>
       </div>
 
@@ -140,7 +204,7 @@
         </div>
       </div>
 
-      <div class="help">OPC #71774 Says: "Let Them Have It!"</div>
+      <div class="help">Formula: max(0, Total Cost − opcBudget − Amount Willing to Lose) ÷ Guests</div>
     </div>
 
     <div class="footer">© Westgate Resorts</div>
@@ -149,12 +213,11 @@
 <script>
   const $ = (id)=>document.getElementById(id);
   const money = (n)=> (isFinite(n) ? n : 0).toLocaleString(undefined,{style:'currency',currency:'USD'});
-
   const opcBudget = 125;
 
-  // Safe math parser
+  // Parse numeric/math-only strings safely
   function parseMath(str) {
-    if (!str) return NaN;
+    if (str === undefined || str === null || str === "") return NaN;
     if (/^[0-9+\-*/().\s]+$/.test(str)) {
       try { return Function('"use strict";return (' + str + ')')(); }
       catch { return NaN; }
@@ -162,18 +225,69 @@
     return NaN;
   }
 
-  // Track last focused math input for operator bar
-  let lastExprInput = null;
+  // ===== Favorites logic =====
+  const favOrder = ["Sphere","EddieG","MJLive","Cruise","VLT","Tbl150"];
+  const favCounts = Object.fromEntries(favOrder.map(k => [k, 0]));
+
+  function rebuildExpressionFromFavs(){
+    const terms = [];
+    for (const key of favOrder){
+      const count = favCounts[key];
+      if (!count) continue;
+      const btn = document.querySelector(`.fav[data-key="${key}"]`);
+      const price = parseFloat(btn.dataset.price);
+      const v = Number.isInteger(price) ? String(price) : String(price);
+      terms.push(count === 1 ? v : `${v}*${count}`);
+    }
+    $('totalCost').value = terms.join('+');
+  }
+
+  function updateBadges(){
+    document.querySelectorAll('.fav[data-key]').forEach(btn=>{
+      const key = btn.dataset.key;
+      const badge = btn.querySelector('.badge');
+      const c = favCounts[key] || 0;
+      if (badge){
+        badge.textContent = c;
+        badge.style.display = c > 0 ? 'grid' : 'none';
+      }
+    });
+  }
+
+  // Wire favorite buttons
+  document.querySelectorAll('.fav[data-key]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const key = btn.dataset.key;
+      favCounts[key] = (favCounts[key] || 0) + 1;
+      updateBadges();
+      rebuildExpressionFromFavs();
+      // keep caret at end for manual edits if desired
+      const el = $('totalCost');
+      el.focus();
+      el.setSelectionRange(el.value.length, el.value.length);
+    });
+  });
+
+  // Clear favorites
+  $('favClear').addEventListener('click', ()=>{
+    for (const k of favOrder) favCounts[k] = 0;
+    updateBadges();
+    $('totalCost').value = '';
+    $('totalCost').focus();
+  });
+
+  // ===== Operator bar (manual expression entry) =====
+  let lastExprInput = $('totalCost'); // default to total cost
   ['totalCost','willingLose'].forEach(id=>{
     const el = document.getElementById(id);
     el.addEventListener('focus', ()=> lastExprInput = el);
-    el.addEventListener('blur',  ()=> lastExprInput = el);
+    el.addEventListener('blur', ()=> lastExprInput = el);
   });
 
   function insertAtCursor(input, text){
     if(!input) return;
     const start = input.selectionStart ?? input.value.length;
-    const end   = input.selectionEnd ?? input.value.length;
+    const end = input.selectionEnd ?? input.value.length;
     input.value = input.value.slice(0,start) + text + input.value.slice(end);
     const pos = start + text.length;
     input.setSelectionRange(pos, pos);
@@ -191,9 +305,10 @@
     });
   });
 
+  // ===== Calculate =====
   $('calc').addEventListener('click', () => {
     const total = parseMath($('totalCost').value);
-    const lose   = parseMath($('willingLose').value) || 0;
+    const lose = parseMath($('willingLose').value) || 0;
     const guests = parseInt($('guests').value, 10) || 1;
 
     const bad = isNaN(total) || isNaN(lose) || guests < 1;
@@ -209,6 +324,3 @@
 </script>
 </body>
 </html>
-
-
-
