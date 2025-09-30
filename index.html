@@ -52,7 +52,6 @@
 
   .row{ display:grid; gap:10px; margin-bottom:14px; flex:1 1 320px; }
   .label{ font-weight:600; color:var(--gold-1); letter-spacing:.02em; }
-
   .input{
     background: #0c0f14; color:#EFEFEF;
     padding:14px 14px; border-radius:14px; width:100%;
@@ -60,9 +59,6 @@
     outline:none; font-size:16px;
   }
   .input:focus{ border-color:var(--gold-1); }
-
-  .inline{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-  @media (max-width:560px){ .inline{ grid-template-columns:1fr; } }
 
   .btn{
     margin-top:6px; width:100%; border:0; border-radius:14px;
@@ -89,7 +85,7 @@
   .error{ color:var(--error); font-size:13px; margin-top:6px; display:none; }
   .footer{ text-align:center; color:#8e8e8e; font-size:12px; margin-top:14px; }
 
-  /* Favorites */
+  /* Favorites (existing) */
   .favs{ display:flex; flex-direction:column; gap:8px; align-items:flex-end; flex:1 1 360px; }
   .favs-head{ display:flex; align-items:center; gap:8px; }
   .favs-title{ color:var(--gold-1); font-weight:700; letter-spacing:.04em; font-size:13px; }
@@ -98,9 +94,7 @@
     background:linear-gradient(180deg,#14161b,#0f1115);
     color:#EDEDED; font-weight:700; font-size:12px; padding:6px 10px; border-radius:999px; cursor:pointer;
   }
-  .fav-grid{
-    display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end; max-width:100%;
-  }
+  .fav-grid{ display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end; max-width:100%; }
   .favs.collapsed .fav-grid{ display:none; }
 
   .fav{
@@ -112,7 +106,6 @@
   }
   .fav .name{ font-weight:800; }
   .fav .price{ display:block; font-weight:600; color:var(--gold-1); opacity:.9; margin-top:2px; }
-
   .controls{ display:flex; gap:6px; margin-top:8px; }
   .mini{
     padding:6px 8px; border-radius:10px; border:1px solid rgba(244,210,122,.35);
@@ -173,7 +166,24 @@
     font-weight:700; cursor:pointer;
   }
 
-  /* Auto-collapse favorites on small screens */
+  /* Adjustments (NEW collapsible for Lose & Guests) */
+  .adv{
+    margin-top:12px; padding:10px; border-radius:12px;
+    border:1px solid rgba(244,210,122,.35);
+    background:linear-gradient(180deg,#14161b,#0f1115);
+  }
+  .adv-head{ display:flex; align-items:center; gap:8px; justify-content:space-between; }
+  .adv-title{ color:var(--gold-1); font-weight:700; letter-spacing:.04em; font-size:13px; }
+  .adv-toggle{
+    border:1px solid rgba(244,210,122,.45);
+    background:linear-gradient(180deg,#14161b,#0f1115);
+    color:#EDEDED; font-weight:700; font-size:12px; padding:6px 10px; border-radius:999px; cursor:pointer;
+  }
+  .adv-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:10px; }
+  .adv.collapsed .adv-grid{ display:none; }
+  @media (max-width:560px){ .adv-grid{ grid-template-columns:1fr; } }
+
+  /* Auto-collapse panels on small screens */
   @media (max-width:600px){
     .favs{ flex:1 1 100%; align-items:stretch; }
     .favs.collapsed .fav-grid{ display:none; }
@@ -204,7 +214,6 @@
             <button class="favs-toggle" id="favToggle">Show</button>
           </div>
           <div class="fav-grid" id="favGrid">
-            <!-- Each favorite: name/price badge + +/− controls -->
             <div class="fav" data-key="Sphere" data-price="119">
               <span class="badge">0</span>
               <div class="name">Sphere</div><span class="price">$119</span>
@@ -261,7 +270,7 @@
         </div>
       </div>
 
-      <!-- Operator bar for manual expression entry -->
+      <!-- Operator bar -->
       <div class="opbar">
         <button data-op="+">+</button>
         <button data-op="-">−</button>
@@ -283,15 +292,22 @@
         </div>
       </div>
 
-      <div class="inline">
-        <div class="row">
-          <label class="label" for="willingLose">Amount Willing to Lose</label>
-          <input id="willingLose" class="input" type="text" inputmode="text"
-                 placeholder="e.g. 20 or 50/2" autocomplete="off" />
+      <!-- Adjustments (NEW collapsible) -->
+      <div class="adv collapsed" id="adv">
+        <div class="adv-head">
+          <div class="adv-title">Adjustments</div>
+          <button class="adv-toggle" id="advToggle">Show</button>
         </div>
-        <div class="row">
-          <label class="label" for="guests">Number of Guests</label>
-          <input id="guests" class="input" type="number" inputmode="numeric" placeholder="e.g. 4" />
+        <div class="adv-grid">
+          <div class="row">
+            <label class="label" for="willingLose">Amount Willing to Lose</label>
+            <input id="willingLose" class="input" type="text" inputmode="text"
+                   placeholder="e.g. 20 or 50/2" autocomplete="off" />
+          </div>
+          <div class="row">
+            <label class="label" for="guests">Number of Guests</label>
+            <input id="guests" class="input" type="number" inputmode="numeric" placeholder="e.g. 4" />
+          </div>
         </div>
       </div>
 
@@ -312,7 +328,7 @@
       <div class="help">Created by Derick McWilliams, OPC 71774</div>
     </div>
 
-    <div class="footer">© Westgate Resorts · v.5</div>
+    <div class="footer">© Westgate Resorts · v.6</div>
   </div>
 
 <script>
@@ -329,20 +345,20 @@
     return NaN;
   }
 
-  // ===== Favorites logic with +/− and collapse (v.4 base) =====
+  // ===== Favorites logic =====
   const favOrder = ["Sphere","EddieG","MJLive","Cruise","VLT","Tbl150"];
   const favCounts = Object.fromEntries(favOrder.map(k => [k, 0]));
   const favsEl = $('favs');
   const favToggle = $('favToggle');
 
-  function shouldCollapseInitially(){ return window.matchMedia('(max-width: 600px)').matches; }
-  if (!shouldCollapseInitially()) { favsEl.classList.remove('collapsed'); favToggle.textContent = 'Hide'; }
+  function smallScreen(){ return window.matchMedia('(max-width: 600px)').matches; }
+  if (!smallScreen()) { favsEl.classList.remove('collapsed'); favToggle.textContent = 'Hide'; }
 
-  // Remember collapse state (persists across reloads)
+  // Remember favorites collapse
   const favStateKey = 'favsCollapsed';
-  const savedState = localStorage.getItem(favStateKey);
-  if (savedState !== null) {
-    const collapsed = savedState === 'true';
+  const favSaved = localStorage.getItem(favStateKey);
+  if (favSaved !== null) {
+    const collapsed = favSaved === 'true';
     favsEl.classList.toggle('collapsed', collapsed);
     favToggle.textContent = collapsed ? 'Show' : 'Hide';
   }
@@ -490,11 +506,10 @@
     });
   }
 
-  // Prevent saving empty mixes (no counts)
   saveBtn.addEventListener('click', ()=>{
     const name = presetNameInput.value.trim();
     const totalCount = Object.values(favCounts).reduce((a,b)=>a+b,0);
-    if(!name || totalCount === 0) return; // require a name and at least one item
+    if(!name || totalCount === 0) return;
     const presets = getPresets();
     presets.push({name, counts:{...favCounts}});
     setPresets(presets);
@@ -504,7 +519,31 @@
 
   renderPresets();
 
+  // ===== Adjustments panel: remember collapse & small-screen default =====
+  const advEl = $('adv');
+  const advToggle = $('advToggle');
+  const advKey = 'advCollapsed';
+
+  // default collapsed on small screens; else expanded
+  if (!smallScreen()) { advEl.classList.remove('collapsed'); advToggle.textContent = 'Hide'; }
+
+  const advSaved = localStorage.getItem(advKey);
+  if (advSaved !== null) {
+    const collapsed = advSaved === 'true';
+    advEl.classList.toggle('collapsed', collapsed);
+    advToggle.textContent = collapsed ? 'Show' : 'Hide';
+  }
+
+  advToggle.addEventListener('click', ()=>{
+    advEl.classList.toggle('collapsed');
+    advToggle.textContent = advEl.classList.contains('collapsed') ? 'Show' : 'Hide';
+    localStorage.setItem(advKey, advEl.classList.contains('collapsed'));
+  });
+
   // ===== Calculate =====
+  const moneyFmt = (n)=> (isFinite(n) ? n : 0).toLocaleString(undefined,{style:'currency',currency:'USD'});
+  function show(id, n){ $(id).textContent = moneyFmt(n); }
+
   $('calc').addEventListener('click', () => {
     const total  = parseMath($('totalCost').value);
     const lose   = parseMath($('willingLose').value) || 0;
@@ -517,8 +556,8 @@
     const toCollect = Math.max(0, total - opcBudget - lose);
     const perPerson = toCollect / guests;
 
-    $('toCollect').textContent = money(toCollect);
-    $('perPerson').textContent = money(perPerson);
+    show('toCollect', toCollect);
+    show('perPerson', perPerson);
   });
 </script>
 </body>
