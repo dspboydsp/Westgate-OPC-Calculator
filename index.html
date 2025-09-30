@@ -146,13 +146,22 @@
     background:linear-gradient(180deg,#14161b,#0f1115);
   }
   .presets h3{ color:var(--gold-1); font-size:14px; margin:0 0 8px 0; }
-  .preset-list{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:8px; }
+  .preset-list{ display:flex; flex-direction:column; gap:8px; margin-bottom:8px; }
+  .preset-item{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
   .preset-btn{
     padding:6px 10px; border-radius:10px; border:1px solid rgba(244,210,122,.35);
     background:linear-gradient(180deg,#191b20,#111318);
     color:#EDEDED; font-size:13px; cursor:pointer;
   }
   .preset-btn:hover{ border-color:var(--gold-1); }
+  .preset-ctrl{
+    padding:6px 8px; border-radius:8px; border:1px solid rgba(244,210,122,.35);
+    background:linear-gradient(180deg,#191b20,#111318);
+    color:#EDEDED; font-size:12px; cursor:pointer; min-width:36px; text-align:center;
+  }
+  .preset-ctrl.danger{
+    border-color:#8f4b4b; background:linear-gradient(180deg,#3c2626,#2a1b1b);
+  }
   .preset-add{ display:flex; gap:8px; flex-wrap:wrap; }
   .preset-input{
     flex:1; min-width:200px; padding:6px 8px; border-radius:8px; border:1px solid rgba(244,210,122,.35);
@@ -303,7 +312,7 @@
       <div class="help">Created by Derick McWilliams, OPC 71774</div>
     </div>
 
-    <div class="footer">© Westgate Resorts · v.4</div>
+    <div class="footer">© Westgate Resorts · v.5</div>
   </div>
 
 <script>
@@ -320,7 +329,7 @@
     return NaN;
   }
 
-  // ===== Favorites logic with +/− and collapse (v.3) =====
+  // ===== Favorites logic with +/− and collapse (v.4 base) =====
   const favOrder = ["Sphere","EddieG","MJLive","Cruise","VLT","Tbl150"];
   const favCounts = Object.fromEntries(favOrder.map(k => [k, 0]));
   const favsEl = $('favs');
@@ -329,9 +338,18 @@
   function shouldCollapseInitially(){ return window.matchMedia('(max-width: 600px)').matches; }
   if (!shouldCollapseInitially()) { favsEl.classList.remove('collapsed'); favToggle.textContent = 'Hide'; }
 
+  // Remember collapse state (persists across reloads)
+  const favStateKey = 'favsCollapsed';
+  const savedState = localStorage.getItem(favStateKey);
+  if (savedState !== null) {
+    const collapsed = savedState === 'true';
+    favsEl.classList.toggle('collapsed', collapsed);
+    favToggle.textContent = collapsed ? 'Show' : 'Hide';
+  }
   favToggle.addEventListener('click', ()=>{
     favsEl.classList.toggle('collapsed');
     favToggle.textContent = favsEl.classList.contains('collapsed') ? 'Show' : 'Hide';
+    localStorage.setItem(favStateKey, favsEl.classList.contains('collapsed'));
   });
 
   function rebuildExpressionFromFavs(){
@@ -406,33 +424,80 @@
     });
   });
 
-  // ===== Presets: Save/Recall favorite mixes =====
+  // ===== Presets: Save/Recall + Rename + Delete =====
   const presetList = document.getElementById('presetList');
   const saveBtn = document.getElementById('savePreset');
   const presetNameInput = document.getElementById('presetName');
 
+  function getPresets(){ return JSON.parse(localStorage.getItem('presets')||'[]'); }
+  function setPresets(p){ localStorage.setItem('presets', JSON.stringify(p)); }
+
   function renderPresets(){
     presetList.innerHTML = '';
-    const presets = JSON.parse(localStorage.getItem('presets')||'[]');
+    const presets = getPresets();
+
+    if (presets.length === 0) {
+      const empty = document.createElement('div');
+      empty.style.color = '#B8B8B8';
+      empty.style.fontSize = '12px';
+      empty.textContent = 'No mixes saved yet.';
+      presetList.appendChild(empty);
+      return;
+    }
+
     presets.forEach((p,i)=>{
-      const btn = document.createElement('button');
-      btn.className='preset-btn';
-      btn.textContent = p.name;
-      btn.addEventListener('click', ()=>{
+      const row = document.createElement('div');
+      row.className = 'preset-item';
+
+      const loadBtn = document.createElement('button');
+      loadBtn.className = 'preset-btn';
+      loadBtn.textContent = p.name;
+      loadBtn.addEventListener('click', ()=>{
         for(const k in favCounts) favCounts[k]=0;
         Object.assign(favCounts, p.counts);
         updateBadges(); rebuildExpressionFromFavs();
       });
-      presetList.appendChild(btn);
+
+      const renameBtn = document.createElement('button');
+      renameBtn.className = 'preset-ctrl';
+      renameBtn.title = 'Rename';
+      renameBtn.textContent = '✎';
+      renameBtn.addEventListener('click', ()=>{
+        const newName = (prompt('Rename preset:', p.name) || '').trim();
+        if (!newName) return;
+        const all = getPresets();
+        all[i].name = newName;
+        setPresets(all);
+        renderPresets();
+      });
+
+      const delBtn = document.createElement('button');
+      delBtn.className = 'preset-ctrl danger';
+      delBtn.title = 'Delete';
+      delBtn.textContent = '🗑';
+      delBtn.addEventListener('click', ()=>{
+        if (!confirm(`Delete preset "${p.name}"?`)) return;
+        const all = getPresets();
+        all.splice(i,1);
+        setPresets(all);
+        renderPresets();
+      });
+
+      row.appendChild(loadBtn);
+      row.appendChild(renameBtn);
+      row.appendChild(delBtn);
+      presetList.appendChild(row);
     });
   }
 
+  // Prevent saving empty mixes (no counts)
   saveBtn.addEventListener('click', ()=>{
     const name = presetNameInput.value.trim();
-    if(!name) return;
-    const presets = JSON.parse(localStorage.getItem('presets')||'[]');
+    const totalCount = Object.values(favCounts).reduce((a,b)=>a+b,0);
+    if(!name || totalCount === 0) return; // require a name and at least one item
+    const presets = getPresets();
     presets.push({name, counts:{...favCounts}});
-    localStorage.setItem('presets', JSON.stringify(presets));
+    setPresets(presets);
     presetNameInput.value='';
     renderPresets();
   });
@@ -458,7 +523,3 @@
 </script>
 </body>
 </html>
-
-
-
-
