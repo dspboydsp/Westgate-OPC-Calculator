@@ -348,7 +348,7 @@
       <div class="help">Created by Derick McWilliams, OPC 71774</div>
     </div>
 
-    <div class="footer">© Westgate Resorts · v.7.2</div>
+    <div class="footer">© Westgate Resorts · v.7.3</div>
   </div>
 
 <script>
@@ -429,12 +429,13 @@
     const end   = input.selectionEnd ?? input.value.length;
     input.value = input.value.slice(0,start) + text + input.value.slice(end);
     const pos = start + text.length;
-    input.setSelectionRange(pos, pos); input.focus();
+    try { input.setSelectionRange(pos, pos); } catch {}
+    try { input.focus({ preventScroll: true }); } catch { input.focus(); } // gentler focus, avoids jump
   }
   document.querySelectorAll('.opbar button').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       if(btn.dataset.op === 'clear'){
-        if(lastExprInput){ lastExprInput.value=''; lastExprInput.focus(); }
+        if(lastExprInput){ lastExprInput.value=''; try{ lastExprInput.focus({preventScroll:true}); }catch{ lastExprInput.focus(); } }
         return;
       }
       const symbol = btn.dataset.op?.replace('×','*').replace('÷','/') || btn.textContent;
@@ -525,7 +526,7 @@
   let premiumCounts = {};        // { key: count }
   let premiumKeysByCat = {};     // { Category: [keys...] }
   let allItemsFlat = [];         // [ {Category,key,name,price,opc} ... ]
-  let premiumPriceByKey = {};    // NEW: key -> price (independent of DOM)
+  let premiumPriceByKey = {};    // key -> price
 
   function parsePriceFromOPC(opc){
     if(!opc) return null;
@@ -598,7 +599,7 @@
       const obj = { key, name: Name, price: Price, opc: OPC_CODE, Category };
       premiumData[Category].push(obj);
       premiumCounts[key] = 0;
-      premiumPriceByKey[key] = Price; // record independent price
+      premiumPriceByKey[key] = Price;
       allItemsFlat.push(obj);
     });
     for(const cat in premiumData){
@@ -718,7 +719,7 @@
     rebuildExpression(); // intentional
   });
 
-  /* ===== Expression builder (Favorites + Premiums, independent of DOM) ===== */
+  /* ===== Expression builder (Favorites + Premiums) — no forced focus ===== */
   function rebuildExpression(){
     const terms = [];
 
@@ -741,9 +742,17 @@
     }
 
     const field = $('totalCost');
+    const wasFocused = document.activeElement === field;
+    let caret = null;
+    try { caret = [field.selectionStart, field.selectionEnd]; } catch {}
+
     field.value = terms.join('+');
-    field.focus();
-    field.setSelectionRange(field.value.length, field.value.length);
+
+    // If user was typing there, restore caret WITHOUT scrolling.
+    if (wasFocused && caret && caret[0] != null) {
+      try { field.setSelectionRange(caret[0], caret[1], { direction: 'forward' }); } catch {}
+    }
+    // No field.focus() — avoids viewport jump on mobile.
   }
 
   /* ===== Load & init Premiums ===== */
@@ -752,7 +761,7 @@
     buildPremiumData(items);
     renderPremCategories();
     premCat.value = '__ALL__';
-    renderPremGrid(); // just render; does NOT rebuild expression
+    renderPremGrid(); // render only (no rebuild)
   })();
 
   /* ===== Calculate ===== */
