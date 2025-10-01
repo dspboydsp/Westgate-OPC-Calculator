@@ -51,4 +51,726 @@
   }
 
   .row{ display:grid; gap:10px; margin-bottom:14px; flex:1 1 320px; min-width:280px; }
-  .
+  .label{ font-weight:600; color:var(--gold-1); letter-spacing:.02em; }
+
+  .input{
+    background: #0c0f14; color:#EFEFEF;
+    padding:14px 14px; border-radius:14px; width:100%;
+    border:1.2px solid rgba(244,210,122,.35);
+    outline:none; font-size:16px;
+  }
+  .input:focus{ border-color:var(--gold-1); }
+
+  .btn{
+    margin-top:6px; width:100%; border:0; border-radius:14px;
+    padding:14px 16px; font-weight:800; letter-spacing:.06em;
+    color:#0a0a0a; cursor:pointer; font-size:16px;
+    background: linear-gradient(180deg, var(--gold-1), var(--gold-2) 70%, var(--gold-3));
+  }
+
+  .results{ margin-top:14px; display:grid; gap:12px; }
+  .result{
+    background: linear-gradient(180deg, #0c0e12, #0a0b0f);
+    border:1px solid rgba(244,210,122,.28);
+    border-radius:14px; padding:14px 16px;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .result .name{ color:var(--muted); font-size:14px; }
+  .result .value{
+    font-variant-numeric: tabular-nums; font-weight:800;
+    background: linear-gradient(180deg, var(--gold-1), var(--gold-2) 70%, var(--gold-3));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    -webkit-text-fill-color: transparent;
+  }
+  .help{ color:var(--muted); font-size:12px; margin-top:6px; }
+  .error{ color:var(--error); font-size:13px; margin-top:6px; display:none; }
+  .footer{ text-align:center; color:#8e8e8e; font-size:12px; margin-top:14px; }
+
+  .toggle{
+    border:1px solid rgba(244,210,122,.45);
+    background:linear-gradient(180deg,#14161b,#0f1115);
+    color:#EDEDED; font-weight:700; font-size:12px; padding:6px 10px; border-radius:999px; cursor:pointer;
+  }
+
+  /* Favorites */
+  .favs{ display:flex; flex-direction:column; gap:8px; align-items:flex-end; flex:1 1 360px; }
+  .favs-head{ display:flex; align-items:center; gap:8px; }
+  .favs-title{ color:var(--gold-1); font-weight:700; letter-spacing:.04em; font-size:13px; }
+  .fav-grid{ display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end; max-width:100%; }
+  .favs.collapsed .fav-grid{ display:none; }
+
+  .fav, .prem{
+    position:relative; min-width:140px;
+    padding:8px 10px; border-radius:12px; font-size:13px;
+    border:1px solid rgba(244,210,122,.45);
+    background:linear-gradient(180deg,#14161b,#0f1115);
+    color:#EDEDED; box-shadow:0 4px 12px rgba(0,0,0,.25);
+  }
+  .fav .name, .prem .name{ font-weight:800; }
+  .fav .price, .prem .price{ display:block; font-weight:600; color:var(--gold-1); opacity:.9; margin-top:2px; }
+  .controls{ display:flex; gap:6px; margin-top:8px; }
+  .mini{
+    padding:6px 8px; border-radius:10px; border:1px solid rgba(244,210,122,.35);
+    background:linear-gradient(180deg,#191b20,#111318); color:#EDEDED; font-weight:800;
+    line-height:1; min-width:36px; cursor:pointer; text-align:center;
+  }
+  .badge{
+    position:absolute; top:-8px; right:-8px; min-width:20px; height:20px; padding:0 6px;
+    display:grid; place-items:center; border-radius:999px;
+    background:linear-gradient(180deg, var(--gold-1), var(--gold-2));
+    color:#131313; font-weight:800; font-size:12px; box-shadow:0 4px 10px rgba(0,0,0,.35);
+    display:none;
+  }
+  .fav.clear, .prem.clear{ min-width:auto; background:linear-gradient(180deg,#3c2626,#2a1b1b); border-color:#8f4b4b; }
+  .fav.clear .name, .prem.clear .name{ color:#f3c2c2; }
+
+  /* Operator bar */
+  .opbar{ display:flex; gap:8px; flex-wrap:wrap; margin:6px 0 10px }
+  .opbar button{
+    padding:10px 12px; border-radius:10px;
+    border:1px solid rgba(244,210,122,.35);
+    background:linear-gradient(180deg,#14161b,#0f1115);
+    color:#EDEDED; font-weight:700; cursor:pointer;
+  }
+  .opbar button:active{ transform:translateY(1px) }
+
+  /* Presets */
+  .presets{
+    margin-top:12px; padding:10px; border-radius:12px;
+    border:1px solid rgba(244,210,122,.35);
+    background:linear-gradient(180deg,#14161b,#0f1115);
+  }
+  .presets h3{ color:var(--gold-1); font-size:14px; margin:0 0 8px 0; }
+  .preset-list{ display:flex; flex-direction:column; gap:8px; margin-bottom:8px; }
+  .preset-item{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+  .preset-btn{
+    padding:6px 10px; border-radius:10px; border:1px solid rgba(244,210,122,.35);
+    background:linear-gradient(180deg,#191b20,#111318);
+    color:#EDEDED; font-size:13px; cursor:pointer;
+  }
+  .preset-ctrl{
+    padding:6px 8px; border-radius:8px; border:1px solid rgba(244,210,122,.35);
+    background:linear-gradient(180deg,#191b20,#111318);
+    color:#EDEDED; font-size:12px; cursor:pointer; min-width:36px; text-align:center;
+  }
+  .preset-ctrl.danger{
+    border-color:#8f4b4b; background:linear-gradient(180deg,#3c2626,#2a1b1b);
+  }
+  .preset-add{ display:flex; gap:8px; flex-wrap:wrap; }
+  .preset-input{
+    flex:1; min-width:200px; padding:6px 8px; border-radius:8px; border:1px solid rgba(244,210,122,.35);
+    background:#0c0f14; color:#EDEDED; font-size:13px;
+  }
+  .preset-save{
+    padding:6px 12px; border-radius:8px; border:0;
+    background:linear-gradient(180deg,var(--gold-1),var(--gold-2));
+    font-weight:700; cursor:pointer;
+  }
+
+  /* Adjustments */
+  .adv{
+    margin-top:12px; padding:10px; border-radius:12px;
+    border:1px solid rgba(244,210,122,.35);
+    background:linear-gradient(180deg,#14161b,#0f1115);
+  }
+  .adv-head{ display:flex; align-items:center; gap:8px; justify-content:space-between; }
+  .adv-title{ color:var(--gold-1); font-weight:700; letter-spacing:.04em; font-size:13px; }
+  .adv-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:10px; }
+  .adv.collapsed .adv-grid{ display:none; }
+  @media (max-width:560px){ .adv-grid{ grid-template-columns:1fr; } }
+
+  /* Premiums */
+  .prems{
+    margin-top:12px; padding:10px; border-radius:12px;
+    border:1px solid rgba(244,210,122,.35);
+    background:linear-gradient(180deg,#14161b,#0f1115);
+  }
+  .prems-head{ display:flex; align-items:center; gap:8px; justify-content:space-between; }
+  .prems-title{ color:var(--gold-1); font-weight:700; letter-spacing:.04em; font-size:13px; }
+  .prems.collapsed .prems-body{ display:none; }
+  .prems-controls{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin:8px 0; }
+  .select{
+    background:#0c0f14; color:#EDEDED; border:1px solid rgba(244,210,122,.35);
+    border-radius:10px; padding:8px 10px; font-size:14px;
+  }
+  .prem-search{
+    flex:1; min-width:200px;
+    background:#0c0f14; color:#EDEDED; border:1px solid rgba(244,210,122,.35);
+    border-radius:10px; padding:8px 10px; font-size:14px;
+  }
+  .prem-meta{ color:var(--muted); font-size:12px; }
+  .prem-grid{ display:flex; flex-wrap:wrap; gap:8px; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo">WR</div>
+      <div class="title">Westgate Resorts</div>
+      <div class="subtitle">OPC Gifting Budget Calculator</div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="row">
+          <label class="label" for="totalCost">Total Cost of Gifting</label>
+          <input id="totalCost" class="input" type="text" inputmode="text"
+                 placeholder="Tap favorites/premiums or type e.g. 40*3+1.86" autocomplete="off" />
+        </div>
+
+        <!-- Favorites -->
+        <div class="favs collapsed" id="favs">
+          <div class="favs-head">
+            <div class="favs-title">Favorites</div>
+            <button class="toggle" id="favToggle">Show</button>
+          </div>
+          <div class="fav-grid" id="favGrid">
+            <div class="fav" data-key="Sphere" data-price="119">
+              <span class="badge">0</span>
+              <div class="name">Sphere</div><span class="price">$119</span>
+              <div class="controls">
+                <button class="mini minus">−</button>
+                <button class="mini plus">+</button>
+              </div>
+            </div>
+            <div class="fav" data-key="EddieG" data-price="40">
+              <span class="badge">0</span>
+              <div class="name">EddieG</div><span class="price">$40</span>
+              <div class="controls">
+                <button class="mini minus">−</button>
+                <button class="mini plus">+</button>
+              </div>
+            </div>
+            <div class="fav" data-key="MJLive" data-price="29">
+              <span class="badge">0</span>
+              <div class="name">MJLive</div><span class="price">$29</span>
+              <div class="controls">
+                <button class="mini minus">−</button>
+                <button class="mini plus">+</button>
+              </div>
+            </div>
+            <div class="fav" data-key="Cruise" data-price="43">
+              <span class="badge">0</span>
+              <div class="name">Cruise</div><span class="price">$43</span>
+              <div class="controls">
+                <button class="mini minus">−</button>
+                <button class="mini plus">+</button>
+              </div>
+            </div>
+            <div class="fav" data-key="VLT" data-price="1.86">
+              <span class="badge">0</span>
+              <div class="name">VLT</div><span class="price">$1.86</span>
+              <div class="controls">
+                <button class="mini minus">−</button>
+                <button class="mini plus">+</button>
+              </div>
+            </div>
+            <div class="fav clear" id="favClear"><div class="name">Clear</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Operator bar -->
+      <div class="opbar">
+        <button data-op="+">+</button>
+        <button data-op="-">−</button>
+        <button data-op="*">×</button>
+        <button data-op="/">÷</button>
+        <button data-op="(">(</button>
+        <button data-op=")">)</button>
+        <button data-op=".">.</button>
+        <button data-op="clear">Clear</button>
+      </div>
+
+      <!-- Presets -->
+      <div class="presets">
+        <h3>Saved Mixes</h3>
+        <div class="preset-list" id="presetList"></div>
+        <div class="preset-add">
+          <input id="presetName" class="preset-input" type="text" placeholder="Preset name (e.g. 4EddieG+2VLT)" />
+          <button id="savePreset" class="preset-save">Save Mix</button>
+        </div>
+      </div>
+
+      <!-- Adjustments -->
+      <div class="adv collapsed" id="adv">
+        <div class="adv-head">
+          <div class="adv-title">Adjustments</div>
+          <button class="toggle" id="advToggle">Show</button>
+        </div>
+        <div class="adv-grid">
+          <div class="row">
+            <label class="label" for="willingLose">Amount Willing to Lose</label>
+            <input id="willingLose" class="input" type="text" inputmode="text" placeholder="e.g. 20 or 50/2" autocomplete="off" />
+          </div>
+          <div class="row">
+            <label class="label" for="guests">Number of Guests</label>
+            <input id="guests" class="input" type="number" inputmode="numeric" placeholder="e.g. 4" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Premiums (dynamic from CSV + search) -->
+      <div class="prems collapsed" id="prems">
+        <div class="prems-head">
+          <div class="prems-title">Premiums (from Spreadsheet)</div>
+          <button class="toggle" id="premsToggle">Show</button>
+        </div>
+        <div class="prems-body">
+          <div class="prems-controls">
+            <label class="label" for="premCat" style="margin:0;">Section</label>
+            <select id="premCat" class="select"></select>
+
+            <input id="premSearch" class="prem-search" type="search" placeholder="Search by name or OPC code…" />
+            <button id="premSearchClear" class="mini" title="Clear search">×</button>
+            <span id="premMatchMeta" class="prem-meta"></span>
+
+            <button id="premClear" class="mini">Clear</button>
+          </div>
+          <div class="prem-grid" id="premGrid"></div>
+        </div>
+      </div>
+
+      <button id="calc" class="btn">CALCULATE</button>
+      <div id="err" class="error">Please enter valid numbers (Guests must be ≥ 1).</div>
+
+      <div class="results">
+        <div class="result">
+          <div class="name">Total Amount to Collect</div>
+          <div id="toCollect" class="value">$0.00</div>
+        </div>
+        <div class="result">
+          <div class="name">Cost per Person</div>
+          <div id="perPerson" class="value">$0.00</div>
+        </div>
+      </div>
+
+      <div class="help">Created by Derick McWilliams, OPC 71774</div>
+    </div>
+
+    <div class="footer">© Westgate Resorts · v.7.2</div>
+  </div>
+
+<script>
+  /* ===== CSV filename (same folder as index.html) ===== */
+  const PREMIUMS_CSV_PATH = "premiums_ready_upload.csv";
+
+  const $ = (id)=>document.getElementById(id);
+  const money = (n)=> (isFinite(n) ? n : 0).toLocaleString(undefined,{style:'currency',currency:'USD'});
+  const opcBudget = 125;
+
+  function parseMath(str) {
+    if (str === undefined || str === null || str === "") return NaN;
+    if (/^[0-9+\-*/().\s]+$/.test(str)) {
+      try { return Function('"use strict";return (' + str + ')')(); }
+      catch { return NaN; }
+    }
+    return NaN;
+  }
+
+  /* ===== Favorites ===== */
+  const favOrder = ["Sphere","EddieG","MJLive","Cruise","VLT"];
+  const favCounts = Object.fromEntries(favOrder.map(k => [k, 0]));
+  const favsEl = $('favs'), favToggle = $('favToggle');
+
+  function smallScreen(){ return window.matchMedia('(max-width: 600px)').matches; }
+  if (!smallScreen()) { favsEl.classList.remove('collapsed'); favToggle.textContent = 'Hide'; }
+  const favStateKey = 'favsCollapsed';
+  const favSaved = localStorage.getItem(favStateKey);
+  if (favSaved !== null) {
+    const collapsed = favSaved === 'true';
+    favsEl.classList.toggle('collapsed', collapsed);
+    favToggle.textContent = collapsed ? 'Show' : 'Hide';
+  }
+  favToggle.addEventListener('click', ()=>{
+    favsEl.classList.toggle('collapsed');
+    favToggle.textContent = favsEl.classList.contains('collapsed') ? 'Show' : 'Hide';
+    localStorage.setItem(favStateKey, favsEl.classList.contains('collapsed'));
+  });
+
+  function updateFavBadges(){
+    document.querySelectorAll('.fav[data-key]').forEach(card=>{
+      const key = card.dataset.key;
+      const badge = card.querySelector('.badge');
+      const c = favCounts[key] || 0;
+      badge.textContent = c;
+      badge.style.display = c > 0 ? 'grid' : 'none';
+    });
+  }
+  function wireFavButtons(){
+    document.querySelectorAll('.fav[data-key]').forEach(card=>{
+      const key = card.dataset.key;
+      card.querySelector('.plus').addEventListener('click', ()=>{
+        favCounts[key] = (favCounts[key] || 0) + 1;
+        updateFavBadges(); rebuildExpression();
+      });
+      card.querySelector('.minus').addEventListener('click', ()=>{
+        favCounts[key] = Math.max(0, (favCounts[key] || 0) - 1);
+        updateFavBadges(); rebuildExpression();
+      });
+    });
+    $('favClear').addEventListener('click', ()=>{
+      for (const k of favOrder) favCounts[k] = 0;
+      updateFavBadges(); rebuildExpression();
+    });
+  }
+  wireFavButtons(); updateFavBadges();
+
+  /* ===== Operator bar ===== */
+  let lastExprInput = $('totalCost');
+  ['totalCost','willingLose'].forEach(id=>{
+    const el = document.getElementById(id);
+    el.addEventListener('focus', ()=> lastExprInput = el);
+    el.addEventListener('blur',  ()=> lastExprInput = el);
+  });
+  function insertAtCursor(input, text){
+    if(!input) return;
+    const start = input.selectionStart ?? input.value.length;
+    const end   = input.selectionEnd ?? input.value.length;
+    input.value = input.value.slice(0,start) + text + input.value.slice(end);
+    const pos = start + text.length;
+    input.setSelectionRange(pos, pos); input.focus();
+  }
+  document.querySelectorAll('.opbar button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(btn.dataset.op === 'clear'){
+        if(lastExprInput){ lastExprInput.value=''; lastExprInput.focus(); }
+        return;
+      }
+      const symbol = btn.dataset.op?.replace('×','*').replace('÷','/') || btn.textContent;
+      insertAtCursor(lastExprInput, symbol);
+    });
+  });
+
+  /* ===== Presets ===== */
+  const presetList = $('presetList'), saveBtn = $('savePreset'), presetNameInput = $('presetName');
+  const getPresets = () => JSON.parse(localStorage.getItem('presets')||'[]');
+  const setPresets = (p) => localStorage.setItem('presets', JSON.stringify(p));
+  function renderPresets(){
+    presetList.innerHTML = '';
+    const presets = getPresets();
+    if (presets.length === 0){
+      const empty = document.createElement('div');
+      empty.style.color = '#B8B8B8'; empty.style.fontSize = '12px';
+      empty.textContent = 'No mixes saved yet.'; presetList.appendChild(empty); return;
+    }
+    presets.forEach((p,i)=>{
+      const row = document.createElement('div'); row.className='preset-item';
+      const loadBtn = document.createElement('button'); loadBtn.className='preset-btn'; loadBtn.textContent = p.name;
+      loadBtn.addEventListener('click', ()=>{
+        for(const k in favCounts) favCounts[k]=0; Object.assign(favCounts, p.counts);
+        updateFavBadges(); rebuildExpression(); // intentional user-triggered change
+      });
+      const renameBtn = document.createElement('button'); renameBtn.className='preset-ctrl'; renameBtn.title='Rename'; renameBtn.textContent='✎';
+      renameBtn.addEventListener('click', ()=>{
+        const newName = (prompt('Rename preset:', p.name) || '').trim(); if(!newName) return;
+        const all = getPresets(); all[i].name = newName; setPresets(all); renderPresets();
+      });
+      const delBtn = document.createElement('button'); delBtn.className='preset-ctrl danger'; delBtn.title='Delete'; delBtn.textContent='🗑';
+      delBtn.addEventListener('click', ()=>{
+        if(!confirm(`Delete preset "${p.name}"?`)) return;
+        const all = getPresets(); all.splice(i,1); setPresets(all); renderPresets();
+      });
+      row.appendChild(loadBtn); row.appendChild(renameBtn); row.appendChild(delBtn);
+      presetList.appendChild(row);
+    });
+  }
+  saveBtn.addEventListener('click', ()=>{
+    const name = presetNameInput.value.trim();
+    const totalCount = Object.values(favCounts).reduce((a,b)=>a+b,0);
+    if(!name || totalCount===0) return;
+    const presets = getPresets(); presets.push({name, counts:{...favCounts}});
+    setPresets(presets); presetNameInput.value=''; renderPresets();
+  });
+  renderPresets();
+
+  /* ===== Adjustments collapse ===== */
+  const advEl = $('adv'), advToggle = $('advToggle'), advKey = 'advCollapsed';
+  if (!smallScreen()) { advEl.classList.remove('collapsed'); advToggle.textContent = 'Hide'; }
+  const advSaved = localStorage.getItem(advKey);
+  if (advSaved !== null) {
+    const collapsed = advSaved === 'true';
+    advEl.classList.toggle('collapsed', collapsed);
+    advToggle.textContent = collapsed ? 'Show' : 'Hide';
+  }
+  advToggle.addEventListener('click', ()=>{
+    advEl.classList.toggle('collapsed');
+    advToggle.textContent = advEl.classList.contains('collapsed') ? 'Show' : 'Hide';
+    localStorage.setItem(advKey, advEl.classList.contains('collapsed'));
+  });
+
+  /* ===== Premiums from CSV + Search ===== */
+  const premEl = $('prems'), premToggle = $('premsToggle'), premKey = 'premsCollapsed';
+  if (!smallScreen()) { premEl.classList.remove('collapsed'); premToggle.textContent = 'Hide'; }
+  const premSaved = localStorage.getItem(premKey);
+  if (premSaved !== null) {
+    const collapsed = premSaved === 'true';
+    premEl.classList.toggle('collapsed', collapsed);
+    premToggle.textContent = collapsed ? 'Show' : 'Hide';
+  }
+  premToggle.addEventListener('click', ()=>{
+    premEl.classList.toggle('collapsed');
+    premToggle.textContent = premEl.classList.contains('collapsed') ? 'Show' : 'Hide';
+    localStorage.setItem(premKey, premEl.classList.contains('collapsed'));
+  });
+
+  const premGrid = $('premGrid');
+  const premClear = $('premClear');
+  const premCat = $('premCat');
+  const premSearch = $('premSearch');
+  const premSearchClear = $('premSearchClear');
+  const premMatchMeta = $('premMatchMeta');
+
+  let premiumData = {};          // { Category: [ {key,name,price,opc}, ... ] }
+  let premiumCounts = {};        // { key: count }
+  let premiumKeysByCat = {};     // { Category: [keys...] }
+  let allItemsFlat = [];         // [ {Category,key,name,price,opc} ... ]
+  let premiumPriceByKey = {};    // NEW: key -> price (independent of DOM)
+
+  function parsePriceFromOPC(opc){
+    if(!opc) return null;
+    const m = String(opc).toUpperCase().match(/WG\s*([0-9]+(?:\.[0-9]+)?)/);
+    return m ? parseFloat(m[1]) : null;
+  }
+  function normalizeKey(cat, name){ return (cat + '|' + name).replace(/\s+/g,'_'); }
+
+  // Robust CSV parser for quoted fields
+  function parseCSV(text){
+    const rows = [];
+    let i = 0, field = '', row = [], inQuotes = false;
+    while (i < text.length){
+      const c = text[i];
+      if (inQuotes){
+        if (c === '"'){
+          if (text[i+1] === '"'){ field += '"'; i++; }
+          else { inQuotes = false; }
+        } else { field += c; }
+      } else {
+        if (c === '"'){ inQuotes = true; }
+        else if (c === ','){ row.push(field.trim()); field = ''; }
+        else if (c === '\n'){ row.push(field.trim()); rows.push(row); row = []; field = ''; }
+        else if (c === '\r'){ /* ignore */ }
+        else { field += c; }
+      }
+      i++;
+    }
+    if (field.length || row.length) { row.push(field.trim()); rows.push(row); }
+    return rows;
+  }
+
+  async function loadPremiumsFromCSV(){
+    try{
+      const res = await fetch(PREMIUMS_CSV_PATH, { cache: 'no-store' });
+      if(!res.ok) throw new Error('CSV not found');
+      const txt = await res.text();
+      const rows = parseCSV(txt);
+      if (!rows.length) throw new Error('CSV empty');
+
+      const header = rows[0].map(h => h.toUpperCase());
+      const iCat = header.indexOf('CATEGORY');
+      const iName = header.indexOf('NAME');
+      const iOPC = header.indexOf('OPC_CODE');
+      if (iCat === -1 || iName === -1 || iOPC === -1){
+        throw new Error('CSV headers must be: Category, Name, OPC_CODE');
+      }
+      const items = rows.slice(1).map(r => ({
+        Category: (r[iCat] || 'Uncategorized').trim(),
+        Name: (r[iName] || '').trim(),
+        OPC_CODE: (r[iOPC] || '').trim(),
+        Price: parsePriceFromOPC(r[iOPC])
+      })).filter(x => x.Name && x.Price != null);
+      return items;
+    }catch(e){
+      console.error('Failed to load premiums CSV:', e);
+      return [];
+    }
+  }
+
+  function buildPremiumData(items){
+    premiumData = {};
+    premiumCounts = {};
+    premiumKeysByCat = {};
+    allItemsFlat = [];
+    premiumPriceByKey = {};
+    items.forEach(({Category, Name, Price, OPC_CODE})=>{
+      const key = normalizeKey(Category, Name);
+      if(!premiumData[Category]) premiumData[Category] = [];
+      const obj = { key, name: Name, price: Price, opc: OPC_CODE, Category };
+      premiumData[Category].push(obj);
+      premiumCounts[key] = 0;
+      premiumPriceByKey[key] = Price; // record independent price
+      allItemsFlat.push(obj);
+    });
+    for(const cat in premiumData){
+      premiumData[cat].sort((a,b)=> a.name.localeCompare(b.name));
+      premiumKeysByCat[cat] = premiumData[cat].map(it => it.key);
+    }
+  }
+
+  function renderPremCategories(){
+    const cats = Object.keys(premiumData).sort();
+    premCat.innerHTML = '';
+    const allOpt = document.createElement('option'); allOpt.value = '__ALL__'; allOpt.textContent = 'All';
+    premCat.appendChild(allOpt);
+    cats.forEach(c=>{
+      const opt = document.createElement('option');
+      opt.value = c; opt.textContent = c;
+      premCat.appendChild(opt);
+    });
+  }
+
+  function currentDataset(){
+    const cat = premCat.value;
+    if (cat === '__ALL__') return allItemsFlat;
+    return premiumData[cat] || [];
+  }
+
+  function filterByQuery(list, q){
+    if (!q) return list;
+    const terms = q.toLowerCase().split(/\s+/).filter(Boolean);
+    if (!terms.length) return list;
+    return list.filter(item=>{
+      const hay = `${item.name} ${item.opc}`.toLowerCase();
+      return terms.every(t => hay.includes(t));
+    });
+  }
+
+  function renderPremGrid(){
+    premGrid.innerHTML = '';
+    const q = premSearch.value.trim();
+    const ds = currentDataset();
+    const filtered = filterByQuery(ds, q);
+
+    premMatchMeta.textContent = q ? `Matches: ${filtered.length}` : '';
+
+    filtered.forEach(item=>{
+      const card = document.createElement('div');
+      card.className = 'prem';
+      card.dataset.key = item.key;
+      card.dataset.price = item.price;
+
+      const badge = document.createElement('span');
+      badge.className = 'badge';
+      badge.textContent = premiumCounts[item.key] || 0;
+      badge.style.display = (premiumCounts[item.key]||0) > 0 ? 'grid' : 'none';
+
+      const nm = document.createElement('div'); nm.className = 'name'; nm.textContent = item.name;
+      const pr = document.createElement('span'); pr.className = 'price'; pr.textContent = money(item.price);
+
+      const ctrls = document.createElement('div'); ctrls.className = 'controls';
+
+      const minus = document.createElement('button'); minus.className = 'mini'; minus.textContent = '−';
+      minus.addEventListener('click', ()=>{
+        premiumCounts[item.key] = Math.max(0, (premiumCounts[item.key]||0)-1);
+        badge.textContent = premiumCounts[item.key];
+        badge.style.display = premiumCounts[item.key]>0 ? 'grid' : 'none';
+        rebuildExpression(); // intentional
+      });
+
+      const plus = document.createElement('button'); plus.className = 'mini'; plus.textContent = '+';
+      plus.addEventListener('click', ()=>{
+        premiumCounts[item.key] = (premiumCounts[item.key]||0)+1;
+        badge.textContent = premiumCounts[item.key];
+        badge.style.display = premiumCounts[item.key]>0 ? 'grid' : 'none';
+        rebuildExpression(); // intentional
+      });
+
+      ctrls.appendChild(minus); ctrls.appendChild(plus);
+      card.appendChild(badge); card.appendChild(nm); card.appendChild(pr); card.appendChild(ctrls);
+      premGrid.appendChild(card);
+    });
+
+    // Clear section/all card
+    const clr = document.createElement('div');
+    clr.className = 'prem clear';
+    const nm = document.createElement('div'); nm.className = 'name';
+    nm.textContent = (premCat.value === '__ALL__') ? 'Clear All Premiums' : 'Clear Section';
+    clr.appendChild(nm);
+    clr.addEventListener('click', ()=>{
+      if (premCat.value === '__ALL__'){
+        for(const k in premiumCounts) premiumCounts[k]=0;
+      } else {
+        (premiumKeysByCat[premCat.value] || []).forEach(k => premiumCounts[k]=0);
+      }
+      renderPremGrid();
+      rebuildExpression(); // intentional
+    });
+    premGrid.appendChild(clr);
+  }
+
+  premCat.addEventListener('change', ()=> renderPremGrid());
+
+  // Debounced search (no rebuild)
+  let searchTimer = null;
+  premSearch.addEventListener('input', ()=>{
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(()=> renderPremGrid(), 120);
+  });
+  premSearchClear.addEventListener('click', ()=>{
+    premSearch.value = '';
+    renderPremGrid();
+    premSearch.focus();
+  });
+
+  premClear.addEventListener('click', ()=>{
+    for(const k in premiumCounts) premiumCounts[k]=0;
+    renderPremGrid();
+    rebuildExpression(); // intentional
+  });
+
+  /* ===== Expression builder (Favorites + Premiums, independent of DOM) ===== */
+  function rebuildExpression(){
+    const terms = [];
+
+    // Favorites
+    document.querySelectorAll('.fav[data-key]').forEach(card=>{
+      const key = card.dataset.key;
+      const c = favCounts[key] || 0; if (!c) return;
+      const price = parseFloat(card.dataset.price);
+      const v = String(price);
+      terms.push(c === 1 ? v : `${v}*${c}`);
+    });
+
+    // Premiums — use price map so switching UI doesn't drop items
+    for(const key in premiumCounts){
+      const c = premiumCounts[key] || 0; if (!c) continue;
+      const price = premiumPriceByKey[key];
+      if (typeof price !== 'number' || isNaN(price)) continue;
+      const v = String(price);
+      terms.push(c === 1 ? v : `${v}*${c}`);
+    }
+
+    const field = $('totalCost');
+    field.value = terms.join('+');
+    field.focus();
+    field.setSelectionRange(field.value.length, field.value.length);
+  }
+
+  /* ===== Load & init Premiums ===== */
+  (async function initPremiums(){
+    const items = await loadPremiumsFromCSV();
+    buildPremiumData(items);
+    renderPremCategories();
+    premCat.value = '__ALL__';
+    renderPremGrid(); // just render; does NOT rebuild expression
+  })();
+
+  /* ===== Calculate ===== */
+  $('calc').addEventListener('click', () => {
+    const total  = parseMath($('totalCost').value);
+    const lose   = parseMath($('willingLose').value) || 0;
+    const guests = parseInt($('guests').value, 10) || 1;
+
+    const bad = isNaN(total) || isNaN(lose) || guests < 1;
+    $('err').style.display = bad ? 'block' : 'none';
+    if (bad) return;
+
+    const toCollect = Math.max(0, total - opcBudget - lose);
+    const perPerson = toCollect / guests;
+
+    $('toCollect').textContent = money(toCollect);
+    $('perPerson').textContent = money(perPerson);
+  });
+</script>
+</body>
+</html>
