@@ -92,22 +92,16 @@
     color:#EDEDED; font-weight:700; font-size:12px; padding:6px 10px; border-radius:999px; cursor:pointer;
   }
 
-  /* Favorites */
-  .favs{ display:flex; flex-direction:column; gap:8px; align-items:flex-end; flex:1 1 360px; }
-  .favs-head{ display:flex; align-items:center; gap:8px; }
-  .favs-title{ color:var(--gold-1); font-weight:700; letter-spacing:.04em; font-size:13px; }
-  .fav-grid{ display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end; max-width:100%; }
-  .favs.collapsed .fav-grid{ display:none; }
-
-  .fav, .prem{
+  /* Cards / badges / mini buttons reused */
+  .fav, .prem, .mix{
     position:relative; min-width:140px;
     padding:8px 10px; border-radius:12px; font-size:13px;
     border:1px solid rgba(244,210,122,.45);
     background:linear-gradient(180deg,#14161b,#0f1115);
     color:#EDEDED; box-shadow:0 4px 12px rgba(0,0,0,.25);
   }
-  .fav .name, .prem .name{ font-weight:800; }
-  .fav .price, .prem .price{ display:block; font-weight:600; color:var(--gold-1); opacity:.9; margin-top:2px; }
+  .name{ font-weight:800; }
+  .price{ display:block; font-weight:600; color:var(--gold-1); opacity:.9; margin-top:2px; }
   .controls{ display:flex; gap:6px; margin-top:8px; }
   .mini{
     padding:6px 8px; border-radius:10px; border:1px solid rgba(244,210,122,.35);
@@ -121,10 +115,16 @@
     color:#131313; font-weight:800; font-size:12px; box-shadow:0 4px 10px rgba(0,0,0,.35);
     display:none;
   }
-  .fav.clear, .prem.clear{ min-width:auto; background:linear-gradient(180deg,#3c2626,#2a1b1b); border-color:#8f4b4b; }
-  .fav.clear .name, .prem.clear .name{ color:#f3c2c2; }
+  .clear{ min-width:auto; background:linear-gradient(180deg,#3c2626,#2a1b1b) !important; border-color:#8f4b4b !important; }
+  .clear .name{ color:#f3c2c2; }
 
-  /* Operator bar */
+  /* Sections */
+  .favs{ display:flex; flex-direction:column; gap:8px; align-items:flex-end; flex:1 1 360px; }
+  .favs-head{ display:flex; align-items:center; gap:8px; }
+  .favs-title{ color:var(--gold-1); font-weight:700; letter-spacing:.04em; font-size:13px; }
+  .fav-grid{ display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end; max-width:100%; }
+  .favs.collapsed .fav-grid{ display:none; }
+
   .opbar{ display:flex; gap:8px; flex-wrap:wrap; margin:6px 0 10px }
   .opbar button{
     padding:10px 12px; border-radius:10px;
@@ -134,28 +134,18 @@
   }
   .opbar button:active{ transform:translateY(1px) }
 
-  /* Presets */
+  /* Presets (Saved Mixes) */
   .presets{
     margin-top:12px; padding:10px; border-radius:12px;
     border:1px solid rgba(244,210,122,.35);
     background:linear-gradient(180deg,#14161b,#0f1115);
   }
-  .presets h3{ color:var(--gold-1); font-size:14px; margin:0 0 8px 0; }
-  .preset-list{ display:flex; flex-direction:column; gap:8px; margin-bottom:8px; }
-  .preset-item{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
-  .preset-btn{
-    padding:6px 10px; border-radius:10px; border:1px solid rgba(244,210,122,.35);
-    background:linear-gradient(180deg,#191b20,#111318);
-    color:#EDEDED; font-size:13px; cursor:pointer;
-  }
-  .preset-ctrl{
-    padding:6px 8px; border-radius:8px; border:1px solid rgba(244,210,122,.35);
-    background:linear-gradient(180deg,#191b20,#111318);
-    color:#EDEDED; font-size:12px; cursor:pointer; min-width:36px; text-align:center;
-  }
-  .preset-ctrl.danger{
-    border-color:#8f4b4b; background:linear-gradient(180deg,#3c2626,#2a1b1b);
-  }
+  .presets-head{ display:flex; align-items:center; gap:8px; justify-content:space-between; }
+  .presets-title{ color:var(--gold-1); font-weight:700; letter-spacing:.04em; font-size:13px; }
+  .presets.collapsed .presets-body{ display:none; }
+  .preset-list{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:8px; }
+  .mix .meta{ color:#B8B8B8; font-size:12px; margin-top:4px; }
+
   .preset-add{ display:flex; gap:8px; flex-wrap:wrap; }
   .preset-input{
     flex:1; min-width:200px; padding:6px 8px; border-radius:8px; border:1px solid rgba(244,210,122,.35);
@@ -215,7 +205,7 @@
         <div class="row">
           <label class="label" for="totalCost">Total Cost of Gifting</label>
           <input id="totalCost" class="input" type="text" inputmode="text"
-                 placeholder="Tap favorites/premiums or type e.g. 40*3+1.86" autocomplete="off" />
+                 placeholder="Tap favorites/premiums/mixes or type e.g. 40*3+1.86" autocomplete="off" />
         </div>
 
         <!-- Favorites -->
@@ -282,13 +272,19 @@
         <button data-op="clear">Clear</button>
       </div>
 
-      <!-- Presets -->
-      <div class="presets">
-        <h3>Saved Mixes</h3>
-        <div class="preset-list" id="presetList"></div>
-        <div class="preset-add">
-          <input id="presetName" class="preset-input" type="text" placeholder="Preset name (e.g. 4EddieG+2VLT)" />
-          <button id="savePreset" class="preset-save">Save Mix</button>
+      <!-- Saved Mixes (collapsible) -->
+      <div class="presets collapsed" id="presets">
+        <div class="presets-head">
+          <div class="presets-title">Saved Mixes</div>
+          <button class="toggle" id="presetsToggle">Show</button>
+        </div>
+        <div class="presets-body">
+          <div class="preset-list" id="presetList"></div>
+          <div class="preset-add">
+            <input id="presetName" class="preset-input" type="text" placeholder="Preset name (e.g. 4EddieG+2VLT)" />
+            <button id="savePreset" class="preset-save">Save Mix</button>
+            <button id="clearMixCounts" class="mini clear">Reset Mix Counters</button>
+          </div>
         </div>
       </div>
 
@@ -348,7 +344,7 @@
       <div class="help">Created by Derick McWilliams, OPC 71774</div>
     </div>
 
-    <div class="footer">© Westgate Resorts · v.7.3</div>
+    <div class="footer">© Westgate Resorts · v.7.4</div>
   </div>
 
 <script>
@@ -370,9 +366,10 @@
 
   /* ===== Favorites ===== */
   const favOrder = ["Sphere","EddieG","MJLive","Cruise","VLT"];
-  const favCounts = Object.fromEntries(favOrder.map(k => [k, 0]));
-  const favsEl = $('favs'), favToggle = $('favToggle');
+  const favCounts = Object.fromEntries(favOrder.map(k => [k, 0])); // base counts from favorites UI (not mixes)
+  const favPriceByKey = { Sphere:119, EddieG:40, MJLive:29, Cruise:43, VLT:1.86 };
 
+  const favsEl = $('favs'), favToggle = $('favToggle');
   function smallScreen(){ return window.matchMedia('(max-width: 600px)').matches; }
   if (!smallScreen()) { favsEl.classList.remove('collapsed'); favToggle.textContent = 'Hide'; }
   const favStateKey = 'favsCollapsed';
@@ -430,7 +427,7 @@
     input.value = input.value.slice(0,start) + text + input.value.slice(end);
     const pos = start + text.length;
     try { input.setSelectionRange(pos, pos); } catch {}
-    try { input.focus({ preventScroll: true }); } catch { input.focus(); } // gentler focus, avoids jump
+    try { input.focus({ preventScroll: true }); } catch { input.focus(); }
   }
   document.querySelectorAll('.opbar button').forEach(btn=>{
     btn.addEventListener('click', ()=>{
@@ -443,46 +440,153 @@
     });
   });
 
-  /* ===== Presets ===== */
-  const presetList = $('presetList'), saveBtn = $('savePreset'), presetNameInput = $('presetName');
+  /* ===== Saved Mixes (Presets) ===== */
+  const presetsEl = $('presets'), presetsToggle = $('presetsToggle');
+  if (!smallScreen()) { presetsEl.classList.remove('collapsed'); presetsToggle.textContent = 'Hide'; }
+  const presetsKey = 'presetsCollapsed';
+  const presetsSaved = localStorage.getItem(presetsKey);
+  if (presetsSaved !== null) {
+    const collapsed = presetsSaved === 'true';
+    presetsEl.classList.toggle('collapsed', collapsed);
+    presetsToggle.textContent = collapsed ? 'Show' : 'Hide';
+  }
+  presetsToggle.addEventListener('click', ()=>{
+    presetsEl.classList.toggle('collapsed');
+    presetsToggle.textContent = presetsEl.classList.contains('collapsed') ? 'Show' : 'Hide';
+    localStorage.setItem(presetsKey, presetsEl.classList.contains('collapsed'));
+  });
+
+  const presetList = $('presetList'),
+        saveBtn = $('savePreset'),
+        presetNameInput = $('presetName'),
+        clearMixCountsBtn = $('clearMixCounts');
+
   const getPresets = () => JSON.parse(localStorage.getItem('presets')||'[]');
   const setPresets = (p) => localStorage.setItem('presets', JSON.stringify(p));
+
+  // Each saved mix has its own "application count"
+  let mixCounts = []; // index-aligned with presets; non-persistent (session-level)
+
+  function mixToHumanLabel(counts){
+    const parts = [];
+    for(const k of Object.keys(counts)){
+      const c = counts[k];
+      if(!c) continue;
+      parts.push(`${c}× ${k}`);
+    }
+    return parts.join(' + ') || '—';
+  }
+
   function renderPresets(){
     presetList.innerHTML = '';
     const presets = getPresets();
+    if (mixCounts.length !== presets.length) {
+      mixCounts = new Array(presets.length).fill(0);
+    }
     if (presets.length === 0){
       const empty = document.createElement('div');
       empty.style.color = '#B8B8B8'; empty.style.fontSize = '12px';
       empty.textContent = 'No mixes saved yet.'; presetList.appendChild(empty); return;
     }
+
     presets.forEach((p,i)=>{
-      const row = document.createElement('div'); row.className='preset-item';
-      const loadBtn = document.createElement('button'); loadBtn.className='preset-btn'; loadBtn.textContent = p.name;
-      loadBtn.addEventListener('click', ()=>{
-        for(const k in favCounts) favCounts[k]=0; Object.assign(favCounts, p.counts);
-        updateFavBadges(); rebuildExpression(); // intentional user-triggered change
+      const card = document.createElement('div'); card.className = 'mix';
+      const badge = document.createElement('span'); badge.className='badge';
+      const name = document.createElement('div'); name.className='name'; name.textContent = p.name;
+      const meta = document.createElement('div'); meta.className='meta'; meta.textContent = mixToHumanLabel(p.counts);
+
+      const controls = document.createElement('div'); controls.className='controls';
+      const minus = document.createElement('button'); minus.className='mini'; minus.textContent='−';
+      const plus  = document.createElement('button'); plus.className='mini'; plus.textContent='+';
+      const rename= document.createElement('button'); rename.className='mini'; rename.title='Rename'; rename.textContent='✎';
+      const del   = document.createElement('button'); del.className='mini clear'; del.title='Delete'; del.textContent='🗑';
+
+      function refreshBadge(){
+        badge.textContent = mixCounts[i] || 0;
+        badge.style.display = (mixCounts[i]||0) > 0 ? 'grid' : 'none';
+      }
+      refreshBadge();
+
+      plus.addEventListener('click', ()=>{
+        // Apply the mix once
+        for(const key in p.counts){
+          favCounts[key] = (favCounts[key] || 0) + (p.counts[key] || 0);
+        }
+        mixCounts[i] = (mixCounts[i] || 0) + 1;
+        updateFavBadges(); refreshBadge(); rebuildExpression();
       });
-      const renameBtn = document.createElement('button'); renameBtn.className='preset-ctrl'; renameBtn.title='Rename'; renameBtn.textContent='✎';
-      renameBtn.addEventListener('click', ()=>{
+
+      minus.addEventListener('click', ()=>{
+        if ((mixCounts[i] || 0) <= 0) return;
+        // Remove the mix once (clamp at zero for each item)
+        for(const key in p.counts){
+          favCounts[key] = Math.max(0, (favCounts[key] || 0) - (p.counts[key] || 0));
+        }
+        mixCounts[i] = Math.max(0, (mixCounts[i] || 0) - 1);
+        updateFavBadges(); refreshBadge(); rebuildExpression();
+      });
+
+      rename.addEventListener('click', ()=>{
         const newName = (prompt('Rename preset:', p.name) || '').trim(); if(!newName) return;
         const all = getPresets(); all[i].name = newName; setPresets(all); renderPresets();
       });
-      const delBtn = document.createElement('button'); delBtn.className='preset-ctrl danger'; delBtn.title='Delete'; delBtn.textContent='🗑';
-      delBtn.addEventListener('click', ()=>{
+
+      del.addEventListener('click', ()=>{
         if(!confirm(`Delete preset "${p.name}"?`)) return;
-        const all = getPresets(); all.splice(i,1); setPresets(all); renderPresets();
+        const all = getPresets();
+        // If mix had been applied, remove its contribution first
+        const times = mixCounts[i] || 0;
+        for(let t=0;t<times;t++){
+          for(const key in p.counts){
+            favCounts[key] = Math.max(0, (favCounts[key] || 0) - (p.counts[key] || 0));
+          }
+        }
+        all.splice(i,1); setPresets(all);
+        mixCounts.splice(i,1);
+        updateFavBadges(); rebuildExpression();
+        renderPresets();
       });
-      row.appendChild(loadBtn); row.appendChild(renameBtn); row.appendChild(delBtn);
-      presetList.appendChild(row);
+
+      card.appendChild(badge);
+      card.appendChild(name);
+      card.appendChild(meta);
+      controls.appendChild(minus);
+      controls.appendChild(plus);
+      controls.appendChild(rename);
+      controls.appendChild(del);
+      card.appendChild(controls);
+      presetList.appendChild(card);
     });
   }
+
   saveBtn.addEventListener('click', ()=>{
     const name = presetNameInput.value.trim();
     const totalCount = Object.values(favCounts).reduce((a,b)=>a+b,0);
     if(!name || totalCount===0) return;
-    const presets = getPresets(); presets.push({name, counts:{...favCounts}});
-    setPresets(presets); presetNameInput.value=''; renderPresets();
+    const presets = getPresets();
+    presets.push({name, counts:{...favCounts}});
+    setPresets(presets);
+    presetNameInput.value='';
+    // Reset applied counters for new list
+    mixCounts = new Array(presets.length).fill(0);
+    renderPresets();
   });
+
+  clearMixCountsBtn.addEventListener('click', ()=>{
+    // Remove all applied mix contributions from favCounts, then zero counters.
+    const presets = getPresets();
+    presets.forEach((p,i)=>{
+      const times = mixCounts[i] || 0;
+      for(let t=0;t<times;t++){
+        for(const key in p.counts){
+          favCounts[key] = Math.max(0, (favCounts[key] || 0) - (p.counts[key] || 0));
+        }
+      }
+    });
+    mixCounts = new Array(presets.length).fill(0);
+    updateFavBadges(); rebuildExpression(); renderPresets();
+  });
+
   renderPresets();
 
   /* ===== Adjustments collapse ===== */
@@ -637,12 +741,13 @@
   }
 
   function renderPremGrid(){
+    const premGrid = $('premGrid');
     premGrid.innerHTML = '';
-    const q = premSearch.value.trim();
+    const q = $('premSearch').value.trim();
     const ds = currentDataset();
     const filtered = filterByQuery(ds, q);
 
-    premMatchMeta.textContent = q ? `Matches: ${filtered.length}` : '';
+    $('premMatchMeta').textContent = q ? `Matches: ${filtered.length}` : '';
 
     filtered.forEach(item=>{
       const card = document.createElement('div');
@@ -659,21 +764,20 @@
       const pr = document.createElement('span'); pr.className = 'price'; pr.textContent = money(item.price);
 
       const ctrls = document.createElement('div'); ctrls.className = 'controls';
-
       const minus = document.createElement('button'); minus.className = 'mini'; minus.textContent = '−';
+      const plus  = document.createElement('button'); plus.className = 'mini'; plus.textContent = '+';
+
       minus.addEventListener('click', ()=>{
         premiumCounts[item.key] = Math.max(0, (premiumCounts[item.key]||0)-1);
         badge.textContent = premiumCounts[item.key];
         badge.style.display = premiumCounts[item.key]>0 ? 'grid' : 'none';
-        rebuildExpression(); // intentional
+        rebuildExpression();
       });
-
-      const plus = document.createElement('button'); plus.className = 'mini'; plus.textContent = '+';
       plus.addEventListener('click', ()=>{
         premiumCounts[item.key] = (premiumCounts[item.key]||0)+1;
         badge.textContent = premiumCounts[item.key];
         badge.style.display = premiumCounts[item.key]>0 ? 'grid' : 'none';
-        rebuildExpression(); // intentional
+        rebuildExpression();
       });
 
       ctrls.appendChild(minus); ctrls.appendChild(plus);
@@ -694,45 +798,52 @@
         (premiumKeysByCat[premCat.value] || []).forEach(k => premiumCounts[k]=0);
       }
       renderPremGrid();
-      rebuildExpression(); // intentional
+      rebuildExpression();
     });
     premGrid.appendChild(clr);
   }
 
-  premCat.addEventListener('change', ()=> renderPremGrid());
-
-  // Debounced search (no rebuild)
+  $('premCat').addEventListener('change', ()=> renderPremGrid());
   let searchTimer = null;
-  premSearch.addEventListener('input', ()=>{
+  $('premSearch').addEventListener('input', ()=>{
     clearTimeout(searchTimer);
     searchTimer = setTimeout(()=> renderPremGrid(), 120);
   });
-  premSearchClear.addEventListener('click', ()=>{
-    premSearch.value = '';
+  $('premSearchClear').addEventListener('click', ()=>{
+    $('premSearch').value = '';
     renderPremGrid();
-    premSearch.focus();
+    $('premSearch').focus();
   });
-
-  premClear.addEventListener('click', ()=>{
+  $('premClear').addEventListener('click', ()=>{
     for(const k in premiumCounts) premiumCounts[k]=0;
     renderPremGrid();
-    rebuildExpression(); // intentional
+    rebuildExpression();
   });
 
-  /* ===== Expression builder (Favorites + Premiums) — no forced focus ===== */
+  /* ===== Expression builder (Favorites + Mixes + Premiums) — no forced focus ===== */
   function rebuildExpression(){
     const terms = [];
 
-    // Favorites
-    document.querySelectorAll('.fav[data-key]').forEach(card=>{
-      const key = card.dataset.key;
-      const c = favCounts[key] || 0; if (!c) return;
-      const price = parseFloat(card.dataset.price);
-      const v = String(price);
-      terms.push(c === 1 ? v : `${v}*${c}`);
+    // Effective favorites = base favorites (favCounts) + contributions from applied mixes
+    const effectiveFav = {...favCounts};
+    const presets = getPresets();
+    presets.forEach((p,i)=>{
+      const times = mixCounts[i] || 0;
+      if (!times) return;
+      for(const key in p.counts){
+        effectiveFav[key] = (effectiveFav[key] || 0) + times * (p.counts[key] || 0);
+      }
     });
 
-    // Premiums — use price map so switching UI doesn't drop items
+    // Build from favorites via price map
+    for(const key in effectiveFav){
+      const c = effectiveFav[key] || 0; if (!c) continue;
+      const price = favPriceByKey[key]; if (typeof price !== 'number') continue;
+      const v = String(price);
+      terms.push(c === 1 ? v : `${v}*${c}`);
+    }
+
+    // Add premiums
     for(const key in premiumCounts){
       const c = premiumCounts[key] || 0; if (!c) continue;
       const price = premiumPriceByKey[key];
@@ -745,14 +856,10 @@
     const wasFocused = document.activeElement === field;
     let caret = null;
     try { caret = [field.selectionStart, field.selectionEnd]; } catch {}
-
     field.value = terms.join('+');
-
-    // If user was typing there, restore caret WITHOUT scrolling.
     if (wasFocused && caret && caret[0] != null) {
       try { field.setSelectionRange(caret[0], caret[1], { direction: 'forward' }); } catch {}
     }
-    // No field.focus() — avoids viewport jump on mobile.
   }
 
   /* ===== Load & init Premiums ===== */
@@ -760,8 +867,8 @@
     const items = await loadPremiumsFromCSV();
     buildPremiumData(items);
     renderPremCategories();
-    premCat.value = '__ALL__';
-    renderPremGrid(); // render only (no rebuild)
+    $('premCat').value = '__ALL__';
+    renderPremGrid();
   })();
 
   /* ===== Calculate ===== */
