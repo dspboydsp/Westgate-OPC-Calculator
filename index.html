@@ -46,7 +46,7 @@
     .card{ background: rgba(17,19,25,.82); backdrop-filter: blur(8px); }
   }
 
-  /* In-card toolbar (moved buttons here) */
+  /* In-card toolbar */
   .toolbar{
     width:100%;
     display:flex; justify-content:flex-end; align-items:center; gap:10px;
@@ -224,9 +224,7 @@
     padding:16px;
   }
   .modal-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
-  .modal-title{
-    font-weight:800; letter-spacing:.04em; color:var(--gold-1);
-  }
+  .modal-title{ font-weight:800; letter-spacing:.04em; color:var(--gold-1); }
   .modal-close{
     border:1px solid rgba(244,210,122,.45); background:#0f1115; color:#EDEDED;
     border-radius:999px; padding:6px 10px; cursor:pointer;
@@ -235,7 +233,7 @@
   .qr-img{ width:min(320px,70vw); height:auto; border-radius:12px; background:#fff; }
   .qr-hint{ font-size:12px; color:var(--muted); text-align:center; }
 
-  /* Manifest full-screen view (headline -20%) */
+  /* Manifest full-screen view (headline -20%) + avatar */
   .manifest{
     max-width:680px; width:100%;
     padding:22px; border-radius:20px;
@@ -247,13 +245,18 @@
     box-shadow:0 18px 50px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.05);
   }
   .manifest .big{
-    font-size: clamp(19px, 4.8vw, 35px); /* reduced ~20% from 24/6vw/44 */
+    font-size: clamp(19px, 4.8vw, 35px);
     line-height:1.18; font-weight:900;
     letter-spacing:.02em; margin:6px 0 12px;
     background: linear-gradient(180deg, var(--gold-1), var(--gold-2) 65%, var(--gold-3));
     -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent;
   }
   .manifest .sub{ color:#D4D4D4; font-size:13px; margin-bottom:14px; }
+  .manifest .avatar{
+    width:min(240px, 60vw); height:auto; border-radius:14px;
+    box-shadow:0 10px 30px rgba(0,0,0,.45);
+    margin:8px auto 14px; display:block;
+  }
   .backbtn{
     margin-top:6px; border:1px solid rgba(244,210,122,.5);
     background:linear-gradient(180deg, var(--gold-1), var(--gold-2));
@@ -271,7 +274,7 @@
     </div>
 
     <div class="card">
-      <!-- Moved toolbar ABOVE Total Cost of Gifting -->
+      <!-- Toolbar ABOVE Total Cost -->
       <div class="toolbar">
         <a class="linkbtn" href="https://www2.wgresorts.com/group/hospitality/tour-details" target="_blank" rel="noopener">
           PROSPECT <span class="ext">↗</span>
@@ -296,42 +299,27 @@
             <div class="fav" data-key="Sphere" data-price="119">
               <span class="badge">0</span>
               <div class="name">Sphere</div><span class="price">$119</span>
-              <div class="controls">
-                <button class="mini minus">−</button>
-                <button class="mini plus">+</button>
-              </div>
+              <div class="controls"><button class="mini minus">−</button><button class="mini plus">+</button></div>
             </div>
             <div class="fav" data-key="EddieG" data-price="40">
               <span class="badge">0</span>
               <div class="name">EddieG</div><span class="price">$40</span>
-              <div class="controls">
-                <button class="mini minus">−</button>
-                <button class="mini plus">+</button>
-              </div>
+              <div class="controls"><button class="mini minus">−</button><button class="mini plus">+</button></div>
             </div>
             <div class="fav" data-key="MJLive" data-price="29">
               <span class="badge">0</span>
               <div class="name">MJLive</div><span class="price">$29</span>
-              <div class="controls">
-                <button class="mini minus">−</button>
-                <button class="mini plus">+</button>
-              </div>
+              <div class="controls"><button class="mini minus">−</button><button class="mini plus">+</button></div>
             </div>
             <div class="fav" data-key="Cruise" data-price="43">
               <span class="badge">0</span>
               <div class="name">Cruise</div><span class="price">$43</span>
-              <div class="controls">
-                <button class="mini minus">−</button>
-                <button class="mini plus">+</button>
-              </div>
+              <div class="controls"><button class="mini minus">−</button><button class="mini plus">+</button></div>
             </div>
             <div class="fav" data-key="VLT" data-price="1.86">
               <span class="badge">0</span>
               <div class="name">VLT</div><span class="price">$1.86</span>
-              <div class="controls">
-                <button class="mini minus">−</button>
-                <button class="mini plus">+</button>
-              </div>
+              <div class="controls"><button class="mini minus">−</button><button class="mini plus">+</button></div>
             </div>
             <div class="fav clear" id="favClear"><div class="name">Clear</div></div>
           </div>
@@ -340,14 +328,10 @@
 
       <!-- Operator bar -->
       <div class="opbar">
-        <button data-op="+">+</button>
-        <button data-op="-">−</button>
-        <button data-op="*">×</button>
-        <button data-op="/">÷</button>
-        <button data-op="(">(</button>
-        <button data-op=")">)</button>
-        <button data-op=".">.</button>
-        <button data-op="clear">Clear</button>
+        <button data-op="+">+</button><button data-op="-">−</button>
+        <button data-op="*">×</button><button data-op="/">÷</button>
+        <button data-op="(">(</button><button data-op=")">)</button>
+        <button data-op=".">.</button><button data-op="clear">Clear</button>
       </div>
 
       <!-- Custom Gifting Packaging -->
@@ -409,20 +393,14 @@
       <div id="err" class="error">Please enter valid numbers (Guests must be ≥ 1).</div>
 
       <div class="results">
-        <div class="result">
-          <div class="name">Total Amount to Collect</div>
-          <div id="toCollect" class="value">$0.00</div>
-        </div>
-        <div class="result">
-          <div class="name">Cost per Person</div>
-          <div id="perPerson" class="value">$0.00</div>
-        </div>
+        <div class="result"><div class="name">Total Amount to Collect</div><div id="toCollect" class="value">$0.00</div></div>
+        <div class="result"><div class="name">Cost per Person</div><div id="perPerson" class="value">$0.00</div></div>
       </div>
 
       <div class="help">Created by Derick McWilliams, OPC 71774</div>
     </div>
 
-    <div class="footer">© Westgate Resorts · v.7.10</div>
+    <div class="footer">© Westgate Resorts · v.7.11</div>
   </div>
 
   <!-- QR Modal -->
@@ -442,11 +420,13 @@
 
 <script>
   const PREMIUMS_CSV_PATH = "premiums_ready_upload.csv";
+  const AVATAR_IMG = "donavanAvatar.png"; // upload this file beside index.html
+
   const $ = (id)=>document.getElementById(id);
   const money = (n)=> (isFinite(n) ? n : 0).toLocaleString(undefined,{style:'currency',currency:'USD'});
   const opcBudget = 125;
 
-  /* ========= Manifest special view ========= */
+  /* ========= Manifest special view (with avatar) ========= */
   (function checkManifestView(){
     const params = new URLSearchParams(location.search);
     if (params.get('manifest') === '1') {
@@ -454,13 +434,14 @@
       root.innerHTML = `
         <div class="manifest">
           <div class="logo" style="margin:0 auto 8px">WR</div>
+          <img class="avatar" src="${AVATAR_IMG}" alt="Super Westgate Manager avatar" />
           <div class="big">Your Are Scheduled For a WESTGATE TOUR today by OPC #71774.  Go directly to WESTGATE PREVIEW CENTER and purchase a Timeshare.</div>
           <div class="sub">Please show this confirmation to your representative.</div>
           <a href="${location.pathname}" class="backbtn">Back to Calculator</a>
         </div>
-        <div class="footer">© Westgate Resorts · v.7.10</div>
+        <div class="footer">© Westgate Resorts · v.7.11</div>
       `;
-      throw new Error('ManifestViewStop');
+      throw new Error('ManifestViewStop'); // stop rest of app JS
     }
   })();
 
@@ -630,9 +611,7 @@
   function renderPresets(){
     presetList.innerHTML = '';
     const presets = getPresets();
-    if (mixCounts.length !== presets.length) {
-      mixCounts = new Array(presets.length).fill(0);
-    }
+    if (mixCounts.length !== presets.length) mixCounts = new Array(presets.length).fill(0);
     if (!presets.length){
       const empty = document.createElement('div');
       empty.style.color = '#B8B8B8'; empty.style.fontSize = '12px';
@@ -657,34 +636,21 @@
       }
       refreshBadge();
 
-      plus.addEventListener('click', ()=>{
-        mixCounts[i] = (mixCounts[i] || 0) + 1;
-        refreshBadge(); rebuildExpression();
-      });
-      minus.addEventListener('click', ()=>{
-        mixCounts[i] = Math.max(0, (mixCounts[i] || 0) - 1);
-        refreshBadge(); rebuildExpression();
-      });
+      plus.addEventListener('click', ()=>{ mixCounts[i] = (mixCounts[i] || 0) + 1; refreshBadge(); rebuildExpression(); });
+      minus.addEventListener('click', ()=>{ mixCounts[i] = Math.max(0, (mixCounts[i] || 0) - 1); refreshBadge(); rebuildExpression(); });
 
       rename.addEventListener('click', ()=>{
         const newName = (prompt('Rename package:', p.name) || '').trim(); if(!newName) return;
         const all = getPresets(); all[i].name = newName; setPresets(all); renderPresets();
       });
-
       del.addEventListener('click', ()=>{
         if(!confirm(`Delete package "${p.name}"?`)) return;
         const all = getPresets(); all.splice(i,1); setPresets(all);
-        mixCounts.splice(i,1);
-        rebuildExpression(); renderPresets();
+        mixCounts.splice(i,1); rebuildExpression(); renderPresets();
       });
 
-      card.appendChild(badge);
-      card.appendChild(name);
-      card.appendChild(meta);
-      controls.appendChild(minus);
-      controls.appendChild(plus);
-      controls.appendChild(rename);
-      controls.appendChild(del);
+      card.appendChild(badge); card.appendChild(name); card.appendChild(meta);
+      controls.appendChild(minus); controls.appendChild(plus); controls.appendChild(rename); controls.appendChild(del);
       card.appendChild(controls);
       presetList.appendChild(card);
     });
@@ -694,15 +660,11 @@
     const name = presetNameInput.value.trim();
     if(!name){ alert('Name your package first.'); return; }
 
-    const favSnap = {};
-    for(const k in favCounts){ if(favCounts[k] > 0) favSnap[k] = favCounts[k]; }
-
-    const premSnap = {};
-    for(const k in premiumCounts){ if(premiumCounts[k] > 0) premSnap[k] = premiumCounts[k]; }
+    const favSnap = {}; for(const k in favCounts){ if(favCounts[k] > 0) favSnap[k] = favCounts[k]; }
+    const premSnap = {}; for(const k in premiumCounts){ if(premiumCounts[k] > 0) premSnap[k] = premiumCounts[k]; }
 
     if(Object.keys(favSnap).length===0 && Object.keys(premSnap).length===0){
-      alert('Add Favorites and/or Premiums before saving a package.');
-      return;
+      alert('Add Favorites and/or Premiums before saving a package.'); return;
     }
 
     const presets = getPresets();
@@ -764,9 +726,9 @@
   let premiumData = {};
   let premiumCounts = {};
   let premiumKeysByCat = {};
-  let allItemsFlat = {};
-  let premiumPriceByKey = {};
   let allItemsArray = [];
+  let premiumPriceByKey = {};
+  let premiumNameByKey = {};
 
   function parsePriceFromOPC(opc){
     if(!opc) return null;
@@ -781,15 +743,13 @@
     while (i < text.length){
       const c = text[i];
       if (inQuotes){
-        if (c === '"'){
-          if (text[i+1] === '"'){ field += '"'; i++; }
-          else { inQuotes = false; }
-        } else { field += c; }
+        if (c === '"'){ if (text[i+1] === '"'){ field += '"'; i++; } else { inQuotes = false; } }
+        else { field += c; }
       } else {
         if (c === '"'){ inQuotes = true; }
         else if (c === ','){ row.push(field.trim()); field = ''; }
         else if (c === '\n'){ row.push(field.trim()); rows.push(row); row = []; field = ''; }
-        else if (c === '\r'){ /* ignore */ }
+        else if (c === '\r'){ }
         else { field += c; }
       }
       i++;
@@ -856,17 +816,11 @@
     const allOpt = document.createElement('option'); allOpt.value = '__ALL__'; allOpt.textContent = 'All';
     premCat.appendChild(allOpt);
     cats.forEach(c=>{
-      const opt = document.createElement('option');
-      opt.value = c; opt.textContent = c;
+      const opt = document.createElement('option'); opt.value = c; opt.textContent = c;
       premCat.appendChild(opt);
     });
   }
-
-  function currentDataset(){
-    const cat = premCat.value;
-    return (cat === '__ALL__') ? allItemsArray : (premiumData[cat] || []);
-  }
-
+  function currentDataset(){ return (premCat.value === '__ALL__') ? allItemsArray : (premiumData[premCat.value] || []); }
   function filterByQuery(list, q){
     if (!q) return list;
     const terms = q.toLowerCase().split(/\s+/).filter(Boolean);
@@ -891,8 +845,7 @@
       card.dataset.key = item.key;
       card.dataset.price = item.price;
 
-      const badge = document.createElement('span');
-      badge.className = 'badge';
+      const badge = document.createElement('span'); badge.className = 'badge';
       badge.textContent = premiumCounts[item.key] || 0;
       badge.style.display = (premiumCounts[item.key]||0) > 0 ? 'grid' : 'none';
 
@@ -932,28 +885,16 @@
       } else {
         (premiumKeysByCat[premCat.value] || []).forEach(k => premiumCounts[k]=0);
       }
-      renderPremGrid();
-      rebuildExpression();
+      renderPremGrid(); rebuildExpression();
     });
     premGrid.appendChild(clr);
   }
 
   premCat.addEventListener('change', ()=> renderPremGrid());
   let searchTimer = null;
-  premSearch.addEventListener('input', ()=>{
-    clearTimeout(searchTimer);
-    searchTimer = setTimeout(()=> renderPremGrid(), 120);
-  });
-  premSearchClear.addEventListener('click', ()=>{
-    premSearch.value = '';
-    renderPremGrid();
-    premSearch.focus();
-  });
-  premClear.addEventListener('click', ()=>{
-    for(const k in premiumCounts) premiumCounts[k]=0;
-    renderPremGrid();
-    rebuildExpression();
-  });
+  premSearch.addEventListener('input', ()=>{ clearTimeout(searchTimer); searchTimer = setTimeout(()=> renderPremGrid(), 120); });
+  premSearchClear.addEventListener('click', ()=>{ premSearch.value = ''; renderPremGrid(); premSearch.focus(); });
+  premClear.addEventListener('click', ()=>{ for(const k in premiumCounts) premiumCounts[k]=0; renderPremGrid(); rebuildExpression(); });
 
   /* ========= Expression builder ========= */
   function rebuildExpression(){
@@ -961,26 +902,12 @@
     const effectiveFav = {...favCounts};
     const effectivePrem = {...premiumCounts};
 
-    const presets = getPresets();
+    const presets = JSON.parse(localStorage.getItem('presets')||'[]');
     presets.forEach((p,i)=>{
       const times = (window.mixCounts && window.mixCounts[i]) || 0;
       if (!times) return;
-
-      if (p.counts){
-        for(const key in p.counts){
-          effectiveFav[key] = (effectiveFav[key] || 0) + times * (p.counts[key] || 0);
-        }
-      }
-      if (p.fav){
-        for(const key in p.fav){
-          effectiveFav[key] = (effectiveFav[key] || 0) + times * (p.fav[key] || 0);
-        }
-      }
-      if (p.prem){
-        for(const key in p.prem){
-          effectivePrem[key] = (effectivePrem[key] || 0) + times * (p.prem[key] || 0);
-        }
-      }
+      if (p.fav){ for(const key in p.fav){ effectiveFav[key] = (effectiveFav[key] || 0) + times * (p.fav[key] || 0); } }
+      if (p.prem){ for(const key in p.prem){ effectivePrem[key] = (effectivePrem[key] || 0) + times * (p.prem[key] || 0); } }
     });
 
     for(const key in effectiveFav){
@@ -990,8 +917,7 @@
     }
     for(const key in effectivePrem){
       const c = effectivePrem[key] || 0; if (!c) continue;
-      const price = premiumPriceByKey[key];
-      if (typeof price !== 'number' || isNaN(price)) continue;
+      const price = premiumPriceByKey[key]; if (typeof price !== 'number' || isNaN(price)) continue;
       terms.push(c === 1 ? String(price) : `${price}*${c}`);
     }
 
