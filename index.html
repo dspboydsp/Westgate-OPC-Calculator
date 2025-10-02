@@ -135,7 +135,7 @@
   }
   .opbar button:active{ transform:translateY(1px) }
 
-  /* Custom Gifting Packaging (formerly Presets) */
+  /* Custom Gifting Packaging */
   .presets{
     margin-top:12px; padding:10px; border-radius:12px;
     border:1px solid rgba(244,210,122,.35);
@@ -273,7 +273,7 @@
         <button data-op="clear">Clear</button>
       </div>
 
-      <!-- Custom Gifting Packaging (collapsible) -->
+      <!-- Custom Gifting Packaging -->
       <div class="presets collapsed" id="presets">
         <div class="presets-head">
           <div class="presets-title">Custom Gifting Packaging</div>
@@ -307,7 +307,7 @@
         </div>
       </div>
 
-      <!-- Premiums (dynamic from CSV + search) -->
+      <!-- Premiums (CSV + search) -->
       <div class="prems collapsed" id="prems">
         <div class="prems-head">
           <div class="prems-title">Premiums (from Spreadsheet)</div>
@@ -345,11 +345,10 @@
       <div class="help">Created by Derick McWilliams, OPC 71774</div>
     </div>
 
-    <div class="footer">© Westgate Resorts · v.7.5</div>
+    <div class="footer">© Westgate Resorts · v.7.6</div>
   </div>
 
 <script>
-  /* ===== CSV filename (same folder as index.html) ===== */
   const PREMIUMS_CSV_PATH = "premiums_ready_upload.csv";
 
   const $ = (id)=>document.getElementById(id);
@@ -372,13 +371,16 @@
 
   const favsEl = $('favs'), favToggle = $('favToggle');
   function smallScreen(){ return window.matchMedia('(max-width: 600px)').matches; }
-  if (!smallScreen()) { favsEl.classList.remove('collapsed'); favToggle.textContent = 'Hide'; }
+
+  // Persisted collapsed state
   const favStateKey = 'favsCollapsed';
   const favSaved = localStorage.getItem(favStateKey);
   if (favSaved !== null) {
     const collapsed = favSaved === 'true';
     favsEl.classList.toggle('collapsed', collapsed);
     favToggle.textContent = collapsed ? 'Show' : 'Hide';
+  } else if (!smallScreen()) {
+    favsEl.classList.remove('collapsed'); favToggle.textContent = 'Hide';
   }
   favToggle.addEventListener('click', ()=>{
     favsEl.classList.toggle('collapsed');
@@ -441,15 +443,16 @@
     });
   });
 
-  /* ===== Custom Gifting Packaging (Saved Mixes) ===== */
+  /* ===== Custom Gifting Packaging (Saved Packages) ===== */
   const presetsEl = $('presets'), presetsToggle = $('presetsToggle');
-  if (!smallScreen()) { presetsEl.classList.remove('collapsed'); presetsToggle.textContent = 'Hide'; }
   const presetsKey = 'presetsCollapsed';
   const presetsSaved = localStorage.getItem(presetsKey);
   if (presetsSaved !== null) {
     const collapsed = presetsSaved === 'true';
     presetsEl.classList.toggle('collapsed', collapsed);
     presetsToggle.textContent = collapsed ? 'Show' : 'Hide';
+  } else if (!smallScreen()) {
+    presetsEl.classList.remove('collapsed'); presetsToggle.textContent = 'Hide';
   }
   presetsToggle.addEventListener('click', ()=>{
     presetsEl.classList.toggle('collapsed');
@@ -465,8 +468,7 @@
   const getPresets = () => JSON.parse(localStorage.getItem('presets')||'[]');
   const setPresets = (p) => localStorage.setItem('presets', JSON.stringify(p));
 
-  // Each saved package has an independent "applied times" counter
-  let mixCounts = []; // index-aligned with presets; session-only
+  let mixCounts = []; // session-only counts per package
 
   function mixToHumanLabel(counts){
     const parts = [];
@@ -508,12 +510,10 @@
       }
       refreshBadge();
 
-      // IMPORTANT: Only adjust mixCounts here. Do NOT mutate favCounts (prevents double-counting).
       plus.addEventListener('click', ()=>{
         mixCounts[i] = (mixCounts[i] || 0) + 1;
         refreshBadge(); rebuildExpression();
       });
-
       minus.addEventListener('click', ()=>{
         mixCounts[i] = Math.max(0, (mixCounts[i] || 0) - 1);
         refreshBadge(); rebuildExpression();
@@ -527,7 +527,6 @@
       del.addEventListener('click', ()=>{
         if(!confirm(`Delete package "${p.name}"?`)) return;
         const all = getPresets();
-        // Remove the package; its contribution will disappear automatically when mixCounts array reindexes.
         all.splice(i,1); setPresets(all);
         mixCounts.splice(i,1);
         rebuildExpression();
@@ -546,7 +545,6 @@
     });
   }
 
-  // Save a package based on current Favorites counts
   saveBtn.addEventListener('click', ()=>{
     const name = presetNameInput.value.trim();
     const totalCount = Object.values(favCounts).reduce((a,b)=>a+b,0);
@@ -555,11 +553,10 @@
     presets.push({name, counts:{...favCounts}});
     setPresets(presets);
     presetNameInput.value='';
-    mixCounts = new Array(presets.length).fill(0); // reset applied counters
+    mixCounts = new Array(presets.length).fill(0);
     renderPresets();
   });
 
-  // Reset all applied package counters (does not touch Favorites)
   clearMixCountsBtn.addEventListener('click', ()=>{
     const presets = getPresets();
     mixCounts = new Array(presets.length).fill(0);
@@ -570,12 +567,13 @@
 
   /* ===== Adjustments collapse ===== */
   const advEl = $('adv'), advToggle = $('advToggle'), advKey = 'advCollapsed';
-  if (!smallScreen()) { advEl.classList.remove('collapsed'); advToggle.textContent = 'Hide'; }
   const advSaved = localStorage.getItem(advKey);
   if (advSaved !== null) {
     const collapsed = advSaved === 'true';
     advEl.classList.toggle('collapsed', collapsed);
     advToggle.textContent = collapsed ? 'Show' : 'Hide';
+  } else if (!smallScreen()) {
+    advEl.classList.remove('collapsed'); advToggle.textContent = 'Hide';
   }
   advToggle.addEventListener('click', ()=>{
     advEl.classList.toggle('collapsed');
@@ -585,12 +583,13 @@
 
   /* ===== Premiums from CSV + Search ===== */
   const premEl = $('prems'), premToggle = $('premsToggle'), premKey = 'premsCollapsed';
-  if (!smallScreen()) { premEl.classList.remove('collapsed'); premToggle.textContent = 'Hide'; }
   const premSaved = localStorage.getItem(premKey);
   if (premSaved !== null) {
     const collapsed = premSaved === 'true';
     premEl.classList.toggle('collapsed', collapsed);
     premToggle.textContent = collapsed ? 'Show' : 'Hide';
+  } else if (!smallScreen()) {
+    premEl.classList.remove('collapsed'); premToggle.textContent = 'Hide';
   }
   premToggle.addEventListener('click', ()=>{
     premEl.classList.toggle('collapsed');
@@ -618,7 +617,6 @@
   }
   function normalizeKey(cat, name){ return (cat + '|' + name).replace(/\s+/g,'_'); }
 
-  // Robust CSV parser for quoted fields
   function parseCSV(text){
     const rows = [];
     let i = 0, field = '', row = [], inQuotes = false;
@@ -674,6 +672,7 @@
     premiumData = {};
     premiumCounts = {};
     premiumKeysByCat = {};
+    allItemsFlat = {};
     allItemsFlat = [];
     premiumPriceByKey = {};
     items.forEach(({Category, Name, Price, OPC_CODE})=>{
@@ -797,7 +796,7 @@
     rebuildExpression();
   });
 
-  /* ===== Expression builder (Favorites + Packages + Premiums) — no forced focus ===== */
+  /* ===== Expression builder ===== */
   function rebuildExpression(){
     const terms = [];
 
@@ -839,107 +838,7 @@
     }
   }
 
-  /* ===== Premiums load/init ===== */
-  const premGrid = $('premGrid'); // (redeclared safely for clarity)
-  const premClear = $('premClear');
-  const premCat = $('premCat');
-  const premSearch = $('premSearch');
-  const premSearchClear = $('premSearchClear');
-  const premMatchMeta = $('premMatchMeta');
-
-  let premiumData = {}, premiumCounts = {}, premiumKeysByCat = {}, allItemsFlat = [], premiumPriceByKey = {};
-
-  function parsePriceFromOPC(opc){
-    if(!opc) return null;
-    const m = String(opc).toUpperCase().match(/WG\s*([0-9]+(?:\.[0-9]+)?)/);
-    return m ? parseFloat(m[1]) : null;
-  }
-  function normalizeKey(cat, name){ return (cat + '|' + name).replace(/\s+/g,'_'); }
-
-  async function loadPremiumsFromCSV(){
-    try{
-      const res = await fetch(PREMIUMS_CSV_PATH, { cache: 'no-store' });
-      if(!res.ok) throw new Error('CSV not found');
-      const txt = await res.text();
-      const rows = parseCSV(txt);
-      if (!rows.length) throw new Error('CSV empty');
-
-      const header = rows[0].map(h => h.toUpperCase());
-      const iCat = header.indexOf('CATEGORY');
-      const iName = header.indexOf('NAME');
-      const iOPC = header.indexOf('OPC_CODE');
-      if (iCat === -1 || iName === -1 || iOPC === -1){
-        throw new Error('CSV headers must be: Category, Name, OPC_CODE');
-      }
-      const items = rows.slice(1).map(r => ({
-        Category: (r[iCat] || 'Uncategorized').trim(),
-        Name: (r[iName] || '').trim(),
-        OPC_CODE: (r[iOPC] || '').trim(),
-        Price: parsePriceFromOPC(r[iOPC])
-      })).filter(x => x.Name && x.Price != null);
-      return items;
-    }catch(e){
-      console.error('Failed to load premiums CSV:', e);
-      return [];
-    }
-  }
-
-  function parseCSV(text){
-    const rows = [];
-    let i = 0, field = '', row = [], inQuotes = false;
-    while (i < text.length){
-      const c = text[i];
-      if (inQuotes){
-        if (c === '"'){
-          if (text[i+1] === '"'){ field += '"'; i++; }
-          else { inQuotes = false; }
-        } else { field += c; }
-      } else {
-        if (c === '"'){ inQuotes = true; }
-        else if (c === ','){ row.push(field.trim()); field = ''; }
-        else if (c === '\n'){ row.push(field.trim()); rows.push(row); row = []; field = ''; }
-        else if (c === '\r'){ /* ignore */ }
-        else { field += c; }
-      }
-      i++;
-    }
-    if (field.length || row.length) { row.push(field.trim()); rows.push(row); }
-    return rows;
-  }
-
-  function buildPremiumData(items){
-    premiumData = {};
-    premiumCounts = {};
-    premiumKeysByCat = {};
-    allItemsFlat = [];
-    premiumPriceByKey = {};
-    items.forEach(({Category, Name, Price, OPC_CODE})=>{
-      const key = normalizeKey(Category, Name);
-      if(!premiumData[Category]) premiumData[Category] = [];
-      const obj = { key, name: Name, price: Price, opc: OPC_CODE, Category };
-      premiumData[Category].push(obj);
-      premiumCounts[key] = 0;
-      premiumPriceByKey[key] = Price;
-      allItemsFlat.push(obj);
-    });
-    for(const cat in premiumData){
-      premiumData[cat].sort((a,b)=> a.name.localeCompare(b.name));
-      premiumKeysByCat[cat] = premiumData[cat].map(it => it.key);
-    }
-  }
-
-  function renderPremCategories(){
-    const cats = Object.keys(premiumData).sort();
-    premCat.innerHTML = '';
-    const allOpt = document.createElement('option'); allOpt.value = '__ALL__'; allOpt.textContent = 'All';
-    premCat.appendChild(allOpt);
-    cats.forEach(c=>{
-      const opt = document.createElement('option');
-      opt.value = c; opt.textContent = c;
-      premCat.appendChild(opt);
-    });
-  }
-
+  /* ===== Load & init Premiums ===== */
   (async function initPremiums(){
     const items = await loadPremiumsFromCSV();
     buildPremiumData(items);
