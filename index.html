@@ -46,7 +46,6 @@
     .card{ background: rgba(17,19,25,.82); backdrop-filter: blur(8px); }
   }
 
-  /* In-card toolbar */
   .toolbar{
     width:100%;
     display:flex; justify-content:flex-end; align-items:center; gap:10px;
@@ -60,7 +59,6 @@
     text-decoration:none; display:inline-flex; align-items:center; gap:8px;
     box-shadow:0 4px 14px rgba(0,0,0,.35);
   }
-  .linkbtn:hover, .qrbtn:hover{ filter:brightness(1.02); }
   .ext{ font-weight:900; }
 
   .card-head{
@@ -110,7 +108,6 @@
     color:#EDEDED; font-weight:700; font-size:12px; padding:6px 10px; border-radius:999px; cursor:pointer;
   }
 
-  /* Reusable cards */
   .fav, .prem, .mix{
     position:relative; min-width:140px;
     padding:8px 10px; border-radius:12px; font-size:13px;
@@ -136,14 +133,12 @@
   .clear{ min-width:auto; background:linear-gradient(180deg,#3c2626,#2a1b1b) !important; border-color:#8f4b4b !important; }
   .clear .name{ color:#f3c2c2; }
 
-  /* Favorites */
   .favs{ display:flex; flex-direction:column; gap:8px; align-items:flex-end; flex:1 1 360px; }
   .favs-head{ display:flex; align-items:center; gap:8px; }
   .favs-title{ color:var(--gold-1); font-weight:700; letter-spacing:.04em; font-size:13px; }
   .fav-grid{ display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end; max-width:100%; }
   .favs.collapsed .fav-grid{ display:none; }
 
-  /* Operator bar */
   .opbar{ display:flex; gap:8px; flex-wrap:wrap; margin:6px 0 10px }
   .opbar button{
     padding:10px 12px; border-radius:10px;
@@ -151,9 +146,7 @@
     background:linear-gradient(180deg,#14161b,#0f1115);
     color:#EDEDED; font-weight:700; cursor:pointer;
   }
-  .opbar button:active{ transform:translateY(1px) }
 
-  /* Custom Gifting Packaging */
   .presets{
     margin-top:12px; padding:10px; border-radius:12px;
     border:1px solid rgba(244,210,122,.35);
@@ -164,7 +157,6 @@
   .presets.collapsed .presets-body{ display:none; }
   .preset-list{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:8px; }
   .mix .meta{ color:#B8B8B8; font-size:12px; margin-top:4px; }
-
   .preset-add{ display:flex; gap:8px; flex-wrap:wrap; }
   .preset-input{
     flex:1; min-width:200px; padding:6px 8px; border-radius:8px; border:1px solid rgba(244,210,122,.35);
@@ -176,7 +168,6 @@
     font-weight:700; cursor:pointer;
   }
 
-  /* Adjustments */
   .adv{
     margin-top:12px; padding:10px; border-radius:12px;
     border:1px solid rgba(244,210,122,.35);
@@ -188,7 +179,6 @@
   .adv.collapsed .adv-grid{ display:none; }
   @media (max-width:560px){ .adv-grid{ grid-template-columns:1fr; } }
 
-  /* Premiums */
   .prems{
     margin-top:12px; padding:10px; border-radius:12px;
     border:1px solid rgba(244,210,122,.35);
@@ -210,7 +200,6 @@
   .prem-meta{ color:var(--muted); font-size:12px; }
   .prem-grid{ display:flex; flex-wrap:wrap; gap:8px; }
 
-  /* QR Modal */
   .modal{
     position:fixed; inset:0; background:rgba(0,0,0,.55);
     display:none; align-items:center; justify-content:center; padding:16px; z-index:1000;
@@ -233,7 +222,6 @@
   .qr-img{ width:min(320px,70vw); height:auto; border-radius:12px; background:#fff; }
   .qr-hint{ font-size:12px; color:var(--muted); text-align:center; }
 
-  /* Manifest full-screen view (headline -20%) + avatar */
   .manifest{
     max-width:680px; width:100%;
     padding:22px; border-radius:20px;
@@ -274,7 +262,6 @@
     </div>
 
     <div class="card">
-      <!-- Toolbar ABOVE Total Cost -->
       <div class="toolbar">
         <a class="linkbtn" href="https://www2.wgresorts.com/group/hospitality/tour-details" target="_blank" rel="noopener">
           PROSPECT <span class="ext">↗</span>
@@ -289,44 +276,22 @@
                  placeholder="Tap favorites/premiums/packages or type e.g. 40*3+1.86" autocomplete="off" />
         </div>
 
-        <!-- Favorites -->
         <div class="favs collapsed" id="favs">
           <div class="favs-head">
             <div class="favs-title">Favorites</div>
             <button class="toggle" id="favToggle">Show</button>
           </div>
           <div class="fav-grid" id="favGrid">
-            <div class="fav" data-key="Sphere" data-price="119">
-              <span class="badge">0</span>
-              <div class="name">Sphere</div><span class="price">$119</span>
-              <div class="controls"><button class="mini minus">−</button><button class="mini plus">+</button></div>
-            </div>
-            <div class="fav" data-key="EddieG" data-price="40">
-              <span class="badge">0</span>
-              <div class="name">EddieG</div><span class="price">$40</span>
-              <div class="controls"><button class="mini minus">−</button><button class="mini plus">+</button></div>
-            </div>
-            <div class="fav" data-key="MJLive" data-price="29">
-              <span class="badge">0</span>
-              <div class="name">MJLive</div><span class="price">$29</span>
-              <div class="controls"><button class="mini minus">−</button><button class="mini plus">+</button></div>
-            </div>
-            <div class="fav" data-key="Cruise" data-price="43">
-              <span class="badge">0</span>
-              <div class="name">Cruise</div><span class="price">$43</span>
-              <div class="controls"><button class="mini minus">−</button><button class="mini plus">+</button></div>
-            </div>
-            <div class="fav" data-key="VLT" data-price="1.86">
-              <span class="badge">0</span>
-              <div class="name">VLT</div><span class="price">$1.86</span>
-              <div class="controls"><button class="mini minus">−</button><button class="mini plus">+</button></div>
-            </div>
+            <div class="fav" data-key="Sphere" data-price="119"><span class="badge">0</span><div class="name">Sphere</div><span class="price">$119</span><div class="controls"><button class="mini minus">−</button><button class="mini plus">+</button></div></div>
+            <div class="fav" data-key="EddieG" data-price="40"><span class="badge">0</span><div class="name">EddieG</div><span class="price">$40</span><div class="controls"><button class="mini minus">−</button><button class="mini plus">+</button></div></div>
+            <div class="fav" data-key="MJLive" data-price="29"><span class="badge">0</span><div class="name">MJLive</div><span class="price">$29</span><div class="controls"><button class="mini minus">−</button><button class="mini plus">+</button></div></div>
+            <div class="fav" data-key="Cruise" data-price="43"><span class="badge">0</span><div class="name">Cruise</div><span class="price">$43</span><div class="controls"><button class="mini minus">−</button><button class="mini plus">+</button></div></div>
+            <div class="fav" data-key="VLT" data-price="1.86"><span class="badge">0</span><div class="name">VLT</div><span class="price">$1.86</span><div class="controls"><button class="mini minus">−</button><button class="mini plus">+</button></div></div>
             <div class="fav clear" id="favClear"><div class="name">Clear</div></div>
           </div>
         </div>
       </div>
 
-      <!-- Operator bar -->
       <div class="opbar">
         <button data-op="+">+</button><button data-op="-">−</button>
         <button data-op="*">×</button><button data-op="/">÷</button>
@@ -334,7 +299,6 @@
         <button data-op=".">.</button><button data-op="clear">Clear</button>
       </div>
 
-      <!-- Custom Gifting Packaging -->
       <div class="presets collapsed" id="presets">
         <div class="presets-head">
           <div class="presets-title">Custom Gifting Packaging</div>
@@ -350,25 +314,17 @@
         </div>
       </div>
 
-      <!-- Adjustments -->
       <div class="adv collapsed" id="adv">
         <div class="adv-head">
           <div class="adv-title">Adjustments</div>
           <button class="toggle" id="advToggle">Show</button>
         </div>
         <div class="adv-grid">
-          <div class="row">
-            <label class="label" for="willingLose">Amount Willing to Lose</label>
-            <input id="willingLose" class="input" type="text" inputmode="text" placeholder="e.g. 20 or 50/2" autocomplete="off" />
-          </div>
-          <div class="row">
-            <label class="label" for="guests">Number of Guests</label>
-            <input id="guests" class="input" type="number" inputmode="numeric" placeholder="e.g. 4" />
-          </div>
+          <div class="row"><label class="label" for="willingLose">Amount Willing to Lose</label><input id="willingLose" class="input" type="text" inputmode="text" placeholder="e.g. 20 or 50/2" autocomplete="off" /></div>
+          <div class="row"><label class="label" for="guests">Number of Guests</label><input id="guests" class="input" type="number" inputmode="numeric" placeholder="e.g. 4" /></div>
         </div>
       </div>
 
-      <!-- Premiums (CSV + search) -->
       <div class="prems collapsed" id="prems">
         <div class="prems-head">
           <div class="prems-title">Premiums (from Spreadsheet)</div>
@@ -378,11 +334,9 @@
           <div class="prems-controls">
             <label class="label" for="premCat" style="margin:0;">Section</label>
             <select id="premCat" class="select"></select>
-
             <input id="premSearch" class="prem-search" type="search" placeholder="Search by name or OPC code…" />
             <button id="premSearchClear" class="mini" title="Clear search">×</button>
             <span id="premMatchMeta" class="prem-meta"></span>
-
             <button id="premClear" class="mini">Clear</button>
           </div>
           <div class="prem-grid" id="premGrid"></div>
@@ -400,10 +354,9 @@
       <div class="help">Created by Derick McWilliams, OPC 71774</div>
     </div>
 
-    <div class="footer">© Westgate Resorts · v.7.11</div>
+    <div class="footer">© Westgate Resorts · v.7.12</div>
   </div>
 
-  <!-- QR Modal -->
   <div class="modal" id="qrModal" aria-hidden="true" role="dialog" aria-label="Manifest QR">
     <div class="modal-card">
       <div class="modal-head">
@@ -420,13 +373,13 @@
 
 <script>
   const PREMIUMS_CSV_PATH = "premiums_ready_upload.csv";
-  const AVATAR_IMG = "donavanAvatar.png"; // upload this file beside index.html
+  const AVATAR_IMG = "donavanAvatar.png";
 
   const $ = (id)=>document.getElementById(id);
   const money = (n)=> (isFinite(n) ? n : 0).toLocaleString(undefined,{style:'currency',currency:'USD'});
   const opcBudget = 125;
 
-  /* ========= Manifest special view (with avatar) ========= */
+  /* Manifest page */
   (function checkManifestView(){
     const params = new URLSearchParams(location.search);
     if (params.get('manifest') === '1') {
@@ -439,13 +392,13 @@
           <div class="sub">Please show this confirmation to your representative.</div>
           <a href="${location.pathname}" class="backbtn">Back to Calculator</a>
         </div>
-        <div class="footer">© Westgate Resorts · v.7.11</div>
+        <div class="footer">© Westgate Resorts · v.7.12</div>
       `;
-      throw new Error('ManifestViewStop'); // stop rest of app JS
+      throw new Error('ManifestViewStop');
     }
   })();
 
-  /* ========= QR Modal wiring ========= */
+  /* QR modal */
   const qrModal = $('qrModal');
   const qrImg = $('qrImg');
   const qrClose = $('qrClose');
@@ -463,16 +416,13 @@
     qrModal.classList.add('open');
     qrModal.setAttribute('aria-hidden','false');
   }
-  function closeQR(){
-    qrModal.classList.remove('open');
-    qrModal.setAttribute('aria-hidden','true');
-  }
+  function closeQR(){ qrModal.classList.remove('open'); qrModal.setAttribute('aria-hidden','true'); }
   manifestBtn.addEventListener('click', openQR);
   qrClose.addEventListener('click', closeQR);
   qrModal.addEventListener('click', (e)=>{ if(e.target === qrModal) closeQR(); });
   window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeQR(); });
 
-  /* ========= Math parser ========= */
+  /* Parser */
   function parseMath(str) {
     if (str === undefined || str === null || str === "") return NaN;
     if (/^[0-9+\-*/().\s]+$/.test(str)) {
@@ -482,7 +432,7 @@
     return NaN;
   }
 
-  /* ========= Favorites ========= */
+  /* Favorites */
   const favOrder = ["Sphere","EddieG","MJLive","Cruise","VLT"];
   const favCounts = Object.fromEntries(favOrder.map(k => [k, 0]));
   const favPriceByKey = { Sphere:119, EddieG:40, MJLive:29, Cruise:43, VLT:1.86 };
@@ -496,9 +446,7 @@
     const collapsed = favSaved === 'true';
     favsEl.classList.toggle('collapsed', collapsed);
     favToggle.textContent = collapsed ? 'Show' : 'Hide';
-  } else if (!smallScreen()) {
-    favsEl.classList.remove('collapsed'); favToggle.textContent = 'Hide';
-  }
+  } else if (!smallScreen()) { favsEl.classList.remove('collapsed'); favToggle.textContent = 'Hide'; }
   favToggle.addEventListener('click', ()=>{
     favsEl.classList.toggle('collapsed');
     favToggle.textContent = favsEl.classList.contains('collapsed') ? 'Show' : 'Hide';
@@ -517,23 +465,14 @@
   function wireFavButtons(){
     document.querySelectorAll('.fav[data-key]').forEach(card=>{
       const key = card.dataset.key;
-      card.querySelector('.plus').addEventListener('click', ()=>{
-        favCounts[key] = (favCounts[key] || 0) + 1;
-        updateFavBadges(); rebuildExpression();
-      });
-      card.querySelector('.minus').addEventListener('click', ()=>{
-        favCounts[key] = Math.max(0, (favCounts[key] || 0) - 1);
-        updateFavBadges(); rebuildExpression();
-      });
+      card.querySelector('.plus').addEventListener('click', ()=>{ favCounts[key] = (favCounts[key] || 0) + 1; updateFavBadges(); rebuildExpression(); });
+      card.querySelector('.minus').addEventListener('click', ()=>{ favCounts[key] = Math.max(0, (favCounts[key] || 0) - 1); updateFavBadges(); rebuildExpression(); });
     });
-    $('favClear').addEventListener('click', ()=>{
-      for (const k of favOrder) favCounts[k] = 0;
-      updateFavBadges(); rebuildExpression();
-    });
+    $('favClear').addEventListener('click', ()=>{ for (const k of favOrder) favCounts[k] = 0; updateFavBadges(); rebuildExpression(); });
   }
   wireFavButtons(); updateFavBadges();
 
-  /* ========= Operator bar ========= */
+  /* Operator bar */
   let lastExprInput = $('totalCost');
   ['totalCost','willingLose'].forEach(id=>{
     const el = document.getElementById(id);
@@ -551,16 +490,13 @@
   }
   document.querySelectorAll('.opbar button').forEach(btn=>{
     btn.addEventListener('click', ()=>{
-      if(btn.dataset.op === 'clear'){
-        if(lastExprInput){ lastExprInput.value=''; try{ lastExprInput.focus({preventScroll:true}); }catch{ lastExprInput.focus(); } }
-        return;
-      }
+      if(btn.dataset.op === 'clear'){ if(lastExprInput){ lastExprInput.value=''; try{ lastExprInput.focus({preventScroll:true}); }catch{ lastExprInput.focus(); } } return; }
       const symbol = btn.dataset.op?.replace('×','*').replace('÷','/') || btn.textContent;
       insertAtCursor(lastExprInput, symbol);
     });
   });
 
-  /* ========= Packages ========= */
+  /* Packages */
   const presetsEl = $('presets'), presetsToggle = $('presetsToggle');
   const presetsKey = 'presetsCollapsed';
   const presetsSaved = localStorage.getItem(presetsKey);
@@ -568,43 +504,24 @@
     const collapsed = presetsSaved === 'true';
     presetsEl.classList.toggle('collapsed', collapsed);
     presetsToggle.textContent = collapsed ? 'Show' : 'Hide';
-  } else if (!smallScreen()) {
-    presetsEl.classList.remove('collapsed'); presetsToggle.textContent = 'Hide';
-  }
+  } else if (!smallScreen()) { presetsEl.classList.remove('collapsed'); presetsToggle.textContent = 'Hide'; }
   presetsToggle.addEventListener('click', ()=>{
     presetsEl.classList.toggle('collapsed');
     presetsToggle.textContent = presetsEl.classList.contains('collapsed') ? 'Show' : 'Hide';
     localStorage.setItem(presetsKey, presetsEl.classList.contains('collapsed'));
   });
 
-  const presetList = $('presetList'),
-        saveBtn = $('savePreset'),
-        presetNameInput = $('presetName'),
-        clearMixCountsBtn = $('clearMixCounts');
-
+  const presetList = $('presetList'), saveBtn = $('savePreset'), presetNameInput = $('presetName'), clearMixCountsBtn = $('clearMixCounts');
   const getPresets = () => JSON.parse(localStorage.getItem('presets')||'[]');
   const setPresets = (p) => localStorage.setItem('presets', JSON.stringify(p));
 
-  let mixCounts = []; // session-only counts per package
-
-  // Names for premium keys (populated after CSV load)
-  let premiumNameByKey = {};
+  let mixCounts = [];                  // local counts for packages
+  let premiumNameLookup = {};          // shared map filled by Premiums loader
 
   function mixToHumanLabel(preset){
     const parts = [];
-    if (preset.counts){
-      for(const k in preset.counts){ const c=preset.counts[k]; if(c) parts.push(`${c}× ${k}`); }
-    }
-    if (preset.fav){
-      for(const k in preset.fav){ const c=preset.fav[k]; if(c) parts.push(`${c}× ${k}`); }
-    }
-    if (preset.prem){
-      for(const k in preset.prem){
-        const c=preset.prem[k]; if(!c) continue;
-        const nm = premiumNameByKey[k] || k.split('|').pop();
-        parts.push(`${c}× ${nm}`);
-      }
-    }
+    if (preset.fav){ for(const k in preset.fav){ const c=preset.fav[k]; if(c) parts.push(`${c}× ${k}`); } }
+    if (preset.prem){ for(const k in preset.prem){ const c=preset.prem[k]; if(!c) continue; const nm = premiumNameLookup[k] || k.split('|').pop(); parts.push(`${c}× ${nm}`); } }
     return parts.join(' + ') || '—';
   }
 
@@ -613,11 +530,9 @@
     const presets = getPresets();
     if (mixCounts.length !== presets.length) mixCounts = new Array(presets.length).fill(0);
     if (!presets.length){
-      const empty = document.createElement('div');
-      empty.style.color = '#B8B8B8'; empty.style.fontSize = '12px';
+      const empty = document.createElement('div'); empty.style.color = '#B8B8B8'; empty.style.fontSize = '12px';
       empty.textContent = 'No packages saved yet.'; presetList.appendChild(empty); return;
     }
-
     presets.forEach((p,i)=>{
       const card = document.createElement('div'); card.className = 'mix';
       const badge = document.createElement('span'); badge.className='badge';
@@ -630,29 +545,18 @@
       const rename= document.createElement('button'); rename.className='mini'; rename.title='Rename'; rename.textContent='✎';
       const del   = document.createElement('button'); del.className='mini clear'; del.title='Delete'; del.textContent='🗑';
 
-      function refreshBadge(){
-        badge.textContent = mixCounts[i] || 0;
-        badge.style.display = (mixCounts[i]||0) > 0 ? 'grid' : 'none';
-      }
+      function refreshBadge(){ badge.textContent = mixCounts[i] || 0; badge.style.display = (mixCounts[i]||0) > 0 ? 'grid' : 'none'; }
       refreshBadge();
 
       plus.addEventListener('click', ()=>{ mixCounts[i] = (mixCounts[i] || 0) + 1; refreshBadge(); rebuildExpression(); });
       minus.addEventListener('click', ()=>{ mixCounts[i] = Math.max(0, (mixCounts[i] || 0) - 1); refreshBadge(); rebuildExpression(); });
 
-      rename.addEventListener('click', ()=>{
-        const newName = (prompt('Rename package:', p.name) || '').trim(); if(!newName) return;
-        const all = getPresets(); all[i].name = newName; setPresets(all); renderPresets();
-      });
-      del.addEventListener('click', ()=>{
-        if(!confirm(`Delete package "${p.name}"?`)) return;
-        const all = getPresets(); all.splice(i,1); setPresets(all);
-        mixCounts.splice(i,1); rebuildExpression(); renderPresets();
-      });
+      rename.addEventListener('click', ()=>{ const newName = (prompt('Rename package:', p.name) || '').trim(); if(!newName) return; const all = getPresets(); all[i].name = newName; setPresets(all); renderPresets(); });
+      del.addEventListener('click', ()=>{ if(!confirm(`Delete package "${p.name}"?`)) return; const all = getPresets(); all.splice(i,1); setPresets(all); mixCounts.splice(i,1); rebuildExpression(); renderPresets(); });
 
       card.appendChild(badge); card.appendChild(name); card.appendChild(meta);
       controls.appendChild(minus); controls.appendChild(plus); controls.appendChild(rename); controls.appendChild(del);
-      card.appendChild(controls);
-      presetList.appendChild(card);
+      card.appendChild(controls); presetList.appendChild(card);
     });
   }
 
@@ -663,58 +567,29 @@
     const favSnap = {}; for(const k in favCounts){ if(favCounts[k] > 0) favSnap[k] = favCounts[k]; }
     const premSnap = {}; for(const k in premiumCounts){ if(premiumCounts[k] > 0) premSnap[k] = premiumCounts[k]; }
 
-    if(Object.keys(favSnap).length===0 && Object.keys(premSnap).length===0){
-      alert('Add Favorites and/or Premiums before saving a package.'); return;
-    }
+    if(Object.keys(favSnap).length===0 && Object.keys(premSnap).length===0){ alert('Add Favorites and/or Premiums before saving a package.'); return; }
 
-    const presets = getPresets();
-    presets.push({ name, fav: favSnap, prem: premSnap });
-    setPresets(presets);
-    presetNameInput.value='';
-    mixCounts = new Array(presets.length).fill(0);
-    renderPresets();
-    alert('Package saved.');
+    const presets = getPresets(); presets.push({ name, fav: favSnap, prem: premSnap }); setPresets(presets);
+    presetNameInput.value=''; mixCounts = new Array(presets.length).fill(0); renderPresets(); alert('Package saved.');
   });
 
-  clearMixCountsBtn.addEventListener('click', ()=>{
-    const presets = getPresets();
-    mixCounts = new Array(presets.length).fill(0);
-    rebuildExpression(); renderPresets();
-  });
+  clearMixCountsBtn.addEventListener('click', ()=>{ const presets = getPresets(); mixCounts = new Array(presets.length).fill(0); rebuildExpression(); renderPresets(); });
 
   renderPresets();
 
-  /* ========= Adjustments collapse ========= */
+  /* Adjustments collapse */
   const advEl = $('adv'), advToggle = $('advToggle'), advKey = 'advCollapsed';
   const advSaved = localStorage.getItem(advKey);
-  if (advSaved !== null) {
-    const collapsed = advSaved === 'true';
-    advEl.classList.toggle('collapsed', collapsed);
-    advToggle.textContent = collapsed ? 'Show' : 'Hide';
-  } else if (!smallScreen()) {
-    advEl.classList.remove('collapsed'); advToggle.textContent = 'Hide';
-  }
-  advToggle.addEventListener('click', ()=>{
-    advEl.classList.toggle('collapsed');
-    advToggle.textContent = advEl.classList.contains('collapsed') ? 'Show' : 'Hide';
-    localStorage.setItem(advKey, advEl.classList.contains('collapsed'));
-  });
+  if (advSaved !== null) { const collapsed = advSaved === 'true'; advEl.classList.toggle('collapsed', collapsed); advToggle.textContent = collapsed ? 'Show' : 'Hide'; }
+  else if (!smallScreen()) { advEl.classList.remove('collapsed'); advToggle.textContent = 'Hide'; }
+  advToggle.addEventListener('click', ()=>{ advEl.classList.toggle('collapsed'); advToggle.textContent = advEl.classList.contains('collapsed') ? 'Show' : 'Hide'; localStorage.setItem(advKey, advEl.classList.contains('collapsed')); });
 
-  /* ========= Premiums (CSV + search) ========= */
+  /* Premiums loader + search */
   const premEl = $('prems'), premToggle = $('premsToggle'), premKey = 'premsCollapsed';
   const premSaved = localStorage.getItem(premKey);
-  if (premSaved !== null) {
-    const collapsed = premSaved === 'true';
-    premEl.classList.toggle('collapsed', collapsed);
-    premToggle.textContent = collapsed ? 'Show' : 'Hide';
-  } else if (!smallScreen()) {
-    premEl.classList.remove('collapsed'); premToggle.textContent = 'Hide';
-  }
-  premToggle.addEventListener('click', ()=>{
-    premEl.classList.toggle('collapsed');
-    premToggle.textContent = premEl.classList.contains('collapsed') ? 'Show' : 'Hide';
-    localStorage.setItem(premKey, premEl.classList.contains('collapsed'));
-  });
+  if (premSaved !== null) { const collapsed = premSaved === 'true'; premEl.classList.toggle('collapsed', collapsed); premToggle.textContent = collapsed ? 'Show' : 'Hide'; }
+  else if (!smallScreen()) { premEl.classList.remove('collapsed'); premToggle.textContent = 'Hide'; }
+  premToggle.addEventListener('click', ()=>{ premEl.classList.toggle('collapsed'); premToggle.textContent = premEl.classList.contains('collapsed') ? 'Show' : 'Hide'; localStorage.setItem(premKey, premEl.classList.contains('collapsed')); });
 
   const premGrid = $('premGrid');
   const premClear = $('premClear');
@@ -728,7 +603,6 @@
   let premiumKeysByCat = {};
   let allItemsArray = [];
   let premiumPriceByKey = {};
-  let premiumNameByKey = {};
 
   function parsePriceFromOPC(opc){
     if(!opc) return null;
@@ -738,8 +612,7 @@
   function normalizeKey(cat, name){ return (cat + '|' + name).replace(/\s+/g,'_'); }
 
   function parseCSV(text){
-    const rows = [];
-    let i = 0, field = '', row = [], inQuotes = false;
+    const rows = []; let i = 0, field = '', row = [], inQuotes = false;
     while (i < text.length){
       const c = text[i];
       if (inQuotes){
@@ -770,15 +643,15 @@
       const iCat = header.indexOf('CATEGORY');
       const iName = header.indexOf('NAME');
       const iOPC = header.indexOf('OPC_CODE');
-      if (iCat === -1 || iName === -1 || iOPC === -1){
-        throw new Error('CSV headers must be: Category, Name, OPC_CODE');
-      }
+      if (iCat === -1 || iName === -1 || iOPC === -1){ throw new Error('CSV headers must be: Category, Name, OPC_CODE'); }
+
       const items = rows.slice(1).map(r => ({
         Category: (r[iCat] || 'Uncategorized').trim(),
         Name: (r[iName] || '').trim(),
         OPC_CODE: (r[iOPC] || '').trim(),
         Price: parsePriceFromOPC(r[iOPC])
       })).filter(x => x.Name && x.Price != null);
+
       return items;
     }catch(e){
       console.error('Failed to load premiums CSV:', e);
@@ -787,12 +660,8 @@
   }
 
   function buildPremiumData(items){
-    premiumData = {};
-    premiumCounts = {};
-    premiumKeysByCat = {};
-    allItemsArray = [];
-    premiumPriceByKey = {};
-    premiumNameByKey = {};
+    premiumData = {}; premiumCounts = {}; premiumKeysByCat = {}; allItemsArray = [];
+    premiumPriceByKey = {}; premiumNameLookup = {};
 
     items.forEach(({Category, Name, Price, OPC_CODE})=>{
       const key = normalizeKey(Category, Name);
@@ -801,7 +670,7 @@
       premiumData[Category].push(obj);
       premiumCounts[key] = 0;
       premiumPriceByKey[key] = Price;
-      premiumNameByKey[key] = Name;
+      premiumNameLookup[key] = Name;
       allItemsArray.push(obj);
     });
     for(const cat in premiumData){
@@ -815,20 +684,14 @@
     premCat.innerHTML = '';
     const allOpt = document.createElement('option'); allOpt.value = '__ALL__'; allOpt.textContent = 'All';
     premCat.appendChild(allOpt);
-    cats.forEach(c=>{
-      const opt = document.createElement('option'); opt.value = c; opt.textContent = c;
-      premCat.appendChild(opt);
-    });
+    cats.forEach(c=>{ const opt = document.createElement('option'); opt.value = c; opt.textContent = c; premCat.appendChild(opt); });
   }
   function currentDataset(){ return (premCat.value === '__ALL__') ? allItemsArray : (premiumData[premCat.value] || []); }
   function filterByQuery(list, q){
     if (!q) return list;
     const terms = q.toLowerCase().split(/\s+/).filter(Boolean);
     if (!terms.length) return list;
-    return list.filter(item=>{
-      const hay = `${item.name} ${item.opc}`.toLowerCase();
-      return terms.every(t => hay.includes(t));
-    });
+    return list.filter(item=>{ const hay = `${item.name} ${item.opc}`.toLowerCase(); return terms.every(t => hay.includes(t)); });
   }
 
   function renderPremGrid(){
@@ -840,10 +703,7 @@
     premMatchMeta.textContent = q ? `Matches: ${filtered.length}` : '';
 
     filtered.forEach(item=>{
-      const card = document.createElement('div');
-      card.className = 'prem';
-      card.dataset.key = item.key;
-      card.dataset.price = item.price;
+      const card = document.createElement('div'); card.className = 'prem'; card.dataset.key = item.key; card.dataset.price = item.price;
 
       const badge = document.createElement('span'); badge.className = 'badge';
       badge.textContent = premiumCounts[item.key] || 0;
@@ -856,37 +716,18 @@
       const minus = document.createElement('button'); minus.className = 'mini'; minus.textContent = '−';
       const plus  = document.createElement('button'); plus.className = 'mini'; plus.textContent = '+';
 
-      minus.addEventListener('click', ()=>{
-        premiumCounts[item.key] = Math.max(0, (premiumCounts[item.key]||0)-1);
-        badge.textContent = premiumCounts[item.key];
-        badge.style.display = premiumCounts[item.key]>0 ? 'grid' : 'none';
-        rebuildExpression();
-      });
-      plus.addEventListener('click', ()=>{
-        premiumCounts[item.key] = (premiumCounts[item.key]||0)+1;
-        badge.textContent = premiumCounts[item.key];
-        badge.style.display = premiumCounts[item.key]>0 ? 'grid' : 'none';
-        rebuildExpression();
-      });
+      minus.addEventListener('click', ()=>{ premiumCounts[item.key] = Math.max(0, (premiumCounts[item.key]||0)-1); badge.textContent = premiumCounts[item.key]; badge.style.display = premiumCounts[item.key]>0 ? 'grid' : 'none'; rebuildExpression(); });
+      plus.addEventListener('click', ()=>{ premiumCounts[item.key] = (premiumCounts[item.key]||0)+1; badge.textContent = premiumCounts[item.key]; badge.style.display = premiumCounts[item.key]>0 ? 'grid' : 'none'; rebuildExpression(); });
 
       ctrls.appendChild(minus); ctrls.appendChild(plus);
       card.appendChild(badge); card.appendChild(nm); card.appendChild(pr); card.appendChild(ctrls);
       premGrid.appendChild(card);
     });
 
-    const clr = document.createElement('div');
-    clr.className = 'prem clear';
-    const nm = document.createElement('div'); nm.className = 'name';
-    nm.textContent = (premCat.value === '__ALL__') ? 'Clear All Premiums' : 'Clear Section';
+    const clr = document.createElement('div'); clr.className = 'prem clear';
+    const nm = document.createElement('div'); nm.className = 'name'; nm.textContent = (premCat.value === '__ALL__') ? 'Clear All Premiums' : 'Clear Section';
     clr.appendChild(nm);
-    clr.addEventListener('click', ()=>{
-      if (premCat.value === '__ALL__'){
-        for(const k in premiumCounts) premiumCounts[k]=0;
-      } else {
-        (premiumKeysByCat[premCat.value] || []).forEach(k => premiumCounts[k]=0);
-      }
-      renderPremGrid(); rebuildExpression();
-    });
+    clr.addEventListener('click', ()=>{ if (premCat.value === '__ALL__'){ for(const k in premiumCounts) premiumCounts[k]=0; } else { (premiumKeysByCat[premCat.value] || []).forEach(k => premiumCounts[k]=0); } renderPremGrid(); rebuildExpression(); });
     premGrid.appendChild(clr);
   }
 
@@ -896,7 +737,7 @@
   premSearchClear.addEventListener('click', ()=>{ premSearch.value = ''; renderPremGrid(); premSearch.focus(); });
   premClear.addEventListener('click', ()=>{ for(const k in premiumCounts) premiumCounts[k]=0; renderPremGrid(); rebuildExpression(); });
 
-  /* ========= Expression builder ========= */
+  /* Expression builder */
   function rebuildExpression(){
     const terms = [];
     const effectiveFav = {...favCounts};
@@ -904,44 +745,34 @@
 
     const presets = JSON.parse(localStorage.getItem('presets')||'[]');
     presets.forEach((p,i)=>{
-      const times = (window.mixCounts && window.mixCounts[i]) || 0;
+      const times = (mixCounts && mixCounts[i]) || 0;  // <-- use local mixCounts
       if (!times) return;
       if (p.fav){ for(const key in p.fav){ effectiveFav[key] = (effectiveFav[key] || 0) + times * (p.fav[key] || 0); } }
       if (p.prem){ for(const key in p.prem){ effectivePrem[key] = (effectivePrem[key] || 0) + times * (p.prem[key] || 0); } }
     });
 
-    for(const key in effectiveFav){
-      const c = effectiveFav[key] || 0; if (!c) continue;
-      const price = favPriceByKey[key]; if (typeof price !== 'number') continue;
-      terms.push(c === 1 ? String(price) : `${price}*${c}`);
-    }
-    for(const key in effectivePrem){
-      const c = effectivePrem[key] || 0; if (!c) continue;
-      const price = premiumPriceByKey[key]; if (typeof price !== 'number' || isNaN(price)) continue;
-      terms.push(c === 1 ? String(price) : `${price}*${c}`);
-    }
+    for(const key in effectiveFav){ const c = effectiveFav[key] || 0; if (!c) continue; const price = favPriceByKey[key]; if (typeof price !== 'number') continue; terms.push(c === 1 ? String(price) : `${price}*${c}`); }
+    for(const key in effectivePrem){ const c = effectivePrem[key] || 0; if (!c) continue; const price = premiumPriceByKey[key]; if (typeof price !== 'number' || isNaN(price)) continue; terms.push(c === 1 ? String(price) : `${price}*${c}`); }
 
-    const field = $('totalCost');
-    const wasFocused = document.activeElement === field;
-    let caret = null;
-    try { caret = [field.selectionStart, field.selectionEnd]; } catch {}
+    const field = $('totalCost'); const wasFocused = document.activeElement === field;
+    let caret = null; try { caret = [field.selectionStart, field.selectionEnd]; } catch {}
     field.value = terms.join('+');
-    if (wasFocused && caret && caret[0] != null) {
-      try { field.setSelectionRange(caret[0], caret[1], { direction: 'forward' }); } catch {}
-    }
+    if (wasFocused && caret && caret[0] != null) { try { field.setSelectionRange(caret[0], caret[1], { direction: 'forward' }); } catch {} }
   }
 
-  /* ========= Load & init Premiums ========= */
+  /* Init premiums then render */
   (async function initPremiums(){
     const items = await loadPremiumsFromCSV();
     buildPremiumData(items);
+    const premCatEl = $('premCat');
+    const premGridEl = $('premGrid');
     renderPremCategories();
-    premCat.value = '__ALL__';
+    premCatEl.value = '__ALL__';
     renderPremGrid();
-    renderPresets(); // refresh labels now that premium names are known
+    renderPresets(); // update labels with premium names
   })();
 
-  /* ========= Calculate ========= */
+  /* Calculate */
   $('calc').addEventListener('click', () => {
     const total  = parseMath($('totalCost').value);
     const lose   = parseMath($('willingLose').value) || 0;
