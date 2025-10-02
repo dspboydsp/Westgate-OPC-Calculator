@@ -101,7 +101,7 @@
     color:#EDEDED; box-shadow:0 4px 12px rgba(0,0,0,.25);
   }
   .name{ font-weight:800; }
-  .price{ display:block; font-weight:600; color:var(--gold-1); opacity:.9; margin-top:2px; }
+  .price{ display:block; font-weight:600; color:#F4D27A; opacity:.9; margin-top:2px; }
   .controls{ display:flex; gap:6px; margin-top:8px; }
   .mini{
     padding:6px 8px; border-radius:10px; border:1px solid rgba(244,210,122,.35);
@@ -345,7 +345,7 @@
       <div class="help">Created by Derick McWilliams, OPC 71774</div>
     </div>
 
-    <div class="footer">© Westgate Resorts · v.7.6</div>
+    <div class="footer">© Westgate Resorts · v.7.7</div>
   </div>
 
 <script>
@@ -372,7 +372,6 @@
   const favsEl = $('favs'), favToggle = $('favToggle');
   function smallScreen(){ return window.matchMedia('(max-width: 600px)').matches; }
 
-  // Persisted collapsed state
   const favStateKey = 'favsCollapsed';
   const favSaved = localStorage.getItem(favStateKey);
   if (favSaved !== null) {
@@ -468,14 +467,29 @@
   const getPresets = () => JSON.parse(localStorage.getItem('presets')||'[]');
   const setPresets = (p) => localStorage.setItem('presets', JSON.stringify(p));
 
-  let mixCounts = []; // session-only counts per package
+  // session-only counters per package (how many times applied)
+  let mixCounts = [];
 
-  function mixToHumanLabel(counts){
+  // Premium name lookup for nicer labels
+  let premiumNameByKey = {};  // filled when CSV loads
+
+  function mixToHumanLabel(preset){
     const parts = [];
-    for(const k of Object.keys(counts)){
-      const c = counts[k];
-      if(!c) continue;
-      parts.push(`${c}× ${k}`);
+    // legacy
+    if (preset.counts){
+      for(const k in preset.counts){ const c=preset.counts[k]; if(c) parts.push(`${c}× ${k}`); }
+    }
+    // new fav
+    if (preset.fav){
+      for(const k in preset.fav){ const c=preset.fav[k]; if(c) parts.push(`${c}× ${k}`); }
+    }
+    // new prem
+    if (preset.prem){
+      for(const k in preset.prem){
+        const c=preset.prem[k]; if(!c) continue;
+        const nm = premiumNameByKey[k] || k.split('|').pop();
+        parts.push(`${c}× ${nm}`);
+      }
     }
     return parts.join(' + ') || '—';
   }
@@ -486,7 +500,7 @@
     if (mixCounts.length !== presets.length) {
       mixCounts = new Array(presets.length).fill(0);
     }
-    if (presets.length === 0){
+    if (!presets.length){
       const empty = document.createElement('div');
       empty.style.color = '#B8B8B8'; empty.style.fontSize = '12px';
       empty.textContent = 'No packages saved yet.'; presetList.appendChild(empty); return;
@@ -496,7 +510,7 @@
       const card = document.createElement('div'); card.className = 'mix';
       const badge = document.createElement('span'); badge.className='badge';
       const name = document.createElement('div'); name.className='name'; name.textContent = p.name;
-      const meta = document.createElement('div'); meta.className='meta'; meta.textContent = mixToHumanLabel(p.counts);
+      const meta = document.createElement('div'); meta.className='meta'; meta.textContent = mixToHumanLabel(p);
 
       const controls = document.createElement('div'); controls.className='controls';
       const minus = document.createElement('button'); minus.className='mini'; minus.textContent='−';
@@ -526,11 +540,9 @@
 
       del.addEventListener('click', ()=>{
         if(!confirm(`Delete package "${p.name}"?`)) return;
-        const all = getPresets();
-        all.splice(i,1); setPresets(all);
+        const all = getPresets(); all.splice(i,1); setPresets(all);
         mixCounts.splice(i,1);
-        rebuildExpression();
-        renderPresets();
+        rebuildExpression(); renderPresets();
       });
 
       card.appendChild(badge);
@@ -545,16 +557,29 @@
     });
   }
 
+  // Save package = snapshot of current Favorites + current Premiums selections
   saveBtn.addEventListener('click', ()=>{
     const name = presetNameInput.value.trim();
-    const totalCount = Object.values(favCounts).reduce((a,b)=>a+b,0);
-    if(!name || totalCount===0) return;
+    if(!name){ alert('Name your package first.'); return; }
+
+    const favSnap = {};
+    for(const k in favCounts){ if(favCounts[k] > 0) favSnap[k] = favCounts[k]; }
+
+    const premSnap = {};
+    for(const k in premiumCounts){ if(premiumCounts[k] > 0) premSnap[k] = premiumCounts[k]; }
+
+    if(Object.keys(favSnap).length===0 && Object.keys(premSnap).length===0){
+      alert('Add Favorites and/or Premiums before saving a package.');
+      return;
+    }
+
     const presets = getPresets();
-    presets.push({name, counts:{...favCounts}});
+    presets.push({ name, fav: favSnap, prem: premSnap });
     setPresets(presets);
     presetNameInput.value='';
     mixCounts = new Array(presets.length).fill(0);
     renderPresets();
+    alert('Package saved.');
   });
 
   clearMixCountsBtn.addEventListener('click', ()=>{
@@ -672,9 +697,10 @@
     premiumData = {};
     premiumCounts = {};
     premiumKeysByCat = {};
-    allItemsFlat = {};
     allItemsFlat = [];
     premiumPriceByKey = {};
+    premiumNameByKey = {};
+
     items.forEach(({Category, Name, Price, OPC_CODE})=>{
       const key = normalizeKey(Category, Name);
       if(!premiumData[Category]) premiumData[Category] = [];
@@ -682,6 +708,7 @@
       premiumData[Category].push(obj);
       premiumCounts[key] = 0;
       premiumPriceByKey[key] = Price;
+      premiumNameByKey[key] = Name;
       allItemsFlat.push(obj);
     });
     for(const cat in premiumData){
@@ -704,8 +731,7 @@
 
   function currentDataset(){
     const cat = premCat.value;
-    if (cat === '__ALL__') return allItemsFlat;
-    return premiumData[cat] || [];
+    return (cat === '__ALL__') ? allItemsFlat : (premiumData[cat] || []);
   }
 
   function filterByQuery(list, q){
@@ -800,34 +826,51 @@
   function rebuildExpression(){
     const terms = [];
 
-    // Effective favorites = base favorites + sum(packages applied × package contents)
+    // Base: favorites & premiums as-is
     const effectiveFav = {...favCounts};
+    const effectivePrem = {...premiumCounts};
+
+    // Add all applied packages
     const presets = getPresets();
     presets.forEach((p,i)=>{
       const times = mixCounts[i] || 0;
       if (!times) return;
-      for(const key in p.counts){
-        effectiveFav[key] = (effectiveFav[key] || 0) + times * (p.counts[key] || 0);
+
+      // legacy packages ({counts})
+      if (p.counts){
+        for(const key in p.counts){
+          effectiveFav[key] = (effectiveFav[key] || 0) + times * (p.counts[key] || 0);
+        }
+      }
+      // new format {fav, prem}
+      if (p.fav){
+        for(const key in p.fav){
+          effectiveFav[key] = (effectiveFav[key] || 0) + times * (p.fav[key] || 0);
+        }
+      }
+      if (p.prem){
+        for(const key in p.prem){
+          effectivePrem[key] = (effectivePrem[key] || 0) + times * (p.prem[key] || 0);
+        }
       }
     });
 
-    // Favorites to terms
+    // Favorites → expression
     for(const key in effectiveFav){
       const c = effectiveFav[key] || 0; if (!c) continue;
       const price = favPriceByKey[key]; if (typeof price !== 'number') continue;
-      const v = String(price);
-      terms.push(c === 1 ? v : `${v}*${c}`);
+      terms.push(c === 1 ? String(price) : `${price}*${c}`);
     }
 
-    // Premiums to terms
-    for(const key in premiumCounts){
-      const c = premiumCounts[key] || 0; if (!c) continue;
+    // Premiums → expression
+    for(const key in effectivePrem){
+      const c = effectivePrem[key] || 0; if (!c) continue;
       const price = premiumPriceByKey[key];
       if (typeof price !== 'number' || isNaN(price)) continue;
-      const v = String(price);
-      terms.push(c === 1 ? v : `${v}*${c}`);
+      terms.push(c === 1 ? String(price) : `${price}*${c}`);
     }
 
+    // Write without stealing focus / scrolling
     const field = $('totalCost');
     const wasFocused = document.activeElement === field;
     let caret = null;
@@ -845,6 +888,7 @@
     renderPremCategories();
     premCat.value = '__ALL__';
     renderPremGrid();
+    renderPresets(); // refresh labels now that premium names are known
   })();
 
   /* ===== Calculate ===== */
