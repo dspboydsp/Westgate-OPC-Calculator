@@ -20,22 +20,6 @@
   }
   .wrap{ width:min(920px, 96vw); }
 
-  /* Top-right toolbar */
-  .topbar{
-    display:flex; justify-content:flex-end; align-items:center; gap:10px;
-    margin-bottom:10px; width:100%;
-  }
-  .linkbtn, .qrbtn{
-    border:1px solid rgba(244,210,122,.5);
-    background:linear-gradient(180deg, var(--gold-1), var(--gold-2));
-    color:#121212; font-weight:800; font-size:12px;
-    padding:8px 12px; border-radius:999px; cursor:pointer;
-    text-decoration:none; display:inline-flex; align-items:center; gap:8px;
-    box-shadow:0 4px 14px rgba(0,0,0,.35);
-  }
-  .linkbtn:hover, .qrbtn:hover{ filter:brightness(1.02); }
-  .ext{ font-weight:900; }
-
   .brand{ display:flex; flex-direction:column; align-items:center; gap:8px; margin-bottom:16px; }
   .logo{
     width:64px; height:64px; border-radius:50%;
@@ -61,6 +45,23 @@
   @supports (backdrop-filter: blur(6px)) {
     .card{ background: rgba(17,19,25,.82); backdrop-filter: blur(8px); }
   }
+
+  /* In-card toolbar (moved buttons here) */
+  .toolbar{
+    width:100%;
+    display:flex; justify-content:flex-end; align-items:center; gap:10px;
+    margin:4px 0 12px;
+  }
+  .linkbtn, .qrbtn{
+    border:1px solid rgba(244,210,122,.5);
+    background:linear-gradient(180deg, var(--gold-1), var(--gold-2));
+    color:#121212; font-weight:800; font-size:12px;
+    padding:8px 12px; border-radius:999px; cursor:pointer;
+    text-decoration:none; display:inline-flex; align-items:center; gap:8px;
+    box-shadow:0 4px 14px rgba(0,0,0,.35);
+  }
+  .linkbtn:hover, .qrbtn:hover{ filter:brightness(1.02); }
+  .ext{ font-weight:900; }
 
   .card-head{
     display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap;
@@ -234,7 +235,7 @@
   .qr-img{ width:min(320px,70vw); height:auto; border-radius:12px; background:#fff; }
   .qr-hint{ font-size:12px; color:var(--muted); text-align:center; }
 
-  /* Manifest full-screen view */
+  /* Manifest full-screen view (headline -20%) */
   .manifest{
     max-width:680px; width:100%;
     padding:22px; border-radius:20px;
@@ -246,12 +247,13 @@
     box-shadow:0 18px 50px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.05);
   }
   .manifest .big{
-    font-size: clamp(24px, 6vw, 44px); line-height:1.15; font-weight:900;
+    font-size: clamp(19px, 4.8vw, 35px); /* reduced ~20% from 24/6vw/44 */
+    line-height:1.18; font-weight:900;
     letter-spacing:.02em; margin:6px 0 12px;
     background: linear-gradient(180deg, var(--gold-1), var(--gold-2) 65%, var(--gold-3));
     -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent;
   }
-  .manifest .sub{ color:#D4D4D4; font-size:14px; margin-bottom:14px; }
+  .manifest .sub{ color:#D4D4D4; font-size:13px; margin-bottom:14px; }
   .backbtn{
     margin-top:6px; border:1px solid rgba(244,210,122,.5);
     background:linear-gradient(180deg, var(--gold-1), var(--gold-2));
@@ -262,14 +264,6 @@
 </head>
 <body>
   <div class="wrap" id="appRoot">
-    <!-- Top-right buttons -->
-    <div class="topbar">
-      <a class="linkbtn" href="https://www2.wgresorts.com/group/hospitality/tour-details" target="_blank" rel="noopener">
-        PROSPECT <span class="ext">↗</span>
-      </a>
-      <button class="qrbtn" id="manifestBtn">Manifest Tour</button>
-    </div>
-
     <div class="brand">
       <div class="logo">WR</div>
       <div class="title">Westgate Resorts</div>
@@ -277,6 +271,14 @@
     </div>
 
     <div class="card">
+      <!-- Moved toolbar ABOVE Total Cost of Gifting -->
+      <div class="toolbar">
+        <a class="linkbtn" href="https://www2.wgresorts.com/group/hospitality/tour-details" target="_blank" rel="noopener">
+          PROSPECT <span class="ext">↗</span>
+        </a>
+        <button class="qrbtn" id="manifestBtn">Manifest Tour</button>
+      </div>
+
       <div class="card-head">
         <div class="row">
           <label class="label" for="totalCost">Total Cost of Gifting</label>
@@ -420,7 +422,7 @@
       <div class="help">Created by Derick McWilliams, OPC 71774</div>
     </div>
 
-    <div class="footer">© Westgate Resorts · v.7.9</div>
+    <div class="footer">© Westgate Resorts · v.7.10</div>
   </div>
 
   <!-- QR Modal -->
@@ -444,7 +446,7 @@
   const money = (n)=> (isFinite(n) ? n : 0).toLocaleString(undefined,{style:'currency',currency:'USD'});
   const opcBudget = 125;
 
-  /* ========= Manifest special view (for scanned QR) ========= */
+  /* ========= Manifest special view ========= */
   (function checkManifestView(){
     const params = new URLSearchParams(location.search);
     if (params.get('manifest') === '1') {
@@ -452,13 +454,12 @@
       root.innerHTML = `
         <div class="manifest">
           <div class="logo" style="margin:0 auto 8px">WR</div>
-          <div class="big">Your Are Schedule For a WESTGATE TOUR today by OPC #71774</div>
+          <div class="big">Your Are Scheduled For a WESTGATE TOUR today by OPC #71774.  Go directly to WESTGATE PREVIEW CENTER and purchase a Timeshare.</div>
           <div class="sub">Please show this confirmation to your representative.</div>
           <a href="${location.pathname}" class="backbtn">Back to Calculator</a>
         </div>
-        <div class="footer">© Westgate Resorts · v.7.9</div>
+        <div class="footer">© Westgate Resorts · v.7.10</div>
       `;
-      // Stop further app JS from wiring up calculator UI
       throw new Error('ManifestViewStop');
     }
   })();
@@ -470,16 +471,10 @@
   const manifestBtn = $('manifestBtn');
   const openManifestLink = $('openManifestLink');
 
-  function baseURL(){
-    // current origin + path without query/hash
-    return location.origin + location.pathname;
-  }
-  function manifestURL(){
-    return baseURL() + '?manifest=1';
-  }
+  function baseURL(){ return location.origin + location.pathname; }
+  function manifestURL(){ return baseURL() + '?manifest=1'; }
   function openQR(){
     const target = manifestURL();
-    // Use a simple online QR generator to render the code image
     const size = Math.min(640, Math.round(window.innerWidth * 0.8));
     const url = 'https://api.qrserver.com/v1/create-qr-code/?size=' + size + 'x' + size + '&data=' + encodeURIComponent(target);
     qrImg.src = url;
@@ -491,7 +486,6 @@
     qrModal.classList.remove('open');
     qrModal.setAttribute('aria-hidden','true');
   }
-
   manifestBtn.addEventListener('click', openQR);
   qrClose.addEventListener('click', closeQR);
   qrModal.addEventListener('click', (e)=>{ if(e.target === qrModal) closeQR(); });
@@ -770,8 +764,9 @@
   let premiumData = {};
   let premiumCounts = {};
   let premiumKeysByCat = {};
-  let allItemsFlat = [];
+  let allItemsFlat = {};
   let premiumPriceByKey = {};
+  let allItemsArray = [];
 
   function parsePriceFromOPC(opc){
     if(!opc) return null;
@@ -835,7 +830,7 @@
     premiumData = {};
     premiumCounts = {};
     premiumKeysByCat = {};
-    allItemsFlat = [];
+    allItemsArray = [];
     premiumPriceByKey = {};
     premiumNameByKey = {};
 
@@ -847,7 +842,7 @@
       premiumCounts[key] = 0;
       premiumPriceByKey[key] = Price;
       premiumNameByKey[key] = Name;
-      allItemsFlat.push(obj);
+      allItemsArray.push(obj);
     });
     for(const cat in premiumData){
       premiumData[cat].sort((a,b)=> a.name.localeCompare(b.name));
@@ -869,7 +864,7 @@
 
   function currentDataset(){
     const cat = premCat.value;
-    return (cat === '__ALL__') ? allItemsFlat : (premiumData[cat] || []);
+    return (cat === '__ALL__') ? allItemsArray : (premiumData[cat] || []);
   }
 
   function filterByQuery(list, q){
