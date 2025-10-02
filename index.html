@@ -92,7 +92,7 @@
     color:#EDEDED; font-weight:700; font-size:12px; padding:6px 10px; border-radius:999px; cursor:pointer;
   }
 
-  /* Cards / badges / mini buttons reused */
+  /* Reusable cards */
   .fav, .prem, .mix{
     position:relative; min-width:140px;
     padding:8px 10px; border-radius:12px; font-size:13px;
@@ -118,13 +118,14 @@
   .clear{ min-width:auto; background:linear-gradient(180deg,#3c2626,#2a1b1b) !important; border-color:#8f4b4b !important; }
   .clear .name{ color:#f3c2c2; }
 
-  /* Sections */
+  /* Favorites */
   .favs{ display:flex; flex-direction:column; gap:8px; align-items:flex-end; flex:1 1 360px; }
   .favs-head{ display:flex; align-items:center; gap:8px; }
   .favs-title{ color:var(--gold-1); font-weight:700; letter-spacing:.04em; font-size:13px; }
   .fav-grid{ display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end; max-width:100%; }
   .favs.collapsed .fav-grid{ display:none; }
 
+  /* Operator bar */
   .opbar{ display:flex; gap:8px; flex-wrap:wrap; margin:6px 0 10px }
   .opbar button{
     padding:10px 12px; border-radius:10px;
@@ -134,7 +135,7 @@
   }
   .opbar button:active{ transform:translateY(1px) }
 
-  /* Presets (Saved Mixes) */
+  /* Custom Gifting Packaging (formerly Presets) */
   .presets{
     margin-top:12px; padding:10px; border-radius:12px;
     border:1px solid rgba(244,210,122,.35);
@@ -205,7 +206,7 @@
         <div class="row">
           <label class="label" for="totalCost">Total Cost of Gifting</label>
           <input id="totalCost" class="input" type="text" inputmode="text"
-                 placeholder="Tap favorites/premiums/mixes or type e.g. 40*3+1.86" autocomplete="off" />
+                 placeholder="Tap favorites/premiums/packages or type e.g. 40*3+1.86" autocomplete="off" />
         </div>
 
         <!-- Favorites -->
@@ -272,18 +273,18 @@
         <button data-op="clear">Clear</button>
       </div>
 
-      <!-- Saved Mixes (collapsible) -->
+      <!-- Custom Gifting Packaging (collapsible) -->
       <div class="presets collapsed" id="presets">
         <div class="presets-head">
-          <div class="presets-title">Saved Mixes</div>
+          <div class="presets-title">Custom Gifting Packaging</div>
           <button class="toggle" id="presetsToggle">Show</button>
         </div>
         <div class="presets-body">
           <div class="preset-list" id="presetList"></div>
           <div class="preset-add">
-            <input id="presetName" class="preset-input" type="text" placeholder="Preset name (e.g. 4EddieG+2VLT)" />
-            <button id="savePreset" class="preset-save">Save Mix</button>
-            <button id="clearMixCounts" class="mini clear">Reset Mix Counters</button>
+            <input id="presetName" class="preset-input" type="text" placeholder="Package name (e.g. 4EddieG+2VLT)" />
+            <button id="savePreset" class="preset-save">Save Package</button>
+            <button id="clearMixCounts" class="mini clear">Reset Package Counters</button>
           </div>
         </div>
       </div>
@@ -344,7 +345,7 @@
       <div class="help">Created by Derick McWilliams, OPC 71774</div>
     </div>
 
-    <div class="footer">© Westgate Resorts · v.7.4</div>
+    <div class="footer">© Westgate Resorts · v.7.5</div>
   </div>
 
 <script>
@@ -366,7 +367,7 @@
 
   /* ===== Favorites ===== */
   const favOrder = ["Sphere","EddieG","MJLive","Cruise","VLT"];
-  const favCounts = Object.fromEntries(favOrder.map(k => [k, 0])); // base counts from favorites UI (not mixes)
+  const favCounts = Object.fromEntries(favOrder.map(k => [k, 0]));
   const favPriceByKey = { Sphere:119, EddieG:40, MJLive:29, Cruise:43, VLT:1.86 };
 
   const favsEl = $('favs'), favToggle = $('favToggle');
@@ -440,7 +441,7 @@
     });
   });
 
-  /* ===== Saved Mixes (Presets) ===== */
+  /* ===== Custom Gifting Packaging (Saved Mixes) ===== */
   const presetsEl = $('presets'), presetsToggle = $('presetsToggle');
   if (!smallScreen()) { presetsEl.classList.remove('collapsed'); presetsToggle.textContent = 'Hide'; }
   const presetsKey = 'presetsCollapsed';
@@ -464,8 +465,8 @@
   const getPresets = () => JSON.parse(localStorage.getItem('presets')||'[]');
   const setPresets = (p) => localStorage.setItem('presets', JSON.stringify(p));
 
-  // Each saved mix has its own "application count"
-  let mixCounts = []; // index-aligned with presets; non-persistent (session-level)
+  // Each saved package has an independent "applied times" counter
+  let mixCounts = []; // index-aligned with presets; session-only
 
   function mixToHumanLabel(counts){
     const parts = [];
@@ -486,7 +487,7 @@
     if (presets.length === 0){
       const empty = document.createElement('div');
       empty.style.color = '#B8B8B8'; empty.style.fontSize = '12px';
-      empty.textContent = 'No mixes saved yet.'; presetList.appendChild(empty); return;
+      empty.textContent = 'No packages saved yet.'; presetList.appendChild(empty); return;
     }
 
     presets.forEach((p,i)=>{
@@ -507,43 +508,29 @@
       }
       refreshBadge();
 
+      // IMPORTANT: Only adjust mixCounts here. Do NOT mutate favCounts (prevents double-counting).
       plus.addEventListener('click', ()=>{
-        // Apply the mix once
-        for(const key in p.counts){
-          favCounts[key] = (favCounts[key] || 0) + (p.counts[key] || 0);
-        }
         mixCounts[i] = (mixCounts[i] || 0) + 1;
-        updateFavBadges(); refreshBadge(); rebuildExpression();
+        refreshBadge(); rebuildExpression();
       });
 
       minus.addEventListener('click', ()=>{
-        if ((mixCounts[i] || 0) <= 0) return;
-        // Remove the mix once (clamp at zero for each item)
-        for(const key in p.counts){
-          favCounts[key] = Math.max(0, (favCounts[key] || 0) - (p.counts[key] || 0));
-        }
         mixCounts[i] = Math.max(0, (mixCounts[i] || 0) - 1);
-        updateFavBadges(); refreshBadge(); rebuildExpression();
+        refreshBadge(); rebuildExpression();
       });
 
       rename.addEventListener('click', ()=>{
-        const newName = (prompt('Rename preset:', p.name) || '').trim(); if(!newName) return;
+        const newName = (prompt('Rename package:', p.name) || '').trim(); if(!newName) return;
         const all = getPresets(); all[i].name = newName; setPresets(all); renderPresets();
       });
 
       del.addEventListener('click', ()=>{
-        if(!confirm(`Delete preset "${p.name}"?`)) return;
+        if(!confirm(`Delete package "${p.name}"?`)) return;
         const all = getPresets();
-        // If mix had been applied, remove its contribution first
-        const times = mixCounts[i] || 0;
-        for(let t=0;t<times;t++){
-          for(const key in p.counts){
-            favCounts[key] = Math.max(0, (favCounts[key] || 0) - (p.counts[key] || 0));
-          }
-        }
+        // Remove the package; its contribution will disappear automatically when mixCounts array reindexes.
         all.splice(i,1); setPresets(all);
         mixCounts.splice(i,1);
-        updateFavBadges(); rebuildExpression();
+        rebuildExpression();
         renderPresets();
       });
 
@@ -559,6 +546,7 @@
     });
   }
 
+  // Save a package based on current Favorites counts
   saveBtn.addEventListener('click', ()=>{
     const name = presetNameInput.value.trim();
     const totalCount = Object.values(favCounts).reduce((a,b)=>a+b,0);
@@ -567,24 +555,15 @@
     presets.push({name, counts:{...favCounts}});
     setPresets(presets);
     presetNameInput.value='';
-    // Reset applied counters for new list
-    mixCounts = new Array(presets.length).fill(0);
+    mixCounts = new Array(presets.length).fill(0); // reset applied counters
     renderPresets();
   });
 
+  // Reset all applied package counters (does not touch Favorites)
   clearMixCountsBtn.addEventListener('click', ()=>{
-    // Remove all applied mix contributions from favCounts, then zero counters.
     const presets = getPresets();
-    presets.forEach((p,i)=>{
-      const times = mixCounts[i] || 0;
-      for(let t=0;t<times;t++){
-        for(const key in p.counts){
-          favCounts[key] = Math.max(0, (favCounts[key] || 0) - (p.counts[key] || 0));
-        }
-      }
-    });
     mixCounts = new Array(presets.length).fill(0);
-    updateFavBadges(); rebuildExpression(); renderPresets();
+    rebuildExpression(); renderPresets();
   });
 
   renderPresets();
@@ -741,13 +720,12 @@
   }
 
   function renderPremGrid(){
-    const premGrid = $('premGrid');
     premGrid.innerHTML = '';
-    const q = $('premSearch').value.trim();
+    const q = premSearch.value.trim();
     const ds = currentDataset();
     const filtered = filterByQuery(ds, q);
 
-    $('premMatchMeta').textContent = q ? `Matches: ${filtered.length}` : '';
+    premMatchMeta.textContent = q ? `Matches: ${filtered.length}` : '';
 
     filtered.forEach(item=>{
       const card = document.createElement('div');
@@ -785,7 +763,6 @@
       premGrid.appendChild(card);
     });
 
-    // Clear section/all card
     const clr = document.createElement('div');
     clr.className = 'prem clear';
     const nm = document.createElement('div'); nm.className = 'name';
@@ -803,28 +780,28 @@
     premGrid.appendChild(clr);
   }
 
-  $('premCat').addEventListener('change', ()=> renderPremGrid());
+  premCat.addEventListener('change', ()=> renderPremGrid());
   let searchTimer = null;
-  $('premSearch').addEventListener('input', ()=>{
+  premSearch.addEventListener('input', ()=>{
     clearTimeout(searchTimer);
     searchTimer = setTimeout(()=> renderPremGrid(), 120);
   });
-  $('premSearchClear').addEventListener('click', ()=>{
-    $('premSearch').value = '';
+  premSearchClear.addEventListener('click', ()=>{
+    premSearch.value = '';
     renderPremGrid();
-    $('premSearch').focus();
+    premSearch.focus();
   });
-  $('premClear').addEventListener('click', ()=>{
+  premClear.addEventListener('click', ()=>{
     for(const k in premiumCounts) premiumCounts[k]=0;
     renderPremGrid();
     rebuildExpression();
   });
 
-  /* ===== Expression builder (Favorites + Mixes + Premiums) — no forced focus ===== */
+  /* ===== Expression builder (Favorites + Packages + Premiums) — no forced focus ===== */
   function rebuildExpression(){
     const terms = [];
 
-    // Effective favorites = base favorites (favCounts) + contributions from applied mixes
+    // Effective favorites = base favorites + sum(packages applied × package contents)
     const effectiveFav = {...favCounts};
     const presets = getPresets();
     presets.forEach((p,i)=>{
@@ -835,7 +812,7 @@
       }
     });
 
-    // Build from favorites via price map
+    // Favorites to terms
     for(const key in effectiveFav){
       const c = effectiveFav[key] || 0; if (!c) continue;
       const price = favPriceByKey[key]; if (typeof price !== 'number') continue;
@@ -843,7 +820,7 @@
       terms.push(c === 1 ? v : `${v}*${c}`);
     }
 
-    // Add premiums
+    // Premiums to terms
     for(const key in premiumCounts){
       const c = premiumCounts[key] || 0; if (!c) continue;
       const price = premiumPriceByKey[key];
@@ -862,12 +839,112 @@
     }
   }
 
-  /* ===== Load & init Premiums ===== */
+  /* ===== Premiums load/init ===== */
+  const premGrid = $('premGrid'); // (redeclared safely for clarity)
+  const premClear = $('premClear');
+  const premCat = $('premCat');
+  const premSearch = $('premSearch');
+  const premSearchClear = $('premSearchClear');
+  const premMatchMeta = $('premMatchMeta');
+
+  let premiumData = {}, premiumCounts = {}, premiumKeysByCat = {}, allItemsFlat = [], premiumPriceByKey = {};
+
+  function parsePriceFromOPC(opc){
+    if(!opc) return null;
+    const m = String(opc).toUpperCase().match(/WG\s*([0-9]+(?:\.[0-9]+)?)/);
+    return m ? parseFloat(m[1]) : null;
+  }
+  function normalizeKey(cat, name){ return (cat + '|' + name).replace(/\s+/g,'_'); }
+
+  async function loadPremiumsFromCSV(){
+    try{
+      const res = await fetch(PREMIUMS_CSV_PATH, { cache: 'no-store' });
+      if(!res.ok) throw new Error('CSV not found');
+      const txt = await res.text();
+      const rows = parseCSV(txt);
+      if (!rows.length) throw new Error('CSV empty');
+
+      const header = rows[0].map(h => h.toUpperCase());
+      const iCat = header.indexOf('CATEGORY');
+      const iName = header.indexOf('NAME');
+      const iOPC = header.indexOf('OPC_CODE');
+      if (iCat === -1 || iName === -1 || iOPC === -1){
+        throw new Error('CSV headers must be: Category, Name, OPC_CODE');
+      }
+      const items = rows.slice(1).map(r => ({
+        Category: (r[iCat] || 'Uncategorized').trim(),
+        Name: (r[iName] || '').trim(),
+        OPC_CODE: (r[iOPC] || '').trim(),
+        Price: parsePriceFromOPC(r[iOPC])
+      })).filter(x => x.Name && x.Price != null);
+      return items;
+    }catch(e){
+      console.error('Failed to load premiums CSV:', e);
+      return [];
+    }
+  }
+
+  function parseCSV(text){
+    const rows = [];
+    let i = 0, field = '', row = [], inQuotes = false;
+    while (i < text.length){
+      const c = text[i];
+      if (inQuotes){
+        if (c === '"'){
+          if (text[i+1] === '"'){ field += '"'; i++; }
+          else { inQuotes = false; }
+        } else { field += c; }
+      } else {
+        if (c === '"'){ inQuotes = true; }
+        else if (c === ','){ row.push(field.trim()); field = ''; }
+        else if (c === '\n'){ row.push(field.trim()); rows.push(row); row = []; field = ''; }
+        else if (c === '\r'){ /* ignore */ }
+        else { field += c; }
+      }
+      i++;
+    }
+    if (field.length || row.length) { row.push(field.trim()); rows.push(row); }
+    return rows;
+  }
+
+  function buildPremiumData(items){
+    premiumData = {};
+    premiumCounts = {};
+    premiumKeysByCat = {};
+    allItemsFlat = [];
+    premiumPriceByKey = {};
+    items.forEach(({Category, Name, Price, OPC_CODE})=>{
+      const key = normalizeKey(Category, Name);
+      if(!premiumData[Category]) premiumData[Category] = [];
+      const obj = { key, name: Name, price: Price, opc: OPC_CODE, Category };
+      premiumData[Category].push(obj);
+      premiumCounts[key] = 0;
+      premiumPriceByKey[key] = Price;
+      allItemsFlat.push(obj);
+    });
+    for(const cat in premiumData){
+      premiumData[cat].sort((a,b)=> a.name.localeCompare(b.name));
+      premiumKeysByCat[cat] = premiumData[cat].map(it => it.key);
+    }
+  }
+
+  function renderPremCategories(){
+    const cats = Object.keys(premiumData).sort();
+    premCat.innerHTML = '';
+    const allOpt = document.createElement('option'); allOpt.value = '__ALL__'; allOpt.textContent = 'All';
+    premCat.appendChild(allOpt);
+    cats.forEach(c=>{
+      const opt = document.createElement('option');
+      opt.value = c; opt.textContent = c;
+      premCat.appendChild(opt);
+    });
+  }
+
   (async function initPremiums(){
     const items = await loadPremiumsFromCSV();
     buildPremiumData(items);
     renderPremCategories();
-    $('premCat').value = '__ALL__';
+    premCat.value = '__ALL__';
     renderPremGrid();
   })();
 
