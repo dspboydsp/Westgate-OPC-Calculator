@@ -32,8 +32,7 @@
     letter-spacing:.08em; text-transform:uppercase;
     background: linear-gradient(180deg, var(--gold-1), var(--gold-2) 60%, var(--gold-3));
     -webkit-background-clip:text; background-clip:text; color:transparent;
-    -webkit-text-fill-color: transparent;
-    text-align:center;
+    -webkit-text-fill-color: transparent; text-align:center;
   }
   .subtitle{ color:var(--muted); font-size:14px; text-align:center; margin-top:-4px; }
 
@@ -61,19 +60,12 @@
   }
   .ext{ font-weight:900; }
 
-  .card-head{
-    display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap;
-    margin-bottom:10px;
-  }
-
+  .card-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:10px; }
   .row{ display:grid; gap:10px; margin-bottom:14px; flex:1 1 320px; min-width:280px; }
   .label{ font-weight:600; color:var(--gold-1); letter-spacing:.02em; }
-
   .input{
-    background: #0c0f14; color:#EFEFEF;
-    padding:14px 14px; border-radius:14px; width:100%;
-    border:1.2px solid rgba(244,210,122,.35);
-    outline:none; font-size:16px;
+    background:#0c0f14; color:#EFEFEF; padding:14px 14px; border-radius:14px; width:100%;
+    border:1.2px solid rgba(244,210,122,.35); outline:none; font-size:16px;
   }
   .input:focus{ border-color:var(--gold-1); }
 
@@ -88,15 +80,13 @@
   .result{
     background: linear-gradient(180deg, #0c0e12, #0a0b0f);
     border:1px solid rgba(244,210,122,.28);
-    border-radius:14px; padding:14px 16px;
-    display:flex; justify-content:space-between; align-items:center;
+    border-radius:14px; padding:14px 16px; display:flex; justify-content:space-between; align-items:center;
   }
   .result .name{ color:var(--muted); font-size:14px; }
   .result .value{
     font-variant-numeric: tabular-nums; font-weight:800;
     background: linear-gradient(180deg, var(--gold-1), var(--gold-2) 70%, var(--gold-3));
-    -webkit-background-clip:text; background-clip:text; color:transparent;
-    -webkit-text-fill-color: transparent;
+    -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color: transparent;
   }
   .help{ color:var(--muted); font-size:12px; margin-top:6px; }
   .error{ color:var(--error); font-size:13px; margin-top:6px; display:none; }
@@ -109,11 +99,9 @@
   }
 
   .fav, .prem, .mix{
-    position:relative; min-width:140px;
-    padding:8px 10px; border-radius:12px; font-size:13px;
+    position:relative; min-width:140px; padding:8px 10px; border-radius:12px; font-size:13px;
     border:1px solid rgba(244,210,122,.45);
-    background:linear-gradient(180deg,#14161b,#0f1115);
-    color:#EDEDED; box-shadow:0 4px 12px rgba(0,0,0,.25);
+    background:linear-gradient(180deg,#14161b,#0f1115); color:#EDEDED; box-shadow:0 4px 12px rgba(0,0,0,.25);
   }
   .name{ font-weight:800; }
   .price{ display:block; font-weight:600; color:#F4D27A; opacity:.9; margin-top:2px; }
@@ -141,17 +129,11 @@
 
   .opbar{ display:flex; gap:8px; flex-wrap:wrap; margin:6px 0 10px }
   .opbar button{
-    padding:10px 12px; border-radius:10px;
-    border:1px solid rgba(244,210,122,.35);
-    background:linear-gradient(180deg,#14161b,#0f1115);
-    color:#EDEDED; font-weight:700; cursor:pointer;
+    padding:10px 12px; border-radius:10px; border:1px solid rgba(244,210,122,.35);
+    background:linear-gradient(180deg,#14161b,#0f1115); color:#EDEDED; font-weight:700; cursor:pointer;
   }
 
-  .presets{
-    margin-top:12px; padding:10px; border-radius:12px;
-    border:1px solid rgba(244,210,122,.35);
-    background:linear-gradient(180deg,#14161b,#0f1115);
-  }
+  .presets{ margin-top:12px; padding:10px; border-radius:12px; border:1px solid rgba(244,210,122,.35); background:linear-gradient(180deg,#14161b,#0f1115); }
   .presets-head{ display:flex; align-items:center; gap:8px; justify-content:space-between; }
   .presets-title{ color:var(--gold-1); font-weight:700; letter-spacing:.04em; font-size:13px; }
   .presets.collapsed .presets-body{ display:none; }
@@ -168,89 +150,65 @@
     font-weight:700; cursor:pointer;
   }
 
-  .adv{
-    margin-top:12px; padding:10px; border-radius:12px;
-    border:1px solid rgba(244,210,122,.35);
-    background:linear-gradient(180deg,#14161b,#0f1115);
-  }
+  .adv{ margin-top:12px; padding:10px; border-radius:12px; border:1px solid rgba(244,210,122,.35); background:linear-gradient(180deg,#14161b,#0f1115); }
   .adv-head{ display:flex; align-items:center; gap:8px; justify-content:space-between; }
   .adv-title{ color:var(--gold-1); font-weight:700; letter-spacing:.04em; font-size:13px; }
   .adv-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:10px; }
   .adv.collapsed .adv-grid{ display:none; }
   @media (max-width:560px){ .adv-grid{ grid-template-columns:1fr; } }
 
-  .prems{
-    margin-top:12px; padding:10px; border-radius:12px;
-    border:1px solid rgba(244,210,122,.35);
-    background:linear-gradient(180deg,#14161b,#0f1115);
-  }
+  .prems{ margin-top:12px; padding:10px; border-radius:12px; border:1px solid rgba(244,210,122,.35); background:linear-gradient(180deg,#14161b,#0f1115); }
   .prems-head{ display:flex; align-items:center; gap:8px; justify-content:space-between; }
   .prems-title{ color:var(--gold-1); font-weight:700; letter-spacing:.04em; font-size:13px; }
   .prems.collapsed .prems-body{ display:none; }
   .prems-controls{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin:8px 0; }
   .select{
-    background:#0c0f14; color:#EDEDED; border:1px solid rgba(244,210,122,.35);
-    border-radius:10px; padding:8px 10px; font-size:14px;
+    background:#0c0f14; color:#EDEDED; border:1px solid rgba(244,210,122,.35); border-radius:10px; padding:8px 10px; font-size:14px;
   }
-  .prem-search{
-    flex:1; min-width:200px;
-    background:#0c0f14; color:#EDEDED; border:1px solid rgba(244,210,122,.35);
-    border-radius:10px; padding:8px 10px; font-size:14px;
-  }
+  .prem-search{ flex:1; min-width:200px; background:#0c0f14; color:#EDEDED; border:1px solid rgba(244,210,122,.35); border-radius:10px; padding:8px 10px; font-size:14px; }
   .prem-meta{ color:var(--muted); font-size:12px; }
   .prem-grid{ display:flex; flex-wrap:wrap; gap:8px; }
 
-  .modal{
-    position:fixed; inset:0; background:rgba(0,0,0,.55);
-    display:none; align-items:center; justify-content:center; padding:16px; z-index:1000;
-  }
+  .modal{ position:fixed; inset:0; background:rgba(0,0,0,.55); display:none; align-items:center; justify-content:center; padding:16px; z-index:1000; }
   .modal.open{ display:flex; }
   .modal-card{
-    width:min(520px, 96vw);
-    background:linear-gradient(180deg,#14161b,#0f1115);
-    border:1px solid rgba(244,210,122,.35);
-    border-radius:16px; box-shadow:0 20px 60px rgba(0,0,0,.6);
-    padding:16px;
+    width:min(520px, 96vw); background:linear-gradient(180deg,#14161b,#0f1115);
+    border:1px solid rgba(244,210,122,.35); border-radius:16px; box-shadow:0 20px 60px rgba(0,0,0,.6); padding:16px;
   }
   .modal-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
   .modal-title{ font-weight:800; letter-spacing:.04em; color:var(--gold-1); }
-  .modal-close{
-    border:1px solid rgba(244,210,122,.45); background:#0f1115; color:#EDEDED;
-    border-radius:999px; padding:6px 10px; cursor:pointer;
-  }
+  .modal-close{ border:1px solid rgba(244,210,122,.45); background:#0f1115; color:#EDEDED; border-radius:999px; padding:6px 10px; cursor:pointer; }
   .qr-wrap{ display:flex; flex-direction:column; align-items:center; gap:10px; }
   .qr-img{ width:min(320px,70vw); height:auto; border-radius:12px; background:#fff; }
   .qr-hint{ font-size:12px; color:var(--muted); text-align:center; }
 
   .manifest{
-    max-width:680px; width:100%;
-    padding:22px; border-radius:20px;
-    border:1px solid rgba(244,210,122,.35);
-    background:
-      radial-gradient(800px 300px at 100% 0%, rgba(244,210,122,0.16), transparent 55%),
-      linear-gradient(180deg, #0b0b0c 0%, #121214 55%, #0a0a0b 100%);
-    text-align:center;
-    box-shadow:0 18px 50px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.05);
+    max-width:680px; width:100%; padding:22px; border-radius:20px; border:1px solid rgba(244,210,122,.35);
+    background: radial-gradient(800px 300px at 100% 0%, rgba(244,210,122,0.16), transparent 55%), linear-gradient(180deg, #0b0b0c 0%, #121214 55%, #0a0a0b 100%);
+    text-align:center; box-shadow:0 18px 50px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.05);
   }
   .manifest .big{
-    font-size: clamp(19px, 4.8vw, 35px);
-    line-height:1.18; font-weight:900;
-    letter-spacing:.02em; margin:6px 0 12px;
+    font-size: clamp(19px, 4.8vw, 35px); line-height:1.18; font-weight:900; letter-spacing:.02em; margin:6px 0 12px;
     background: linear-gradient(180deg, var(--gold-1), var(--gold-2) 65%, var(--gold-3));
     -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent;
   }
   .manifest .sub{ color:#D4D4D4; font-size:13px; margin-bottom:14px; }
-  .manifest .avatar{
-    width:min(240px, 60vw); height:auto; border-radius:14px;
-    box-shadow:0 10px 30px rgba(0,0,0,.45);
-    margin:8px auto 14px; display:block;
-  }
+  .manifest .avatar{ width:min(240px, 60vw); height:auto; border-radius:14px; box-shadow:0 10px 30px rgba(0,0,0,.45); margin:8px auto 14px; display:block; }
   .backbtn{
     margin-top:6px; border:1px solid rgba(244,210,122,.5);
     background:linear-gradient(180deg, var(--gold-1), var(--gold-2));
     color:#121212; font-weight:800; font-size:14px; padding:10px 14px; border-radius:999px; cursor:pointer;
     text-decoration:none; display:inline-flex; align-items:center; gap:8px;
   }
+
+  /* Record Tour */
+  .record{ margin-top:14px; padding:12px; border-radius:12px; border:1px solid rgba(244,210,122,.35); background:linear-gradient(180deg,#14161b,#0f1115); }
+  .record-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:8px; }
+  .record-title{ color:var(--gold-1); font-weight:700; letter-spacing:.04em; font-size:13px; }
+  .record-row{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .record .small{ color:#B8B8B8; font-size:12px; }
+  .savebtn{ padding:10px 12px; border-radius:10px; border:0; background:linear-gradient(180deg,var(--gold-1),var(--gold-2)); font-weight:800; cursor:pointer; }
+  .savemsg{ font-size:12px; margin-left:auto; }
 </style>
 </head>
 <body>
@@ -276,6 +234,7 @@
                  placeholder="Tap favorites/premiums/packages or type e.g. 40*3+1.86" autocomplete="off" />
         </div>
 
+        <!-- Favorites (unchanged UI) -->
         <div class="favs collapsed" id="favs">
           <div class="favs-head">
             <div class="favs-title">Favorites</div>
@@ -292,6 +251,7 @@
         </div>
       </div>
 
+      <!-- Operator bar -->
       <div class="opbar">
         <button data-op="+">+</button><button data-op="-">−</button>
         <button data-op="*">×</button><button data-op="/">÷</button>
@@ -299,6 +259,7 @@
         <button data-op=".">.</button><button data-op="clear">Clear</button>
       </div>
 
+      <!-- Packages -->
       <div class="presets collapsed" id="presets">
         <div class="presets-head">
           <div class="presets-title">Custom Gifting Packaging</div>
@@ -309,11 +270,12 @@
           <div class="preset-add">
             <input id="presetName" class="preset-input" type="text" placeholder="Package name (e.g. 4EddieG+2VLT)" />
             <button id="savePreset" class="preset-save">Save Package</button>
-            <button id="clearMixCounts" class="mini clear">Reset Package Counters</button>
+            <button id="clearMixCounts" class="mini clear" title="Reset counters only">Reset Package Counters</button>
           </div>
         </div>
       </div>
 
+      <!-- Adjustments -->
       <div class="adv collapsed" id="adv">
         <div class="adv-head">
           <div class="adv-title">Adjustments</div>
@@ -321,10 +283,11 @@
         </div>
         <div class="adv-grid">
           <div class="row"><label class="label" for="willingLose">Amount Willing to Lose</label><input id="willingLose" class="input" type="text" inputmode="text" placeholder="e.g. 20 or 50/2" autocomplete="off" /></div>
-          <div class="row"><label class="label" for="guests">Number of Guests</label><input id="guests" class="input" type="number" inputmode="numeric" placeholder="e.g. 4" /></div>
+          <div class="row"><label class="label" for="guests">Number of Guests</label><input id="guests" class="input" type="number" inputmode="numeric" placeholder="1 (default)" /></div>
         </div>
       </div>
 
+      <!-- Premiums -->
       <div class="prems collapsed" id="prems">
         <div class="prems-head">
           <div class="prems-title">Premiums (from Spreadsheet)</div>
@@ -351,12 +314,26 @@
         <div class="result"><div class="name">Cost per Person</div><div id="perPerson" class="value">$0.00</div></div>
       </div>
 
+      <!-- v8.0: Record Tour -->
+      <div class="record">
+        <div class="record-head">
+          <div class="record-title">Record Tour</div>
+          <div class="small">Cost per person (for your reference): <span id="ctpSmall">$0.00</span></div>
+        </div>
+        <div class="record-row">
+          <input id="inviteNum" class="input" style="max-width:260px" placeholder="Invitation #" autocomplete="off" />
+          <button id="saveInvite" class="savebtn">Save to Spreadsheet</button>
+          <span id="saveMsg" class="savemsg small"></span>
+        </div>
+      </div>
+
       <div class="help">Created by Derick McWilliams, OPC 71774</div>
     </div>
 
-    <div class="footer">© Westgate Resorts · v.7.12</div>
+    <div class="footer">© Westgate Resorts · v.8.0</div>
   </div>
 
+  <!-- Manifest modal -->
   <div class="modal" id="qrModal" aria-hidden="true" role="dialog" aria-label="Manifest QR">
     <div class="modal-card">
       <div class="modal-head">
@@ -372,14 +349,20 @@
   </div>
 
 <script>
-  const PREMIUMS_CSV_PATH = "premiums_ready_upload.csv";
-  const AVATAR_IMG = "donavanAvatar.png";
+  /* ======= SETTINGS (edit these) ======= */
+  const PREMIUMS_CSV_PATH = "premiums_ready_upload.csv";    // CSV beside this HTML
+  const AVATAR_IMG = "donavanAvatar.png";                   // image file beside this HTML
 
+  // Paste your Apps Script Web App URL here after you deploy it (see instructions below).
+  // Example: const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx.../exec";
+  const WEB_APP_URL = "";  // <-- REQUIRED to enable "Save to Spreadsheet"
+
+  /* ======= UTILITIES ======= */
   const $ = (id)=>document.getElementById(id);
   const money = (n)=> (isFinite(n) ? n : 0).toLocaleString(undefined,{style:'currency',currency:'USD'});
   const opcBudget = 125;
 
-  /* Manifest page */
+  /* Manifest page (same behavior as v7.12) */
   (function checkManifestView(){
     const params = new URLSearchParams(location.search);
     if (params.get('manifest') === '1') {
@@ -392,19 +375,15 @@
           <div class="sub">Please show this confirmation to your representative.</div>
           <a href="${location.pathname}" class="backbtn">Back to Calculator</a>
         </div>
-        <div class="footer">© Westgate Resorts · v.7.12</div>
+        <div class="footer">© Westgate Resorts · v.8.0</div>
       `;
       throw new Error('ManifestViewStop');
     }
   })();
 
   /* QR modal */
-  const qrModal = $('qrModal');
-  const qrImg = $('qrImg');
-  const qrClose = $('qrClose');
-  const manifestBtn = $('manifestBtn');
-  const openManifestLink = $('openManifestLink');
-
+  const qrModal = $('qrModal'), qrImg = $('qrImg'), qrClose = $('qrClose'),
+        manifestBtn = $('manifestBtn'), openManifestLink = $('openManifestLink');
   function baseURL(){ return location.origin + location.pathname; }
   function manifestURL(){ return baseURL() + '?manifest=1'; }
   function openQR(){
@@ -413,8 +392,7 @@
     const url = 'https://api.qrserver.com/v1/create-qr-code/?size=' + size + 'x' + size + '&data=' + encodeURIComponent(target);
     qrImg.src = url;
     openManifestLink.href = target;
-    qrModal.classList.add('open');
-    qrModal.setAttribute('aria-hidden','false');
+    qrModal.classList.add('open'); qrModal.setAttribute('aria-hidden','false');
   }
   function closeQR(){ qrModal.classList.remove('open'); qrModal.setAttribute('aria-hidden','true'); }
   manifestBtn.addEventListener('click', openQR);
@@ -422,7 +400,7 @@
   qrModal.addEventListener('click', (e)=>{ if(e.target === qrModal) closeQR(); });
   window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeQR(); });
 
-  /* Parser */
+  /* Simple math parser */
   function parseMath(str) {
     if (str === undefined || str === null || str === "") return NaN;
     if (/^[0-9+\-*/().\s]+$/.test(str)) {
@@ -432,7 +410,7 @@
     return NaN;
   }
 
-  /* Favorites */
+  /* ===== Favorites (same as v7.12) ===== */
   const favOrder = ["Sphere","EddieG","MJLive","Cruise","VLT"];
   const favCounts = Object.fromEntries(favOrder.map(k => [k, 0]));
   const favPriceByKey = { Sphere:119, EddieG:40, MJLive:29, Cruise:43, VLT:1.86 };
@@ -442,24 +420,14 @@
 
   const favStateKey = 'favsCollapsed';
   const favSaved = localStorage.getItem(favStateKey);
-  if (favSaved !== null) {
-    const collapsed = favSaved === 'true';
-    favsEl.classList.toggle('collapsed', collapsed);
-    favToggle.textContent = collapsed ? 'Show' : 'Hide';
-  } else if (!smallScreen()) { favsEl.classList.remove('collapsed'); favToggle.textContent = 'Hide'; }
-  favToggle.addEventListener('click', ()=>{
-    favsEl.classList.toggle('collapsed');
-    favToggle.textContent = favsEl.classList.contains('collapsed') ? 'Show' : 'Hide';
-    localStorage.setItem(favStateKey, favsEl.classList.contains('collapsed'));
-  });
+  if (favSaved !== null) { const collapsed = favSaved === 'true'; favsEl.classList.toggle('collapsed', collapsed); favToggle.textContent = collapsed ? 'Show' : 'Hide'; }
+  else if (!smallScreen()) { favsEl.classList.remove('collapsed'); favToggle.textContent = 'Hide'; }
+  favToggle.addEventListener('click', ()=>{ favsEl.classList.toggle('collapsed'); favToggle.textContent = favsEl.classList.contains('collapsed') ? 'Show' : 'Hide'; localStorage.setItem(favStateKey, favsEl.classList.contains('collapsed')); });
 
   function updateFavBadges(){
     document.querySelectorAll('.fav[data-key]').forEach(card=>{
-      const key = card.dataset.key;
-      const badge = card.querySelector('.badge');
-      const c = favCounts[key] || 0;
-      badge.textContent = c;
-      badge.style.display = c > 0 ? 'grid' : 'none';
+      const key = card.dataset.key; const badge = card.querySelector('.badge'); const c = favCounts[key] || 0;
+      badge.textContent = c; badge.style.display = c > 0 ? 'grid' : 'none';
     });
   }
   function wireFavButtons(){
@@ -481,11 +449,9 @@
   });
   function insertAtCursor(input, text){
     if(!input) return;
-    const start = input.selectionStart ?? input.value.length;
-    const end   = input.selectionEnd ?? input.value.length;
+    const start = input.selectionStart ?? input.value.length; const end = input.selectionEnd ?? input.value.length;
     input.value = input.value.slice(0,start) + text + input.value.slice(end);
-    const pos = start + text.length;
-    try { input.setSelectionRange(pos, pos); } catch {}
+    const pos = start + text.length; try { input.setSelectionRange(pos, pos); } catch {}
     try { input.focus({ preventScroll: true }); } catch { input.focus(); }
   }
   document.querySelectorAll('.opbar button').forEach(btn=>{
@@ -496,27 +462,20 @@
     });
   });
 
-  /* Packages */
+  /* ===== Packages ===== */
   const presetsEl = $('presets'), presetsToggle = $('presetsToggle');
   const presetsKey = 'presetsCollapsed';
   const presetsSaved = localStorage.getItem(presetsKey);
-  if (presetsSaved !== null) {
-    const collapsed = presetsSaved === 'true';
-    presetsEl.classList.toggle('collapsed', collapsed);
-    presetsToggle.textContent = collapsed ? 'Show' : 'Hide';
-  } else if (!smallScreen()) { presetsEl.classList.remove('collapsed'); presetsToggle.textContent = 'Hide'; }
-  presetsToggle.addEventListener('click', ()=>{
-    presetsEl.classList.toggle('collapsed');
-    presetsToggle.textContent = presetsEl.classList.contains('collapsed') ? 'Show' : 'Hide';
-    localStorage.setItem(presetsKey, presetsEl.classList.contains('collapsed'));
-  });
+  if (presetsSaved !== null) { const collapsed = presetsSaved === 'true'; presetsEl.classList.toggle('collapsed', collapsed); presetsToggle.textContent = collapsed ? 'Show' : 'Hide'; }
+  else if (!smallScreen()) { presetsEl.classList.remove('collapsed'); presetsToggle.textContent = 'Hide'; }
+  presetsToggle.addEventListener('click', ()=>{ presetsEl.classList.toggle('collapsed'); presetsToggle.textContent = presetsEl.classList.contains('collapsed') ? 'Show' : 'Hide'; localStorage.setItem(presetsKey, presetsEl.classList.contains('collapsed')); });
 
   const presetList = $('presetList'), saveBtn = $('savePreset'), presetNameInput = $('presetName'), clearMixCountsBtn = $('clearMixCounts');
   const getPresets = () => JSON.parse(localStorage.getItem('presets')||'[]');
   const setPresets = (p) => localStorage.setItem('presets', JSON.stringify(p));
 
-  let mixCounts = [];                  // local counts for packages
-  let premiumNameLookup = {};          // shared map filled by Premiums loader
+  let mixCounts = [];                  // local counters for packages
+  let premiumNameLookup = {};          // filled by Premiums loader
 
   function mixToHumanLabel(preset){
     const parts = [];
@@ -529,16 +488,12 @@
     presetList.innerHTML = '';
     const presets = getPresets();
     if (mixCounts.length !== presets.length) mixCounts = new Array(presets.length).fill(0);
-    if (!presets.length){
-      const empty = document.createElement('div'); empty.style.color = '#B8B8B8'; empty.style.fontSize = '12px';
-      empty.textContent = 'No packages saved yet.'; presetList.appendChild(empty); return;
-    }
+    if (!presets.length){ const empty = document.createElement('div'); empty.style.color = '#B8B8B8'; empty.style.fontSize = '12px'; empty.textContent = 'No packages saved yet.'; presetList.appendChild(empty); return; }
     presets.forEach((p,i)=>{
       const card = document.createElement('div'); card.className = 'mix';
       const badge = document.createElement('span'); badge.className='badge';
       const name = document.createElement('div'); name.className='name'; name.textContent = p.name;
       const meta = document.createElement('div'); meta.className='meta'; meta.textContent = mixToHumanLabel(p);
-
       const controls = document.createElement('div'); controls.className='controls';
       const minus = document.createElement('button'); minus.className='mini'; minus.textContent='−';
       const plus  = document.createElement('button'); plus.className='mini'; plus.textContent='+';
@@ -550,7 +505,6 @@
 
       plus.addEventListener('click', ()=>{ mixCounts[i] = (mixCounts[i] || 0) + 1; refreshBadge(); rebuildExpression(); });
       minus.addEventListener('click', ()=>{ mixCounts[i] = Math.max(0, (mixCounts[i] || 0) - 1); refreshBadge(); rebuildExpression(); });
-
       rename.addEventListener('click', ()=>{ const newName = (prompt('Rename package:', p.name) || '').trim(); if(!newName) return; const all = getPresets(); all[i].name = newName; setPresets(all); renderPresets(); });
       del.addEventListener('click', ()=>{ if(!confirm(`Delete package "${p.name}"?`)) return; const all = getPresets(); all.splice(i,1); setPresets(all); mixCounts.splice(i,1); rebuildExpression(); renderPresets(); });
 
@@ -563,12 +517,9 @@
   saveBtn.addEventListener('click', ()=>{
     const name = presetNameInput.value.trim();
     if(!name){ alert('Name your package first.'); return; }
-
     const favSnap = {}; for(const k in favCounts){ if(favCounts[k] > 0) favSnap[k] = favCounts[k]; }
     const premSnap = {}; for(const k in premiumCounts){ if(premiumCounts[k] > 0) premSnap[k] = premiumCounts[k]; }
-
     if(Object.keys(favSnap).length===0 && Object.keys(premSnap).length===0){ alert('Add Favorites and/or Premiums before saving a package.'); return; }
-
     const presets = getPresets(); presets.push({ name, fav: favSnap, prem: premSnap }); setPresets(presets);
     presetNameInput.value=''; mixCounts = new Array(presets.length).fill(0); renderPresets(); alert('Package saved.');
   });
@@ -577,217 +528,23 @@
 
   renderPresets();
 
-  /* Adjustments collapse */
+  /* ===== Adjustments collapse ===== */
   const advEl = $('adv'), advToggle = $('advToggle'), advKey = 'advCollapsed';
   const advSaved = localStorage.getItem(advKey);
   if (advSaved !== null) { const collapsed = advSaved === 'true'; advEl.classList.toggle('collapsed', collapsed); advToggle.textContent = collapsed ? 'Show' : 'Hide'; }
   else if (!smallScreen()) { advEl.classList.remove('collapsed'); advToggle.textContent = 'Hide'; }
   advToggle.addEventListener('click', ()=>{ advEl.classList.toggle('collapsed'); advToggle.textContent = advEl.classList.contains('collapsed') ? 'Show' : 'Hide'; localStorage.setItem(advKey, advEl.classList.contains('collapsed')); });
 
-  /* Premiums loader + search */
+  /* ===== Premiums loader + search (unchanged logic) ===== */
   const premEl = $('prems'), premToggle = $('premsToggle'), premKey = 'premsCollapsed';
   const premSaved = localStorage.getItem(premKey);
   if (premSaved !== null) { const collapsed = premSaved === 'true'; premEl.classList.toggle('collapsed', collapsed); premToggle.textContent = collapsed ? 'Show' : 'Hide'; }
   else if (!smallScreen()) { premEl.classList.remove('collapsed'); premToggle.textContent = 'Hide'; }
   premToggle.addEventListener('click', ()=>{ premEl.classList.toggle('collapsed'); premToggle.textContent = premEl.classList.contains('collapsed') ? 'Show' : 'Hide'; localStorage.setItem(premKey, premEl.classList.contains('collapsed')); });
 
-  const premGrid = $('premGrid');
-  const premClear = $('premClear');
-  const premCat = $('premCat');
-  const premSearch = $('premSearch');
-  const premSearchClear = $('premSearchClear');
-  const premMatchMeta = $('premMatchMeta');
+  const premGrid = $('premGrid'), premClear = $('premClear'), premCat = $('premCat'),
+        premSearch = $('premSearch'), premSearchClear = $('premSearchClear'), premMatchMeta = $('premMatchMeta');
 
-  let premiumData = {};
-  let premiumCounts = {};
-  let premiumKeysByCat = {};
-  let allItemsArray = [];
-  let premiumPriceByKey = {};
-
-  function parsePriceFromOPC(opc){
-    if(!opc) return null;
-    const m = String(opc).toUpperCase().match(/WG\s*([0-9]+(?:\.[0-9]+)?)/);
-    return m ? parseFloat(m[1]) : null;
-  }
-  function normalizeKey(cat, name){ return (cat + '|' + name).replace(/\s+/g,'_'); }
-
-  function parseCSV(text){
-    const rows = []; let i = 0, field = '', row = [], inQuotes = false;
-    while (i < text.length){
-      const c = text[i];
-      if (inQuotes){
-        if (c === '"'){ if (text[i+1] === '"'){ field += '"'; i++; } else { inQuotes = false; } }
-        else { field += c; }
-      } else {
-        if (c === '"'){ inQuotes = true; }
-        else if (c === ','){ row.push(field.trim()); field = ''; }
-        else if (c === '\n'){ row.push(field.trim()); rows.push(row); row = []; field = ''; }
-        else if (c === '\r'){ }
-        else { field += c; }
-      }
-      i++;
-    }
-    if (field.length || row.length) { row.push(field.trim()); rows.push(row); }
-    return rows;
-  }
-
-  async function loadPremiumsFromCSV(){
-    try{
-      const res = await fetch(PREMIUMS_CSV_PATH, { cache: 'no-store' });
-      if(!res.ok) throw new Error('CSV not found');
-      const txt = await res.text();
-      const rows = parseCSV(txt);
-      if (!rows.length) throw new Error('CSV empty');
-
-      const header = rows[0].map(h => h.toUpperCase());
-      const iCat = header.indexOf('CATEGORY');
-      const iName = header.indexOf('NAME');
-      const iOPC = header.indexOf('OPC_CODE');
-      if (iCat === -1 || iName === -1 || iOPC === -1){ throw new Error('CSV headers must be: Category, Name, OPC_CODE'); }
-
-      const items = rows.slice(1).map(r => ({
-        Category: (r[iCat] || 'Uncategorized').trim(),
-        Name: (r[iName] || '').trim(),
-        OPC_CODE: (r[iOPC] || '').trim(),
-        Price: parsePriceFromOPC(r[iOPC])
-      })).filter(x => x.Name && x.Price != null);
-
-      return items;
-    }catch(e){
-      console.error('Failed to load premiums CSV:', e);
-      return [];
-    }
-  }
-
-  function buildPremiumData(items){
-    premiumData = {}; premiumCounts = {}; premiumKeysByCat = {}; allItemsArray = [];
-    premiumPriceByKey = {}; premiumNameLookup = {};
-
-    items.forEach(({Category, Name, Price, OPC_CODE})=>{
-      const key = normalizeKey(Category, Name);
-      if(!premiumData[Category]) premiumData[Category] = [];
-      const obj = { key, name: Name, price: Price, opc: OPC_CODE, Category };
-      premiumData[Category].push(obj);
-      premiumCounts[key] = 0;
-      premiumPriceByKey[key] = Price;
-      premiumNameLookup[key] = Name;
-      allItemsArray.push(obj);
-    });
-    for(const cat in premiumData){
-      premiumData[cat].sort((a,b)=> a.name.localeCompare(b.name));
-      premiumKeysByCat[cat] = premiumData[cat].map(it => it.key);
-    }
-  }
-
-  function renderPremCategories(){
-    const cats = Object.keys(premiumData).sort();
-    premCat.innerHTML = '';
-    const allOpt = document.createElement('option'); allOpt.value = '__ALL__'; allOpt.textContent = 'All';
-    premCat.appendChild(allOpt);
-    cats.forEach(c=>{ const opt = document.createElement('option'); opt.value = c; opt.textContent = c; premCat.appendChild(opt); });
-  }
-  function currentDataset(){ return (premCat.value === '__ALL__') ? allItemsArray : (premiumData[premCat.value] || []); }
-  function filterByQuery(list, q){
-    if (!q) return list;
-    const terms = q.toLowerCase().split(/\s+/).filter(Boolean);
-    if (!terms.length) return list;
-    return list.filter(item=>{ const hay = `${item.name} ${item.opc}`.toLowerCase(); return terms.every(t => hay.includes(t)); });
-  }
-
-  function renderPremGrid(){
-    premGrid.innerHTML = '';
-    const q = premSearch.value.trim();
-    const ds = currentDataset();
-    const filtered = filterByQuery(ds, q);
-
-    premMatchMeta.textContent = q ? `Matches: ${filtered.length}` : '';
-
-    filtered.forEach(item=>{
-      const card = document.createElement('div'); card.className = 'prem'; card.dataset.key = item.key; card.dataset.price = item.price;
-
-      const badge = document.createElement('span'); badge.className = 'badge';
-      badge.textContent = premiumCounts[item.key] || 0;
-      badge.style.display = (premiumCounts[item.key]||0) > 0 ? 'grid' : 'none';
-
-      const nm = document.createElement('div'); nm.className = 'name'; nm.textContent = item.name;
-      const pr = document.createElement('span'); pr.className = 'price'; pr.textContent = money(item.price);
-
-      const ctrls = document.createElement('div'); ctrls.className = 'controls';
-      const minus = document.createElement('button'); minus.className = 'mini'; minus.textContent = '−';
-      const plus  = document.createElement('button'); plus.className = 'mini'; plus.textContent = '+';
-
-      minus.addEventListener('click', ()=>{ premiumCounts[item.key] = Math.max(0, (premiumCounts[item.key]||0)-1); badge.textContent = premiumCounts[item.key]; badge.style.display = premiumCounts[item.key]>0 ? 'grid' : 'none'; rebuildExpression(); });
-      plus.addEventListener('click', ()=>{ premiumCounts[item.key] = (premiumCounts[item.key]||0)+1; badge.textContent = premiumCounts[item.key]; badge.style.display = premiumCounts[item.key]>0 ? 'grid' : 'none'; rebuildExpression(); });
-
-      ctrls.appendChild(minus); ctrls.appendChild(plus);
-      card.appendChild(badge); card.appendChild(nm); card.appendChild(pr); card.appendChild(ctrls);
-      premGrid.appendChild(card);
-    });
-
-    const clr = document.createElement('div'); clr.className = 'prem clear';
-    const nm = document.createElement('div'); nm.className = 'name'; nm.textContent = (premCat.value === '__ALL__') ? 'Clear All Premiums' : 'Clear Section';
-    clr.appendChild(nm);
-    clr.addEventListener('click', ()=>{ if (premCat.value === '__ALL__'){ for(const k in premiumCounts) premiumCounts[k]=0; } else { (premiumKeysByCat[premCat.value] || []).forEach(k => premiumCounts[k]=0); } renderPremGrid(); rebuildExpression(); });
-    premGrid.appendChild(clr);
-  }
-
-  premCat.addEventListener('change', ()=> renderPremGrid());
-  let searchTimer = null;
-  premSearch.addEventListener('input', ()=>{ clearTimeout(searchTimer); searchTimer = setTimeout(()=> renderPremGrid(), 120); });
-  premSearchClear.addEventListener('click', ()=>{ premSearch.value = ''; renderPremGrid(); premSearch.focus(); });
-  premClear.addEventListener('click', ()=>{ for(const k in premiumCounts) premiumCounts[k]=0; renderPremGrid(); rebuildExpression(); });
-
-  /* Expression builder */
-  function rebuildExpression(){
-    const terms = [];
-    const effectiveFav = {...favCounts};
-    const effectivePrem = {...premiumCounts};
-
-    const presets = JSON.parse(localStorage.getItem('presets')||'[]');
-    presets.forEach((p,i)=>{
-      const times = (mixCounts && mixCounts[i]) || 0;  // <-- use local mixCounts
-      if (!times) return;
-      if (p.fav){ for(const key in p.fav){ effectiveFav[key] = (effectiveFav[key] || 0) + times * (p.fav[key] || 0); } }
-      if (p.prem){ for(const key in p.prem){ effectivePrem[key] = (effectivePrem[key] || 0) + times * (p.prem[key] || 0); } }
-    });
-
-    for(const key in effectiveFav){ const c = effectiveFav[key] || 0; if (!c) continue; const price = favPriceByKey[key]; if (typeof price !== 'number') continue; terms.push(c === 1 ? String(price) : `${price}*${c}`); }
-    for(const key in effectivePrem){ const c = effectivePrem[key] || 0; if (!c) continue; const price = premiumPriceByKey[key]; if (typeof price !== 'number' || isNaN(price)) continue; terms.push(c === 1 ? String(price) : `${price}*${c}`); }
-
-    const field = $('totalCost'); const wasFocused = document.activeElement === field;
-    let caret = null; try { caret = [field.selectionStart, field.selectionEnd]; } catch {}
-    field.value = terms.join('+');
-    if (wasFocused && caret && caret[0] != null) { try { field.setSelectionRange(caret[0], caret[1], { direction: 'forward' }); } catch {} }
-  }
-
-  /* Init premiums then render */
-  (async function initPremiums(){
-    const items = await loadPremiumsFromCSV();
-    buildPremiumData(items);
-    const premCatEl = $('premCat');
-    const premGridEl = $('premGrid');
-    renderPremCategories();
-    premCatEl.value = '__ALL__';
-    renderPremGrid();
-    renderPresets(); // update labels with premium names
-  })();
-
-  /* Calculate */
-  $('calc').addEventListener('click', () => {
-    const total  = parseMath($('totalCost').value);
-    const lose   = parseMath($('willingLose').value) || 0;
-    const guests = parseInt($('guests').value, 10) || 1;
-
-    const bad = isNaN(total) || isNaN(lose) || guests < 1;
-    $('err').style.display = bad ? 'block' : 'none';
-    if (bad) return;
-
-    const toCollect = Math.max(0, total - opcBudget - lose);
-    const perPerson = toCollect / guests;
-
-    $('toCollect').textContent = money(toCollect);
-    $('perPerson').textContent = money(perPerson);
-  });
-</script>
-</body>
-</html>
+  let premiumData = {}, premiumCounts = {}, premiumKeysByCat = {}, allItemsArray = [], premiumPriceByKey = {};
+  function parsePriceFromOPC(opc){ if(!opc) return null; const m = String(opc).toUpperCase().match(/WG\s*([0-9]+(?:\.[0-9]+)?)/); return m ? parseFloat(m[1]) : null; }
+  function normalizeKey(cat, name){ return (
